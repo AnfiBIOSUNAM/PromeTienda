@@ -1,0 +1,17 @@
+/* Navigation.css */
+
+body {
+    background: linear-gradient(to bottom, #fc74c8,  #fa4fb8);
+    
+}
+
+.navbar {
+    /* Aquí puedes definir estilos específicos para la barra de navegación si es necesario */
+}
+
+.nav-link {
+    color: white !important; /* Cambia el color del texto del enlace a blanco */
+}
+
+/* Resto de tus estilos si es necesario */
+
