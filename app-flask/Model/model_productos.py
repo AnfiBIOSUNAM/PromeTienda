@@ -1,0 +1,61 @@
+from alchemyClasses.Producto import Producto
+from alchemyClasses import db
+from flask import jsonify
+
+# CRUD para productos
+
+def create_product(idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad):
+    new_producto = Producto(idUsuario=idUsuario, nombreProducto=nombreProducto, descripcion=descripcion, foto=foto, precio=precio, contacto=contacto, cantidad=cantidad)
+    try:
+        db.session.add(new_producto)
+        db.session.commit()
+        return new_producto
+    except Exception as e:
+        print(e)
+        return -1
+    
+def read_product(idProducto):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    return producto
+
+def read_products():
+    return Producto.query.all()
+
+def update_product(idProducto, idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    elif producto.idUsuario != idUsuario:
+        print('El producto con id: '+str(idProducto)+' no pertenece al usuario con id: '+str(idUsuario))
+        return -2
+    else:
+       if idUsuario:
+           producto.idUsuario = idUsuario
+       if nombreProducto:
+            producto.nombreProducto = nombreProducto
+       if descripcion:
+            producto.descripcion = descripcion
+       if foto:
+            producto.foto = foto
+       if precio:
+            producto.precio = precio
+       if contacto:
+            producto.contacto = contacto
+       if cantidad:
+            producto.cantidad = cantidad
+    db.session.commit()
+    return producto
+
+
+def delete_product(idProducto):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    db.session.delete(producto)
+    db.session.commit()
+    return producto
