@@ -4,26 +4,6 @@ import json
 
 usuario_blueprint = Blueprint('usuario', __name__, url_prefix='/usuario')
 
-## Create
-## Receives a json
-## Return a json
-@usuario_blueprint.route('/create/<user>', methods=['POST'])
-def create_user(user):
-    try:
-        nombre = user['nombre']
-        apPat = user['apPat']
-        apMat = user['apMat']
-        correo = user['correo']
-        telefono = user['telefono']
-        contraseña = user['contraseña']
-        imagen = user['imagen']
-        vendedor = user['vendedor']
-        new_user = mu.create_user(nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
-        if new_user == -1:
-            return json.dumps({'error': 'No se pudo crear el usuario'})
-        return json.dumps(new_user.to_dict())
-    except:
-        return json.dumps({'error': 'Faltan datos'})
 
 ## Read
 ## Return a json
@@ -40,6 +20,8 @@ def read_users():
     if users == -1:
         return json.dumps({'error': 'No hay usuarios'})
     return json.dumps([user.to_dict() for user in users])
+
+
 @usuario_blueprint.route('/login', methods=['POST'])
 def login():
     try:
@@ -57,6 +39,27 @@ def login():
     except Exception as e:
         print("Error:", e)
         return json.dumps({'error': 'Faltan datos'})
+    
+    
+@usuario_blueprint.route('/create', methods=['POST'])
+def create_user():
+    try:
+        nombre = request.form.get('nombre')
+        apPat = request.form.get('apPat')
+        apMat = request.form.get('apMat')
+        correo = request.form.get('correo')
+        telefono = request.form.get('telefono')
+        contraseña = request.form.get('contraseña')
+        imagen = request.form.get('imagen')
+        vendedor = request.form.get('tipoCuenta')
+        
+        new_user = mu.create_user(nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
+        if new_user == -1:
+            return json.dumps({'error': 'No se pudo crear el usuario'})
+        return json.dumps(new_user.to_dict())
+    except:
+        return json.dumps({'error': 'Faltan datos'})
+  
     
 @usuario_blueprint.route('/logout', methods=['GET'])
 def logout():

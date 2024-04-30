@@ -33,14 +33,18 @@ export default function Navigation(){
                 {!cookies.user && (
                   <>
                   <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Registrarse</a>
+                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="#">Cliente</a>
-                      <a class="dropdown-item" href="#">Vendedor</a>
+                      <a class="dropdown-item" href="#">D1</a>
+                      <a class="dropdown-item" href="#">D2</a>
                     </div>
-                  </li><li class="nav-item">
+                  </li>
+                  <li class="nav-item">
+                    <NavLink to="/registro" className="nav-link">Registrarse</NavLink>
+                  </li>
+                  <li class="nav-item">
                     <NavLink to="/login" className="nav-link">Login</NavLink>
-                    </li>
+                  </li>
                   </>
                 )}
                 
