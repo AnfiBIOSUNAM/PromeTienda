@@ -8,7 +8,7 @@ with grant option;
 
 DROP TABLE IF EXISTS Usuario;
 CREATE TABLE Usuario(
-	idUsuario serial,
+	idUsuario int,
     nombre varchar(50) not null,
     apPat varchar (50) not null,
     apMat varchar (50) not null,
@@ -18,6 +18,88 @@ CREATE TABLE Usuario(
     imagen varchar(50),
     vendedor tinyint not null,
     primary key (idUsuario)
+);
+
+CREATE TABLE Reseña (
+    idReseña int,
+    comentario VARCHAR(255),
+    calificacion INT,
+    primary key (idReseña)
+);
+
+CREATE TABLE Compra (
+    idCompra int,
+    idUsuario INT,
+    total Float,
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
+    primary key (idCompra)
+);
+
+CREATE TABLE Incluir (
+    idReseña INT,
+    idCompra INT,
+    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
+    FOREIGN KEY (idReseña) REFERENCES Reseña(idReseña)
+);
+
+
+
+
+CREATE TABLE Carrito (
+    idCarrito INT,
+    primary key (idCarrito)
+);
+
+CREATE TABLE Producto (
+    idProducto int,
+    idUsuario INT,
+    nombreProducto VARCHAR(50),
+    descripcion VARCHAR(255),
+    foto BLOB,
+    precio DECIMAL(10,2),
+    contacto VARCHAR(50),
+    cantidad INT,
+    primary key (idProducto),
+  FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
+);
+
+CREATE TABLE Almacenar (
+    idCarrito INT,
+    idProducto INT,
+    cantidad INT,
+    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+
+
+
+
+CREATE TABLE Categoria (
+    idProducto INT,
+    categoria VARCHAR(255),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+CREATE TABLE Contener (
+    idCompra INT,
+    idProducto INT,
+    cantidad INT,
+    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+CREATE TABLE Tener (
+    idCarrito INT,
+    idComprador INT,
+    nombre VARCHAR(50),
+    apPat VARCHAR(50),
+    apMat VARCHAR(50),
+    correo VARCHAR(100),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(50),
+    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
 );
 
 
@@ -35,3 +117,4 @@ VALUES ('Juan', 'Pérez', 'Gómez', 'juan@example.com', '1234567890', 'contrase�
     ('Alejandro', 'Gutiérrez', 'Sánchez', 'alejandro@example.com', '6667778888', 'hello123', 'imagen.jpg', 0);
 
 select * from Usuario
+
