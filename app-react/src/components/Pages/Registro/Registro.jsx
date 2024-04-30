@@ -1,3 +1,7 @@
+import gato from "../../../Images/cat.png";
+import perro from "../../../Images/dog.png";
+import arbol from "../../../Images/tree.png";
+
 export default function Registro() {
     
     return(
@@ -32,8 +36,12 @@ export default function Registro() {
                 </div>
                 <div>
                 <label for="imagen" class="form-label mt-4">Imagen de perfil</label>
-                <input class="form-check-input" type='radio' name='imagen' id='imagen1'/>
-                <img src='Images/image.png' alt='Imagen de perfil' class='img-thumbnail'/>
+                <input class="form-check-input" type='radio' name='imagen' id='imagen1' checked/>
+                <img src={gato} alt='Gato' class='img-thumbnail'/>
+                <input class="form-check-input" type='radio' name='imagen' id='imagen2'/>
+                <img src={perro} alt='Perro' class='img-thumbnail'/>
+                <input class="form-check-input" type='radio' name='imagen' id='imagen3'/>
+                <img src={arbol} alt='Arbol' class='img-thumbnail'/>
                 </div>
                 <fieldset>
                 <legend class="mt-4">Tipo de cuenta</legend>
