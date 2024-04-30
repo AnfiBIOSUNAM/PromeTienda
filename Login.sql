@@ -6,9 +6,9 @@ create user 'lab'@'localhost' identified by 'Developer123!';
 grant all privileges on Tienda.* to 'lab'@'localhost'
 with grant option;
 
-DROP TABLE IF EXISTS Usuario;
+DROP TABLE if exists Usuario;
 CREATE TABLE Usuario(
-	idUsuario int,
+	idUsuario int auto_increment,
     nombre varchar(50) not null,
     apPat varchar (50) not null,
     apMat varchar (50) not null,
@@ -18,88 +18,6 @@ CREATE TABLE Usuario(
     imagen varchar(50),
     vendedor tinyint not null,
     primary key (idUsuario)
-);
-
-CREATE TABLE Reseña (
-    idReseña int,
-    comentario VARCHAR(255),
-    calificacion INT,
-    primary key (idReseña)
-);
-
-CREATE TABLE Compra (
-    idCompra int,
-    idUsuario INT,
-    total Float,
-    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
-    primary key (idCompra)
-);
-
-CREATE TABLE Incluir (
-    idReseña INT,
-    idCompra INT,
-    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
-    FOREIGN KEY (idReseña) REFERENCES Reseña(idReseña)
-);
-
-
-
-
-CREATE TABLE Carrito (
-    idCarrito INT,
-    primary key (idCarrito)
-);
-
-CREATE TABLE Producto (
-    idProducto int,
-    idUsuario INT,
-    nombreProducto VARCHAR(50),
-    descripcion VARCHAR(255),
-    foto BLOB,
-    precio DECIMAL(10,2),
-    contacto VARCHAR(50),
-    cantidad INT,
-    primary key (idProducto),
-  FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
-);
-
-CREATE TABLE Almacenar (
-    idCarrito INT,
-    idProducto INT,
-    cantidad INT,
-    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
-);
-
-
-
-
-
-CREATE TABLE Categoria (
-    idProducto INT,
-    categoria VARCHAR(255),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
-);
-
-CREATE TABLE Contener (
-    idCompra INT,
-    idProducto INT,
-    cantidad INT,
-    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
-);
-
-CREATE TABLE Tener (
-    idCarrito INT,
-    idComprador INT,
-    nombre VARCHAR(50),
-    apPat VARCHAR(50),
-    apMat VARCHAR(50),
-    correo VARCHAR(100),
-    telefono VARCHAR(15),
-    contraseña VARCHAR(50),
-    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
-    FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
 );
 
 
@@ -116,5 +34,89 @@ VALUES ('Juan', 'Pérez', 'Gómez', 'juan@example.com', '1234567890', 'contrase�
     ('Lucía', 'Fernández', 'Gutiérrez', 'lucia@example.com', '3334445555', 'mypass', 'imagen.jpg', 1),
     ('Alejandro', 'Gutiérrez', 'Sánchez', 'alejandro@example.com', '6667778888', 'hello123', 'imagen.jpg', 0);
 
-select * from Usuario
+drop table if exists Reseña;
+CREATE TABLE Reseña (
+    idReseña int auto_increment,
+    comentario VARCHAR(255),
+    calificacion INT,
+    primary key (idReseña)
+);
 
+drop table if exists Compra;
+CREATE TABLE Compra (
+    idCompra int auto_increment,
+    idUsuario int,
+    total Float,
+    FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
+    primary key (idCompra)
+);
+
+drop table if exists Incluir;
+CREATE TABLE Incluir (
+    idReseña INT auto_increment,
+    idCompra INT,
+    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
+    FOREIGN KEY (idReseña) REFERENCES Reseña(idReseña)
+);
+
+drop table if exists Carrito;
+CREATE TABLE Carrito (
+    idCarrito INT auto_increment,
+    primary key (idCarrito)
+);
+
+drop table if exists Producto;
+CREATE TABLE Producto (
+    idProducto int auto_increment,
+    idUsuario INT,
+    nombreProducto VARCHAR(50),
+    descripcion VARCHAR(255),
+    foto BLOB,
+    precio DECIMAL(10,2),
+    contacto VARCHAR(50),
+    cantidad INT,
+    primary key (idProducto),
+  FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
+);
+
+drop table if exists Almacenar;
+CREATE TABLE Almacenar (
+    idCarrito INT auto_increment,
+    idProducto INT,
+    cantidad INT,
+    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+drop table if exists Categoria;
+CREATE TABLE Categoria (
+    idProducto INT auto_increment,
+    categoria VARCHAR(255),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+drop table if exists Contener;
+CREATE TABLE Contener (
+    idCompra INT auto_increment,
+    idProducto INT,
+    cantidad INT,
+    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+);
+
+drop table if exists Tener;
+CREATE TABLE Tener (
+    idCarrito INT auto_increment,
+    idComprador INT,
+    nombre VARCHAR(50),
+    apPat VARCHAR(50),
+    apMat VARCHAR(50),
+    correo VARCHAR(100),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(50),
+    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
+);
+
+
+select * from Usuario;
