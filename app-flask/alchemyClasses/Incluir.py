@@ -6,16 +6,15 @@ class Incluir(db.Model):
     idReseña = Column(Integer, nullable=False)
     idCompra = Column(Integer, nullable=False)
     
-    def _init_(self, comentario, calificacion):
-        self.comentario = comentario
-        self.calificacion = calificacion
+    def _init_(self, idReseña, idCompra):
+        self.idReseña = idReseña
+        self.idCompra = idCompra
         
     def _str_(self):
-        return f'Reseña: {self.comentario} (ID: {self.idReseña}), Calificación: {self.calificacion}'    
+        return f'Reseña: {self.idReseña} (ID: {self.idCompra})'
     
     def to_dict(self):
         return {
             'idReseña': self.idReseña,
-            'comentario': self.comentario,
-            'calificacion': self.calificacion
+            'idCompra': self.idCompra
         }
