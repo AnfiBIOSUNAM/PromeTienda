@@ -5,6 +5,20 @@ import { useCookies } from 'react-cookie';
 export default function Navigation(){
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
 
+    const handleLogout = () => {
+        removeCookie('userToken');
+        removeCookie('user');
+        try{
+            const response = fetch(`http://localhost:5000/usuario/logout`).then(
+                (response) => console.log(response));
+            
+        }catch(error){
+            console.log('Error en la petición logout');
+            console.log(error);
+            alert('Ocurrió un error inesperado, inténtalo más tarde')
+        }
+    }
+
     return(
         <>
         <nav className="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -15,11 +29,11 @@ export default function Navigation(){
             </button>
             <div className="collapse navbar-collapse" id="navbarColor01">
               <ul className="navbar-nav me-auto">
+                {cookies.user && (
                 <li className="nav-item">
-                  <a className="nav-link active" href="#">Home
-                    <span className="visually-hidden">(current)</span>
-                  </a>
+                  <NavLink to="/home" className="nav-link">Home</NavLink>
                 </li>
+                )}
                 <li className="nav-item">
                   <a className="nav-link" href="#">Features</a>
                 </li>
@@ -32,13 +46,6 @@ export default function Navigation(){
                 
                 {!cookies.user && (
                   <>
-                  <li className="nav-item dropdown">
-                    <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                    <div className="dropdown-menu">
-                      <a className="dropdown-item" href="#">D1</a>
-                      <a className="dropdown-item" href="#">D2</a>
-                    </div>
-                  </li>
                   <li className="nav-item">
                     <NavLink to="/registro" className="nav-link">Registrarse</NavLink>
                   </li>
@@ -49,10 +56,15 @@ export default function Navigation(){
                 )}
                 
               </ul>
-              <form className="d-flex">
-                <input className="form-control me-sm-2" type="search" placeholder="Search"></input>
-                <button className="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
-              </form>
+              {cookies.user && (
+                <div className='foto'>
+                    <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{<img src={cookies.user.imagen} alt="Imagen de perfil" className="imagen-perfil" />}</a>
+                    <div className="dropdown-menu  position-dropdown">
+                      <NavLink to="#" className="dropdown-item">Ver perfil</NavLink>
+                      <NavLink to="/" className="dropdown-item" onClick={handleLogout}>Cerrar sesión</NavLink>
+                    </div>
+                </div>
+              )}
             </div>
           </div>
         </nav>
