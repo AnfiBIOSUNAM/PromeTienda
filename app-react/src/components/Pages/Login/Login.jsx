@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
+import SHA256 from 'crypto-js/sha256';
+
 import '../../Style/Login.css'
 
 export default function Login() {
@@ -7,14 +9,19 @@ export default function Login() {
     const navigate = useNavigate();
     const [cookies, setCookie] = useCookies(['userToken']);
 
+    function hashPassword(password){
+        let hashed = SHA256(password).toString();
+        if(hashed.length > 50){
+            return hashed.slice(0, 50);
+        }
+        return hashed;
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const correo = e.target.correo.value;
-        const contraseña = e.target.contraseña.value;
+        const contraseña = hashPassword(e.target.contraseña.value);
         login(correo, contraseña);
-        //console.log(correo, contraseña);
-        //const correo = document.getElementById('correo').value;
-        //const contraseña = document.getElementById('contraseña').value;
     }
 
     const login = async (correo, contraseña) => {
@@ -53,18 +60,18 @@ export default function Login() {
         <>
         <div className="form-container">
         <h1>Login</h1>
-        <form class='m-5' onSubmit={handleSubmit}>
+        <form className='m-5' onSubmit={handleSubmit}>
             <fieldset>
                 <div>
-                <label for="correo" class="form-label mt-4">Correo electrónico</label>
-                <input type="email" class="form-control" id="correo" aria-describedby="emailHelp" placeholder="correo@ejemplo.com" required/>
+                <label htmlFor="correo" className="form-label mt-4">Correo electrónico</label>
+                <input type="email" className="form-control" id="correo" aria-describedby="emailHelp" placeholder="correo@ejemplo.com" required/>
                 </div>
                 <div>
-                <label for="contraseña" class="form-label mt-4">Contraseña</label>
-                <input type="password" class="form-control" id="contraseña" placeholder="Contraseña" autocomplete="off" required/>
+                <label htmlFor="contraseña" className="form-label mt-4">Contraseña</label>
+                <input type="password" className="form-control" id="contraseña" placeholder="Contraseña" autoComplete="off" required/>
                 </div>
-                <div class='text-center'>
-                <button type="submit" class="btn btn-primary">Login</button>
+                <div className='text-center'>
+                <button type="submit" className="btn btn-primary">Login</button>
                 </div>
                 
             </fieldset>

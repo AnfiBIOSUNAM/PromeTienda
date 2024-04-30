@@ -64,7 +64,7 @@ const router = createBrowserRouter(
         {path: '/', element: <Home/>},
         {path: '/registro', element: <NoAuthentication element={<Registro/>} mensaje="Cierra sesión para acceder a esta página"/>},
         {path: '/login', element: <NoAuthentication element={<Login/>} mensaje="Cierra sesión para acceder a esta página"/>},
-        {path: '/home', element: <HomeUser/>}
+        {path: '/home', element: <ProtectedRoute element={<HomeUser/>} mensaje="Inicia sesión para acceder a esta página"/>}
       ]
     },
     
