@@ -8,3 +8,15 @@
     z-index: -1; /* Para colocar el div detrás del contenido */
 }
 
+.encabezado{
+    background-image: url('https://judithcc.net/user/pages/02.docencia/Prometeob.jpg');
+    background-size: cover;
+}
+
+.encabezado h1{
+    color: white;
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 10%;
+}

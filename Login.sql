@@ -43,14 +43,15 @@ CREATE TABLE Producto (
     idProducto int auto_increment,
     idUsuario INT,
     nombreProducto VARCHAR(50),
-    descripcion VARCHAR(255),
+    descripcion text,
     foto BLOB,
     precio DECIMAL(10,2),
-    contacto VARCHAR(50),
+    contacto text,
     cantidad INT,
     primary key (idProducto),
   FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
+
 
 drop table if exists Almacenar;
 CREATE TABLE Almacenar (
@@ -63,9 +64,11 @@ CREATE TABLE Almacenar (
 
 drop table if exists Categoria;
 CREATE TABLE Categoria (
+	idCategoria int auto_increment,
     idProducto INT,
     categoria VARCHAR(255),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
+    primary key(idCategoria)
 );
 
 drop table if exists Contener;

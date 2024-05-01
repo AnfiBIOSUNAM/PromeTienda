@@ -9,13 +9,12 @@ export default function HomeUser() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-            <h1>Bienvenido a Prometienda {cookies.user['nombre']}</h1>
         
         
-        <header className="bg-dark py-5">
+        <header className="bg-dark py-5 encabezado">
             <div className="container px-4 px-lg-5 my-5">
                 <div className="text-center text-white">
-                    <h1 className="display-4 fw-bolder">Shop in style</h1>
+                    <h1 className="display-4 fw-bolder">Bienvenido a Prometienda {cookies.user['nombre']}</h1>
                     <p className="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
                 </div>
             </div>
@@ -226,7 +225,16 @@ export default function HomeUser() {
         </section>
 
         <div className='text-center mb-5'>
-            <NavLink to='#' className={'btn btn-primary'} >Ver más productos</NavLink>
+            {cookies.user['vendedor'] === 0 && (
+                <NavLink to='#' className={'btn btn-primary'} >Ver más productos</NavLink>
+            )}
+            {cookies.user['vendedor'] === 1 && (
+                <>
+                <NavLink to='#' className={'btn btn-primary'}>Ver todos mis productos en venta</NavLink>
+                <NavLink to='/productos/registrar' className={'btn btn-primary'}>Registrar producto</NavLink>
+                </>
+            )}
+            
         </div>
 
         <footer className="py-5 bg-dark">
