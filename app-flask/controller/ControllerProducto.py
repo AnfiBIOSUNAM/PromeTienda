@@ -28,16 +28,16 @@ def read_products():
 @producto_blueprint.route('/create', methods=['POST'])
 def create_product():
     try:
-        nombre = request.form.get('nombre')
-        apPat = request.form.get('apPat')
-        apMat = request.form.get('apMat')
-        correo = request.form.get('correo')
-        telefono = request.form.get('telefono')
-        contraseña = request.form.get('contraseña')
-        imagen = request.form.get('imagen')
-        vendedor = request.form.get('tipoCuenta')
+        idUsuario = request.form.get('idUsuario')
+        nombreProducto = request.form.get('nombreProducto')
+        descripcion = request.form.get('descripcion')
+        foto = request.form.get('foto')
+        precio = request.form.get('precio')
+        contacto = request.form.get('contacto')
+        cantidad = request.form.get('cantidad')
+       
         
-        new_product = mp.create_product(nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
+        new_product = mp.create_product(idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad)
         if new_product == -1:
             return json.dumps({'error': 'No se pudo crear el producto'})
         return json.dumps(new_product.to_dict())
@@ -45,29 +45,27 @@ def create_product():
         return json.dumps({'error': 'Faltan datos'})
   
     
-@producto_blueprint.route('/logout', methods=['GET'])
-def logout():
-    session.pop('product_id', None)
-    return "Sesión cerrada"
+
 
 ## Update
 ## Receives an id
 ## Return a json
-@producto_blueprint.route('/update/<product>', methods=['POST'])
-def update_product(product):
+@producto_blueprint.route('/update', methods=['POST'])
+def update_product():
     try:
-        idProducto = product['idProducto']
-        nombre = product['nombre']
-        apPat = product['apPat']
-        apMat = product['apMat']
-        correo = product['correo']
-        telefono = product['telefono']
-        contraseña = product['contraseña']
-        imagen = product['imagen']
-        vendedor = product['vendedor']
-        updated_product = mp.update_product(idProducto, nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
+        idProducto = request.form.get('idProducto')
+        idUsuario = request.form.get('idUsuario')
+        nombreProducto = request.form.get('nombreProducto')
+        descripcion = request.form.get('descripcion')
+        foto = request.form.get('foto')
+        precio = request.form.get('precio')
+        contacto = request.form.get('contacto')
+        cantidad = request.form.get('cantidad')
+        updated_product = mp.update_product(idProducto, idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad)
         if updated_product == -1:
             return json.dumps({'error': 'No se pudo actualizar el producto'})
+        elif updated_product == -2:
+            return json.dumps({'error': 'No autorizado para actualizar producto'})
         return json.dumps(updated_product.to_dict())
     except:
         return json.dumps({'error': 'Faltan datos'})

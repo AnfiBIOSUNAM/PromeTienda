@@ -29,7 +29,7 @@ def update_product(idProducto, idUsuario, nombreProducto, descripcion, foto, pre
     if producto is None:
         print('El producto con id: '+str(idProducto)+' no existe')
         return -1
-    elif producto.idUsuario != idUsuario:
+    elif producto.idUsuario != int(idUsuario):
         print('El producto con id: '+str(idProducto)+' no pertenece al usuario con id: '+str(idUsuario))
         return -2
     else:
