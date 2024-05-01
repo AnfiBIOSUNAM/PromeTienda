@@ -1,10 +1,12 @@
-from sqlalchemy import Column, Integer, String, LargeBinary
+from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey
 from alchemyClasses import db
 
 class Incluir(db.Model):
-    __tablename__ = 'Reseña'
-    idReseña = Column(Integer, nullable=False)
-    idCompra = Column(Integer, nullable=False)
+    __tablename__ = 'Incluir'
+    idReseña = Column(Integer, ForeignKey('Reseña.idReseña') , primary_key=True)
+    idCompra = Column(Integer, ForeignKey('Compra.idCompra'))
+    resena = db.relationship('Reseña', backref='Incluir', cascade="all, delete-orphan")
+    compra = db.relationship('Compra', backref='Incluir', cascade="all, delete-orphan")
     
     def _init_(self, idReseña, idCompra):
         self.idReseña = idReseña
