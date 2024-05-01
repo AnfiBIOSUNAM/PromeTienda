@@ -2,8 +2,7 @@ from flask import Flask, redirect, render_template, url_for, request, flash, ses
 from alchemyClasses import db
 from controller.ControllerUsuario import usuario_blueprint
 from controller.ControllerProducto import producto_blueprint
-from controller.ControllerResena import resena_blueprint
-# from controller.ControllerIncluir import incluir_blueprint
+from controller.ControllerCategoria import categoria_blueprint
 
 from flask_cors import CORS, cross_origin
 
@@ -18,8 +17,8 @@ db.init_app(app)
 
 app.register_blueprint(usuario_blueprint)
 app.register_blueprint(producto_blueprint)
-app.register_blueprint(resena_blueprint)
-#app.register_blueprint(incluir_blueprint)
+app.register_blueprint(categoria_blueprint)
+
 
 
 if __name__ == '__main__':

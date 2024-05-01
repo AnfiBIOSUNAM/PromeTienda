@@ -5,8 +5,8 @@ body {
     
 }
 
-.navbar {
-    /* Aquí puedes definir estilos específicos para la barra de navegación si es necesario */
+.navegacion{
+    background-color:#2b36b0;
 }
 
 .nav-link {

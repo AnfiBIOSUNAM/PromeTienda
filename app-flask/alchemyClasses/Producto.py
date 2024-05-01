@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, LargeBinary, DECIMAL
+from sqlalchemy import Column, Integer, String, LargeBinary, DECIMAL, Text
 from alchemyClasses import db
 
 class Producto(db.Model):
@@ -6,10 +6,10 @@ class Producto(db.Model):
     idProducto = Column(Integer, primary_key=True)
     idUsuario = Column(Integer)
     nombreProducto = Column(String(50))
-    descripcion = Column(String(255))
+    descripcion = Column(Text)
     foto = Column(LargeBinary)
     precio = Column(DECIMAL(10, 2))
-    contacto = Column(String(50))
+    contacto = Column(Text)
     cantidad = Column(Integer)
 
     def __init__(self, idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad):

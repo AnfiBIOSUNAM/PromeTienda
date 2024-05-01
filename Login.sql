@@ -6,6 +6,7 @@ create user 'lab'@'localhost' identified by 'Developer123!';
 grant all privileges on Tienda.* to 'lab'@'localhost'
 with grant option;
 
+
 DROP TABLE if exists Usuario;
 CREATE TABLE Usuario(
 	idUsuario int auto_increment,
@@ -20,13 +21,6 @@ CREATE TABLE Usuario(
     primary key (idUsuario)
 );
 
-drop table if exists ReseÃ±a;
-CREATE TABLE ReseÃ±a (
-    idReseÃ±a int auto_increment,
-    comentario VARCHAR(255),
-    calificacion INT,
-    primary key (idReseÃ±a)
-);
 
 drop table if exists Compra;
 CREATE TABLE Compra (
@@ -37,13 +31,6 @@ CREATE TABLE Compra (
     primary key (idCompra)
 );
 
-drop table if exists Incluir;
-CREATE TABLE Incluir (
-    idReseÃ±a INT,
-    idCompra INT,
-    FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
-    FOREIGN KEY (idReseÃ±a) REFERENCES Reseña(idReseÃ±a)
-);
 
 drop table if exists Carrito;
 CREATE TABLE Carrito (
@@ -56,14 +43,15 @@ CREATE TABLE Producto (
     idProducto int auto_increment,
     idUsuario INT,
     nombreProducto VARCHAR(50),
-    descripcion VARCHAR(255),
+    descripcion text,
     foto BLOB,
     precio DECIMAL(10,2),
-    contacto VARCHAR(50),
+    contacto text,
     cantidad INT,
     primary key (idProducto),
   FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
+
 
 drop table if exists Almacenar;
 CREATE TABLE Almacenar (
@@ -76,9 +64,11 @@ CREATE TABLE Almacenar (
 
 drop table if exists Categoria;
 CREATE TABLE Categoria (
+	idCategoria int auto_increment,
     idProducto INT,
     categoria VARCHAR(255),
-    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
+    FOREIGN KEY (idProducto) REFERENCES Producto(idProducto),
+    primary key(idCategoria)
 );
 
 drop table if exists Contener;
@@ -86,6 +76,8 @@ CREATE TABLE Contener (
     idCompra INT,
     idProducto INT,
     cantidad INT,
+    calificacion INT,
+    comentario text,
     FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
@@ -103,3 +95,6 @@ CREATE TABLE Tener (
     FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
     FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
 );
+
+
+select * from Usuario;
