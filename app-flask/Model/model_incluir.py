@@ -1,4 +1,4 @@
-from alchemyClasses.Incluir import Incluir
+"""from alchemyClasses.Incluir import Incluir
 from alchemyClasses import db
 from flask import jsonify
 
@@ -43,4 +43,4 @@ def delete_incluir(idReseña):
     db.session.delete(incluir)
     db.session.commit()
     return incluir
-    
+"""

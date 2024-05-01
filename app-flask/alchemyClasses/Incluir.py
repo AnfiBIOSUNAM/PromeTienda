@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey
+"""from sqlalchemy import Column, Integer, String, LargeBinary, ForeignKey
 from alchemyClasses import db
 
 class Incluir(db.Model):
@@ -19,4 +19,4 @@ class Incluir(db.Model):
         return {
             'idReseña': self.idReseña,
             'idCompra': self.idCompra
-        }
+        }"""
