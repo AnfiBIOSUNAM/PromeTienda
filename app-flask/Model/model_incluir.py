@@ -43,4 +43,5 @@ def delete_incluir(idReseña):
     db.session.delete(incluir)
     db.session.commit()
     return incluir
+
 """

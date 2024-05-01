@@ -3,10 +3,10 @@ from alchemyClasses import db
 
 class Incluir(db.Model):
     __tablename__ = 'Incluir'
-    idReseña = Column(Integer, ForeignKey('Reseña.idReseña') , primary_key=True)
-    idCompra = Column(Integer, ForeignKey('Compra.idCompra'))
-    resena = db.relationship('Reseña', backref='Incluir', cascade="all, delete-orphan")
-    compra = db.relationship('Compra', backref='Incluir', cascade="all, delete-orphan")
+    idReseña = Column(Integer, ForeignKey('Reseña.idReseña'), primary_key=True)
+    idCompra = Column(Integer, ForeignKey('Compra.idCompra'), primary_key=True)
+    resena = db.relationship('Reseña', backref='Incluir', single_parent=True, cascade="all, delete-orphan")
+    compra = db.relationship('Compra', backref='Incluir', single_parent=True, cascade="all, delete-orphan")
     
     def _init_(self, idReseña, idCompra):
         self.idReseña = idReseña
@@ -19,4 +19,6 @@ class Incluir(db.Model):
         return {
             'idReseña': self.idReseña,
             'idCompra': self.idCompra
-        }"""
+        }
+        
+"""

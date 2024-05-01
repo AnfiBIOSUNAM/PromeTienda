@@ -26,7 +26,7 @@ def find_by_compra():
             return json.dumps({'error': 'No hay reseñas para la compra'})
         return json.dumps([incluir.to_dict() for incluir in incluir])
     except:
-        return json.dumps({'error': 'Faltan datos'})"""
+        return json.dumps({'error': 'Faltan datos'})
     
-
+"""
 

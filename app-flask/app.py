@@ -16,7 +16,7 @@ db.init_app(app)
 
 app.register_blueprint(usuario_blueprint)
 app.register_blueprint(resena_blueprint)
-# app.register_blueprint(incluir_blueprint)
+#app.register_blueprint(incluir_blueprint)
 
 
 if __name__ == '__main__':
