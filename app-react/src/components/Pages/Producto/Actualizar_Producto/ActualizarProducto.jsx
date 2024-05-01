@@ -1,10 +1,74 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+
 
 function ActualizarProducto() {
+    const navigate = useNavigate();
+    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [idProducto, setIdProducto] = useState('');
+    const [nombreProducto, setNombreProducto] = useState('');
+    const [descripcion, setDescripcion] = useState('');
+    const [foto, setFoto] = useState('');
+    const [precio, setPrecio] = useState('');
+    const [contacto, setContacto] = useState('');
+    const [cantidad, setCantidad] = useState('');
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const idUsuario = cookies.user.idUsuario;
+        console.log(idProducto,idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad);
+        alert(idUsuario);
+        actualizarProducto(idProducto, idUsuario,nombreProducto, descripcion, foto, precio, contacto, cantidad);
+    };
+
+    const actualizarProducto = async (idProducto, idUsuario,nombreProducto, descripcion, foto, precio, contacto, cantidad) => {
+        const formdata = new FormData();
+        formdata.append('idProducto', idProducto);
+        formdata.append('idUsuario', idUsuario);
+        formdata.append('nombreProducto', nombreProducto);
+        formdata.append('descripcion', descripcion);
+        formdata.append('foto', foto);
+        formdata.append('precio', precio);
+        formdata.append('contacto', contacto);
+        formdata.append('cantidad', cantidad);
+    
+        try {
+            
+            const response = await fetch(`http://localhost:5000/producto/update`, {
+                method: 'POST',
+                body: formdata
+            
+        }).then((response) => response.json()).then((data) => {
+            console.log(data);
+            
+            try {
+                if (data['error']=== "No se pudo actualizar producto") {
+                    alert("No se pudo actualizar el producto");
+                } else if (data['error']=== "No autorizado para actualizar producto"){
+                    alert("No tienes autorización para actualizar dicho producto");
+                } else {
+                    alert('Producto actualizado correctamente');
+                    console.log(data);
+                    navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
+                }
+        } catch (error) {
+                console.log(error);
+            }
+        }); 
+        
+    }catch (error) {
+            console.log('Error en la petición');
+            console.log(error);
+            alert('Ocurrió un error inesperado, inténtalo más tarde');
+        }
+    }
+    
+
     return (
         <>
             <div className="form-container">
-                <h1>Agregar Nuevo Producto</h1>
+                <h1>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>
                         <div>
@@ -37,7 +101,7 @@ function ActualizarProducto() {
                         </div>
                         <div className='text-center'>
                             <button type="submit" className="btn btn-primary mt-4">Actualizar</button>
-                            <button type="button" className="btn btn-secondary mt-4 ms-2" onClick={() => window.history.back()}>Regresar</button>
+                            <NavLink to="/productos"><button type="button" className="btn btn-primary mt-4 ms-2">Regresar</button></NavLink>
                         </div>
                     </fieldset>
                 </form>
