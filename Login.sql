@@ -44,7 +44,7 @@ CREATE TABLE Producto (
     idUsuario INT,
     nombreProducto VARCHAR(50),
     descripcion text,
-    foto BLOB,
+    foto varchar(255),
     precio DECIMAL(10,2),
     contacto text,
     cantidad INT,

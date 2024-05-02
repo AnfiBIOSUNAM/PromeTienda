@@ -31,7 +31,7 @@ def create_product():
         idUsuario = request.form.get('idUsuario')
         nombreProducto = request.form.get('nombreProducto')
         descripcion = request.form.get('descripcion')
-        foto = request.form.get('foto')
+        foto = request.form.get('imagen')
         precio = request.form.get('precio')
         contacto = request.form.get('contacto')
         cantidad = request.form.get('cantidad')
