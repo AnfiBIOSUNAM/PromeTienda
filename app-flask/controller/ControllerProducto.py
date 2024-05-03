@@ -81,3 +81,13 @@ def delete_product(idProducto):
     if product == -1:
         return json.dumps({'error': 'No se pudo borrar el producto'})
     return json.dumps(product.to_dict())
+
+#Read
+#Receives an category
+#Return a json
+@producto_blueprint.route('/read/categoria/<categoria>', methods=['GET'])
+def read_products_by_category(categoria):
+    products = mp.productos_por_categoria(categoria)
+    if products == -1:
+        return json.dumps({'error': 'No se pudieron obtener los productos de la categoría'})
+    return json.dumps([product.to_dict() for product in products])

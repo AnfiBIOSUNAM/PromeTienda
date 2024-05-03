@@ -1,6 +1,7 @@
 from alchemyClasses.Producto import Producto
 from alchemyClasses import db
 from flask import jsonify
+from alchemyClasses.Categoria import Categoria
 
 # CRUD para productos
 
@@ -59,3 +60,13 @@ def delete_product(idProducto):
     db.session.delete(producto)
     db.session.commit()
     return producto
+
+def productos_por_categoria(categoria):
+    try:
+        productos = Producto.query.join(Categoria, Producto.idProducto == Categoria.idProducto).filter(Categoria.categoria == categoria).all()
+        return productos
+    except Exception as e:
+        print("Ocurrió un error al intentar obtener los productos por categoría: ", e)
+        return -1
+
+
