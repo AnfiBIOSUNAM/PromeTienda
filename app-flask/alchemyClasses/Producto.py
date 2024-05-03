@@ -7,7 +7,7 @@ class Producto(db.Model):
     idUsuario = Column(Integer)
     nombreProducto = Column(String(50))
     descripcion = Column(Text)
-    foto = Column(LargeBinary)
+    foto = Column(String(255))
     precio = Column(DECIMAL(10, 2))
     contacto = Column(Text)
     cantidad = Column(Integer)

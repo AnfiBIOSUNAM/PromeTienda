@@ -5,10 +5,10 @@ import { useState } from "react";
 export default function RegistroP(){
 
     const [cookies, setCookies] = useCookies(['userToken']);
-
     const navigate = useNavigate();
 
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+    const [imagenes, setImagenes] = useState([]);
 
     const handleCategoriaChange = (e) => {
         const categoriaSeleccionada = e.target.value;
@@ -24,7 +24,13 @@ export default function RegistroP(){
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleImagenChange = (e) => {
+        const files = e.target.files;
+        const arrayFiles = Array.from(files);
+        setImagenes(arrayFiles);
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(categoriasSeleccionadas.length===0){
             alert('Se debe seleccionar al menos una categoría')
@@ -36,27 +42,29 @@ export default function RegistroP(){
             // const categoria = e.target.categoria.value;
             const contacto = e.target.contacto.value;
             const idUsuario = cookies.user['idUsuario'];
-            let imagen = e.target.imagen.files[0];
-
-            console.log(categoriasSeleccionadas);
-            console.log(nombre, descripcion, precio, stock, contacto, idUsuario);
-            registrar(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario, imagen);
+            const imagen = await guardar_imagenes(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario)
+            
+            //console.log(categoriasSeleccionadas);
+            //console.log(nombre, descripcion, precio, stock, contacto, idUsuario);
         }
-
     }
 
     const registrar = async(nombre, descripcion, precio, stock, categoria, contacto, idUsuario, imagen) => {
+        console.log('Imagen: ', imagen);
         const formdata = new FormData();
         formdata.append('nombreProducto', nombre);
         formdata.append('descripcion', descripcion);
         formdata.append('precio', precio);
         formdata.append('cantidad', stock);
-        // formdata.append('categoria', categoria);
-        // formdata.append('imagen', contacto);
         formdata.append('contacto', contacto);
         formdata.append('idUsuario', idUsuario);
-        formdata.append('imagen', null);
+        formdata.append('imagen', imagen);
 
+        registrar_producto(formdata, categoria);
+
+    };
+
+    const registrar_producto = async(formdata, categoria) => {
         try{
             const response = await fetch(`http://localhost:5000/producto/create`, {
                 method: 'POST',
@@ -81,7 +89,7 @@ export default function RegistroP(){
         } catch(error){
             console.log(error);
         }
-    };
+    }
 
     const registrar_categorias = async(idProducto, categorias) => {
         categorias.forEach(async (categoria) => {
@@ -113,6 +121,40 @@ export default function RegistroP(){
         });
     }
 
+    const guardar_imagenes = async(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario) => {
+        const formdata = new FormData();
+        Array.from(imagenes).forEach((imagen, index) => {
+            formdata.append(`imagen${index}`, imagen);
+        });
+        //console.log(formdata.get('imagen0'));
+        try{
+            const response = await fetch(`http://localhost:5000/imagenes/guardar`, {
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+                const arr = data['rutas_imagenes'];
+                console.log("El resultado es: ",arr[0]);
+                registrar(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario, arr[0]);
+
+                return arr[0]
+               
+                /*try{
+                    if(data['error'] === "No se pudo crear la imagen"){
+                        alert("No se pudo crear la imagen");
+                    }else if(data['error'] === 'Faltan datos'){
+                        alert("Faltan datos");
+                    }else{
+                        console.log(data);
+                    }
+                }catch(error){
+                    console.log(error);
+                }*/
+            });
+        } catch(error){
+            console.log('Error al subir las imagenes: ',error);
+        }
+    }
 
     return(
         <div className="container">
@@ -181,8 +223,8 @@ export default function RegistroP(){
                 </div>
                 <div className="mb-3">
                     <label htmlFor="imagen" className="form-label">Imagen</label>
-                    <input type="file" className="form-control" id="imagen" aria-describedby="imagenHelp"/>
-                    <div id="imagenHelp" className="form-text">Selecciona una imagen del producto</div>
+                    <input type="file" className="form-control" id="imagen" aria-describedby="imagenHelp" onChange={handleImagenChange} multiple/>
+                    <div id="imagenHelp" className="form-text">Selecciona una o varias imagenes del producto</div>
                 </div>
                 <button type="submit" className="btn btn-primary">Registrar</button>
             </form>
