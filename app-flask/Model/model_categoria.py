@@ -28,10 +28,11 @@ def delete_categoria(idProducto, categoria):
     
 def delete_categorias(idProducto):
     try:
+        print(idProducto)
         categorias = Categoria.query.filter_by(idProducto=idProducto).all()
         for categoria in categorias:
             db.session.delete(categoria)
-        db.session.commit()
+            db.session.commit()
     except:
         return -1
     

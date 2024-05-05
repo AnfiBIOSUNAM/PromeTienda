@@ -13,6 +13,80 @@ function ActualizarProducto() {
     const [precio, setPrecio] = useState('');
     const [contacto, setContacto] = useState('');
     const [cantidad, setCantidad] = useState('');
+    const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+
+    const handleCategoriaChange = (e) => {
+        const categoriaSeleccionada = e.target.value;
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+            // Si la categoría está marcada, la agregamos al array de categorías seleccionadas
+            setCategoriasSeleccionadas([...categoriasSeleccionadas, categoriaSeleccionada]);
+        } else {
+            // Si la categoría está desmarcada, la eliminamos del array de categorías seleccionadas
+            const nuevasCategorias = categoriasSeleccionadas.filter(cat => cat !== categoriaSeleccionada);
+            setCategoriasSeleccionadas(nuevasCategorias);
+        }
+    };
+
+    const registrar_categorias = async(idProducto, categorias) => {
+        categorias.forEach(async (categoria) => {
+            const formdata = new FormData();
+            formdata.append('idProducto', idProducto);
+            formdata.append('categoria', categoria);
+
+            try{
+                const response = await fetch(`http://localhost:5000/categoria/create`, {
+                    method: 'POST',
+                    body: formdata
+                }).then((response) => response.json()).then((data) => {
+                    console.log(data);
+                    try{
+                        if(data['error'] === "No se pudo crear la categoria"){
+                            alert("No se pudo crear la categoria");
+                        }else if(data['error'] === 'Faltan datos'){
+                            alert("Faltan datos");
+                        }else{
+                            console.log(data);
+                        }
+                    }catch(error){
+                        console.log(error);
+                    }
+                });
+            } catch(error){
+                console.log(error);
+            }
+        });
+    }
+
+    const actualizar_categorias = async(categorias) => {
+        
+            const formdata = new FormData();
+            formdata.append('idProducto', idProducto);
+           
+
+            try{
+                const response = await fetch(`http://localhost:5000/categoria/delete`, {
+                    method: 'POST',
+                    body: formdata
+                }).then((response) => response.json()).then((data) => {
+                    console.log(data);
+                    try{
+                        if(data['error'] === "No se pudieron borrar las categorias"){
+                            alert("No se pudieron borrar las categorias");
+                        }else{
+                            console.log(data);
+                        }
+                    }catch(error){
+                        console.log(error);
+                    }
+                });
+                
+            } catch(error){
+                console.log(error);
+            }
+            registrar_categorias(idProducto,categorias);
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,6 +124,9 @@ function ActualizarProducto() {
                 } else {
                     alert('Producto actualizado correctamente');
                     console.log(data);
+                    if(categoriasSeleccionadas.length > 0){
+                        actualizar_categorias(categoriasSeleccionadas);
+                    }
                     navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
                 }
         } catch (error) {
@@ -99,6 +176,42 @@ function ActualizarProducto() {
                             <label htmlFor="cantidad" className="form-label mt-4">Cantidad</label>
                             <input type="number" className="form-control" id="cantidad" placeholder="Ingrese la cantidad del producto" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
                         </div>
+                        <div className="mb-3">
+                    <label htmlFor="categoria" className="form-label">Categoría</label>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="alimentos" id="categoriaAlimentos" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaAlimentos">Alimentos</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="electronica" id="categoriaElectronica" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaElectronica">Electrónica</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="ropa" id="categoriaRopa" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaRopa">Ropa</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="flores" id="categoriaFlores" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaFlores">Flores</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="accesorios" id="categoriaAccesorios" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaAccesorios">Accesorios</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="papeleria" id="categoriaPapeleria" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaPapeleria">Papeleria</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="regalos" id="categoriaRegalos" onChange={handleCategoriaChange} />
+                        <label className="form-check-label" htmlFor="categoriaRegalos">Regalos</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" value="otra" id="categoriaOtra" onChange={handleCategoriaChange} defaultChecked/>
+                        <label className="form-check-label" htmlFor="categoriaOtra">Otra</label>
+                    </div>
+    
+                </div>
                         <div className='text-center'>
                             <button type="submit" className="btn btn-primary mt-4">Actualizar</button>
                             <NavLink to="/productos"><button type="button" className="btn btn-primary mt-4 ms-2">Regresar</button></NavLink>

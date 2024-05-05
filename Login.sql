@@ -15,7 +15,7 @@ CREATE TABLE Usuario(
     apMat varchar (50) not null,
     correo varchar (50) not null,
     telefono varchar(10) not null,
-    contraseÃ±a varchar(50) not null,
+    contraseña varchar(50) not null,
     imagen varchar(50),
     vendedor tinyint not null,
     primary key (idUsuario)
@@ -91,7 +91,7 @@ CREATE TABLE Tener (
     apMat VARCHAR(50),
     correo VARCHAR(100),
     telefono VARCHAR(15),
-    contraseÃ±a VARCHAR(50),
+    contraseña VARCHAR(50),
     FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
     FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
 );
