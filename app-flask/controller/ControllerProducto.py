@@ -92,13 +92,13 @@ def read_products_by_category(categoria):
         return json.dumps({'error': 'No se pudieron obtener los productos de la categoría'})
     return json.dumps([product.to_dict() for product in products])
 
-@producto_blueprint.route('/foto', methods=['GET'])
-def obtener_imagen_producto(idProducto):
-    # Obtén el producto por su ID
-    producto = mp.read_product(idProducto)
 
-    if producto ==-1:
-        return json.dumps({'error': 'No se pudo obtener foto del producto'})
-    else:
-        # Si no se encuentra el producto, devuelve un mensaje de error
-        return json.dumps(producto.to_dict())
+    
+
+@producto_blueprint.route('/nombreImagen', methods=['POST'])
+def get_image_name():
+    idProducto = request.form.get('idProducto')  # Obtener el parámetro del cuerpo de la solicitud JSON
+    nombre_imagen = mp.get_product_image(idProducto)  # Suponiendo que "mp" es el módulo que contiene la función read_products
+    if nombre_imagen == -1:
+        return json.dumps({'error': 'No hay productos'})
+    return json.dumps(nombre_imagen)

@@ -70,3 +70,10 @@ def productos_por_categoria(categoria):
         return -1
 
 
+def get_product_image(idProducto):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    nombre_imagen= producto.foto
+    return nombre_imagen

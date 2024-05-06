@@ -48,10 +48,11 @@ def guardar_imagen():
 @app.route('/imagenes/eliminar', methods=['POST'])
 def eliminar_imagen():
     nombre_imagen = request.form.get('nombre_imagen')
+    print(nombre_imagen)
 
     try:
-        # Componemos la ruta completa de la imagen
-        ruta_imagen = os.path.join(app.config['UPLOAD_FOLDER'], nombre_imagen)
+        # Componemos la ruta completa de la imagen usando la configuración UPLOADED_IMAGES_DEST
+        ruta_imagen = os.path.join(app.config['UPLOADED_IMAGES_DEST'], nombre_imagen)
         
         # Verificamos si la imagen existe
         if os.path.exists(ruta_imagen):
@@ -62,6 +63,7 @@ def eliminar_imagen():
             return json.dumps({'error': 'La imagen no existe en el servidor'})
     except Exception as e:
         return json.dumps({'error': str(e)})
+
 
 
 
