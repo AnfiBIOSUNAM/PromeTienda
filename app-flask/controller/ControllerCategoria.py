@@ -35,9 +35,9 @@ def read_categorias():
         return json.dumps({'error': 'No hay categorias'})
     return json.dumps([categoria.to_dict() for categoria in categorias])
 
-@categoria_blueprint.route('/delete', methods=['GET'])
+@categoria_blueprint.route('/delete', methods=['POST'])
 def delete_categorias():
-    idProducto = request.args.get('idProducto')
+    idProducto = int(request.form.get('idProducto'))
     deleted = mc.delete_categorias(idProducto)
     if deleted == -1:
         return json.dumps({'error': 'No se pudieron borrar las categorias'})

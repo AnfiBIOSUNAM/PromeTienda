@@ -7,7 +7,7 @@ class Categoria(db.Model):
     idProducto = Column(Integer, ForeignKey('Producto.idProducto'))
     categoria = Column(String(255))
     
-    producto = db.relationship("Producto", backref="Categoria", single_parent=True, cascade="all, delete-orphan")
+    producto = db.relationship("Producto", backref="Categoria", single_parent=True)
     
     def _init_(self, idProducto, categoria):
         self.idProducto = idProducto
