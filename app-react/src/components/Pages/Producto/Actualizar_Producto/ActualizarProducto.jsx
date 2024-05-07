@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 
 function ActualizarProducto() {
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [idProducto, setIdProducto] = useState('');
     const [nombreProducto, setNombreProducto] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -131,17 +131,16 @@ function ActualizarProducto() {
                 body: formdata
             }).then((response) => response.json()).then((data) => {
                 console.log(data);
-                try{
-                    if(data['error'] === "No hay productos"){
+                
+                    if(data.error === "No hay productos"){
                         console.log("No hay productos");
+                        
+                        return {error: 'Error al hallar producto a actualizar'}
                     }else{
-                        alert(data);
-                        return data;
+                        console.log(data);
+                        limpiar_imagenes(data);
                        
                     }
-                }catch(error){
-                    console.log(error);
-                }
             });
             
         }catch(error){
@@ -152,7 +151,8 @@ function ActualizarProducto() {
     }
 
     const limpiar_imagenes = async (nombre_imagen) => {
-        alert(nombre_imagen);
+       // alert(nombre_imagen);
+       console.log(nombre_imagen);
         const formdata = new FormData();
         formdata.append('nombre_imagen', nombre_imagen);
         try{
@@ -186,7 +186,7 @@ function ActualizarProducto() {
         console.log(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
      
        
-        
+        obtenerImagen(idProducto);
         actualizarProducto(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
     };
 
@@ -233,6 +233,7 @@ function ActualizarProducto() {
 
 
     const actualizarProducto = async (idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad) => {
+       // const antiguaFoto = await obtenerImagen(idProducto);
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
         formdata.append('idUsuario', idUsuario);
@@ -244,10 +245,11 @@ function ActualizarProducto() {
         formdata.append('cantidad', cantidad);
 
         try {
-            const antiguaImagen = await obtenerImagen(idProducto);
+           
            
             
             
+        
             const response = await fetch(`http://localhost:5000/producto/update`, {
                 method: 'POST',
                 body: formdata
@@ -268,8 +270,9 @@ function ActualizarProducto() {
                         }
                         if (imagenes.length > 0) {
                             
+                            
                             guardar_imagenes();
-                            limpiar_imagenes(antiguaImagen);
+                            //limpiar_imagenes(antiguaFoto);
                            
                         }
                         navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
