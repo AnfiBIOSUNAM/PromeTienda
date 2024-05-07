@@ -1,5 +1,6 @@
 from flask import Blueprint, session, request, url_for, redirect
 from Model import model_usuarios as mu
+from controller import ControllerTener
 import json
 
 usuario_blueprint = Blueprint('usuario', __name__, url_prefix='/usuario')
@@ -59,7 +60,7 @@ def create_user():
         return json.dumps(new_user.to_dict())
     except:
         return json.dumps({'error': 'Faltan datos'})
-  
+
     
 @usuario_blueprint.route('/logout', methods=['GET'])
 def logout():
