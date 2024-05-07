@@ -13,7 +13,7 @@ def create_tener(idUsuario, nombre, apPat, apMat, correo, telefono, contraseña,
         return -1
 
 def find_tener_by_idUsuario(idUsuario):
-    tener = Tener.query.filter(Tener.idUsuario == idUsuario).first()
+    tener = Tener.query.filter(Tener.idComprador == idUsuario).first()
     if tener is None:
         print('El usuario con id: ' + str(idUsuario) + ' no tiene un carrito')
         return -1
