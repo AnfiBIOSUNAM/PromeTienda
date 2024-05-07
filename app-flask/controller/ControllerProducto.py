@@ -102,3 +102,13 @@ def get_image_name():
     if nombre_imagen == -1:
         return json.dumps({'error': 'No hay productos'})
     return json.dumps(nombre_imagen)
+
+
+@producto_blueprint.route('/check', methods=['POST'])
+def get_verification():
+    idProducto = request.form.get('idProducto')
+    idUsuario= request.form.get('idUsuario') 
+    check = mp.get_verification(idProducto, idUsuario)  # Suponiendo que "mp" es el módulo que contiene la función read_products
+    if check == -1:
+        return json.dumps({'error': 'No hay productos'})
+    return json.dumps(check)

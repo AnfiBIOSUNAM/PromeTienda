@@ -77,3 +77,14 @@ def get_product_image(idProducto):
         return -1
     nombre_imagen= producto.foto
     return nombre_imagen
+
+def get_verification(idProducto, idUsuario):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    elif producto.idUsuario != int(idUsuario):
+        print('El producto con id: '+str(idProducto)+' no pertenece al usuario con id: '+str(idUsuario))
+        return -2
+    else:
+        return True

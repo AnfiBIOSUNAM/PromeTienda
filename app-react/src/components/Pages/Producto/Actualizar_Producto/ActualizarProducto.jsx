@@ -5,7 +5,7 @@ import { useCookies } from 'react-cookie';
 
 function ActualizarProducto() {
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['user']);
+    const [cookies] = useCookies(['user']);
     const [idProducto, setIdProducto] = useState('');
     const [nombreProducto, setNombreProducto] = useState('');
     const [descripcion, setDescripcion] = useState('');
@@ -97,54 +97,79 @@ function ActualizarProducto() {
         setImagenes(arrayFiles);
     }
 
-    const guardar_imagenes = async() => {
+    const guardar_imagenes = async () => {
         const formdata = new FormData();
         Array.from(imagenes).forEach((imagen, index) => {
             formdata.append(`imagen${index}`, imagen);
         });
-        
-        try{
+
+        try {
             const response = await fetch(`http://localhost:5000/imagenes/guardar`, {
                 method: 'POST',
                 body: formdata
             }).then((response) => response.json()).then((data) => {
                 console.log(data);
                 const arr = data['rutas_imagenes'];
-                console.log("El resultado es: ",arr[0]);
+                console.log("El resultado es: ", arr[0]);
                 actualizarProductoAux(idProducto, idUsuario, nombreProducto, descripcion, arr[0], precio, contacto, cantidad);
 
                 return arr[0]
-               
-                
+
+
             });
-        } catch(error){
-            console.log('Error al subir las imagenes: ',error);
+        } catch (error) {
+            console.log('Error al subir las imagenes: ', error);
         }
     }
 
-    const obtenerImagen = async (idProducto) => {
+    const manejarImagen = async (idProducto, idUsuario) => {
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
-        try{
-            const response = await fetch(`http://localhost:5000/producto/nombreImagen`, {
+        formdata.append('idUsuario', idUsuario);
+        try {
+            const check = await fetch(`http://localhost:5000/producto/check`, {
                 method: 'POST',
                 body: formdata
-            }).then((response) => response.json()).then((data) => {
-                console.log(data);
-                try{
-                    if(data['error'] === "No hay productos"){
-                        console.log("No hay productos");
-                    }else{
-                        alert(data);
-                        return data;
-                       
-                    }
-                }catch(error){
-                    console.log(error);
-                }
-            });
+            }).then((check) => check.json()).then((flag) => {
+                console.log(flag);
             
-        }catch(error){
+            if (flag=== true) {
+                actualizarImagen(idProducto);
+            } else {
+                return { error: 'Error al hacer check' }
+            }
+        });
+        } catch (error) {
+            console.log('Error en la petición');
+            console.log(error);
+            alert('Ocurrió un error inesperado, inténtalo más tarde')
+        }
+    }
+
+    const actualizarImagen = async (idProducto) => {
+        const formdata = new FormData();
+        formdata.append('idProducto', idProducto);
+        formdata.append('idUsuario', idUsuario);
+        try {
+            
+                const response = await fetch(`http://localhost:5000/producto/nombreImagen`, {
+                    method: 'POST',
+                    body: formdata
+                }).then((response) => response.json()).then((data) => {
+                    console.log(data);
+
+                    if (data.error === "No hay productos") {
+                        console.log("No hay productos");
+
+                        return { error: 'Error al hallar producto a actualizar' }
+                    } else {
+                        console.log(data);
+                        limpiar_imagenes(data);
+
+                    }
+                });
+
+        } catch (error) {
             console.log('Error en la petición');
             console.log(error);
             alert('Ocurrió un error inesperado, inténtalo más tarde')
@@ -152,28 +177,29 @@ function ActualizarProducto() {
     }
 
     const limpiar_imagenes = async (nombre_imagen) => {
-        alert(nombre_imagen);
+        // alert(nombre_imagen);
+        console.log(nombre_imagen);
         const formdata = new FormData();
         formdata.append('nombre_imagen', nombre_imagen);
-        try{
+        try {
             const response = await fetch(`http://localhost:5000/imagenes/eliminar`, {
                 method: 'POST',
                 body: formdata
             }).then((response) => response.json()).then((data) => {
                 console.log(data);
-                try{
-                    if(data['error'] === "La imagen no existe en el servidor"){
+                try {
+                    if (data['error'] === "La imagen no existe en el servidor") {
                         console.log("La imagen no existe en el servidor");
-                    }else{
-                        
+                    } else {
+
                         console.log(data);
                     }
-                }catch(error){
+                } catch (error) {
                     console.log(error);
                 }
             });
-            
-        }catch(error){
+
+        } catch (error) {
             console.log('Error en la petición');
             console.log(error);
             alert('Ocurrió un error inesperado, inténtalo más tarde')
@@ -182,11 +208,11 @@ function ActualizarProducto() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         console.log(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
-     
-       
-        
+
+
+        manejarImagen(idProducto, idUsuario);
         actualizarProducto(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
     };
 
@@ -216,7 +242,7 @@ function ActualizarProducto() {
                     } else if (data['error'] === "No autorizado para actualizar producto") {
                         alert("No tienes autorización para actualizar dicho producto");
                     } else {
-                       
+
                         navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
                     }
                 } catch (error) {
@@ -233,6 +259,7 @@ function ActualizarProducto() {
 
 
     const actualizarProducto = async (idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad) => {
+        // const antiguaFoto = await manejarImagen(idProducto);
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
         formdata.append('idUsuario', idUsuario);
@@ -244,22 +271,25 @@ function ActualizarProducto() {
         formdata.append('cantidad', cantidad);
 
         try {
-            const antiguaImagen = await obtenerImagen(idProducto);
-           
-            
-            
+
+
+
+
+
             const response = await fetch(`http://localhost:5000/producto/update`, {
                 method: 'POST',
                 body: formdata
 
             }).then((response) => response.json()).then((data) => {
                 console.log(data);
-                
+
                 try {
-                    if (data['error'] === "No se pudo actualizar producto") {
+                    if (data.error === "No se pudo actualizar el producto") {
                         alert("No se pudo actualizar el producto");
-                    } else if (data['error'] === "No autorizado para actualizar producto") {
+                    } else if (data.error === "No autorizado para actualizar producto") {
                         alert("No tienes autorización para actualizar dicho producto");
+                    } else if (data.error=== "No hay productos" ) {
+                        alert("NO existe producto con dicho id");
                     } else {
                         alert('Producto actualizado correctamente');
                         console.log(data);
@@ -267,10 +297,11 @@ function ActualizarProducto() {
                             actualizar_categorias(categoriasSeleccionadas);
                         }
                         if (imagenes.length > 0) {
-                            
+
+
                             guardar_imagenes();
-                            limpiar_imagenes(antiguaImagen);
-                           
+                            //limpiar_imagenes(antiguaFoto);
+
                         }
                         navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
                     }

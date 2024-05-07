@@ -17,6 +17,7 @@ app.config.from_mapping(
 )
 
 app.config['UPLOADS_DEFAULT_DEST'] = './ProductosImg'
+app.config['UPLOADS_IMAGES_DEST'] = './ProductosImg/imagenes'
 app.config['UPLOADED_IMAGES_DEST'] = 'ProductosImg'
 app.config['UPLOADED_IMAGES_ALLOW'] = IMAGES
 imagenes = UploadSet('imagenes', IMAGES)
@@ -52,7 +53,7 @@ def eliminar_imagen():
 
     try:
         # Componemos la ruta completa de la imagen usando la configuración UPLOADED_IMAGES_DEST
-        ruta_imagen = os.path.join(app.config['UPLOADED_IMAGES_DEST'], nombre_imagen)
+        ruta_imagen = os.path.join(app.config['UPLOADS_IMAGES_DEST'],nombre_imagen)
         
         # Verificamos si la imagen existe
         if os.path.exists(ruta_imagen):
