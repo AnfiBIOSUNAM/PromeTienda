@@ -1,6 +1,7 @@
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { Success, Error, Alert } from "../../Swal/Swal";
 
 export default function RegistroP(){
 
@@ -33,7 +34,8 @@ export default function RegistroP(){
     const handleSubmit = async (e) => {
         e.preventDefault();
         if(categoriasSeleccionadas.length===0){
-            alert('Se debe seleccionar al menos una categoría')
+            //alert('Se debe seleccionar al menos una categoría')
+            Alert('Se debe seleccionar al menos una categoría');
         }else{
             const nombre = e.target.nombre.value;
             const descripcion = e.target.descripcion.value;
@@ -73,14 +75,17 @@ export default function RegistroP(){
                 console.log(data);
                 try{
                     if(data['error'] === "No se pudo crear el producto"){
-                        alert("No se pudo crear el producto");
+                        //alert("No se pudo crear el producto");
+                        Error('No se pudo crear el producto');
                     }else if(data['error'] === 'Faltan datos'){
-                          alert("Faltan datos");
+                         // alert("Faltan datos");
+                        Error('Faltan datos');
                     }else{
                         registrar_categorias(data['idProducto'], categoria);
-                        alert('Producto creado correctamente')
+                        //alert('Producto creado correctamente')
+                        Success('Producto creado correctamente');
                         console.log(data);
-                        navigate('/')
+                        navigate('/home')
                     }
                 }catch(error){
                     console.log(error);
@@ -105,9 +110,11 @@ export default function RegistroP(){
                     console.log(data);
                     try{
                         if(data['error'] === "No se pudo crear la categoria"){
-                            alert("No se pudo crear la categoria");
+                            //alert("No se pudo crear la categoria");
+                            Error('No se pudo crear la categoria');
                         }else if(data['error'] === 'Faltan datos'){
-                            alert("Faltan datos");
+                            //alert("Faltan datos");
+                            Error('Faltan datos al crear la categoria');
                         }else{
                             console.log(data);
                         }

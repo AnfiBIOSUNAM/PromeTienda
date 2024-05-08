@@ -5,6 +5,7 @@ import '../CSS/Registro.css';
 import '../CSS/Form.css'
 import { useNavigate } from "react-router-dom";
 import SHA256 from 'crypto-js/sha256';
+import { Success, Error } from "../../Swal/Swal";
 
 function hashPassword(password){
     let hashed = SHA256(password).toString();
@@ -68,11 +69,14 @@ export default function Registro() {
                 console.log(data);
                 try{
                     if(data['error'] === "No se pudo crear el usuario"){
-                        alert("No se pudo crear el usuario");
+                        //alert("No se pudo crear el usuario");
+                        Error('No se pudo crear el usuario')
                     }else if(data['error'] === 'Faltan datos'){
-                          alert("Faltan datos");
+                        Error('Faltan datos')
+                        //alert("Faltan datos");
                     }else{
-                        alert('Usuario creado correctamente')
+                        Success('Usuario creado correctamente')
+                        //alert('Usuario creado correctamente')
                         console.log(data);
                         navigate('/')
                     }
@@ -84,7 +88,8 @@ export default function Registro() {
         }catch(error){
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde')
+            Error('Ocurrió un error inesperado, inténtalo más tarde')
+            //alert('Ocurrió un error inesperado, inténtalo más tarde')
         }
     }
     

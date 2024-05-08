@@ -55,10 +55,12 @@ CREATE TABLE Producto (
 
 drop table if exists Almacenar;
 CREATE TABLE Almacenar (
+	idAlmacenar INT auto_increment,
     idCarrito INT,
     idProducto INT,
     cantidad INT,
-    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    primary key (idAlmacenar),
+    FOREIGN KEY (idCarrito) REFERENCES Tener(idCarrito),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
 
