@@ -80,7 +80,7 @@ export default function RegistroP(){
                         registrar_categorias(data['idProducto'], categoria);
                         alert('Producto creado correctamente')
                         console.log(data);
-                        navigate('/')
+                        navigate('/home')
                     }
                 }catch(error){
                     console.log(error);
