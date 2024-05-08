@@ -1,5 +1,7 @@
 from flask import Blueprint, session, request, url_for, redirect
 from Model import model_usuarios as mu
+from Model import model_tener as mt
+from controller import ControllerTener
 import json
 
 usuario_blueprint = Blueprint('usuario', __name__, url_prefix='/usuario')
@@ -33,8 +35,16 @@ def login():
             return json.dumps({'error': 'usuario_incorrecto'})
         elif user == -2:
             return json.dumps({'error': 'contraseña_incorrecta'})
-
+    
+        
         session['user_id'] = user.idUsuario
+        
+        if(user.vendedor == 0 ):
+            usuario_y_carrito = mt.find_tener_by_idUsuario(user.idUsuario)
+            if (usuario_y_carrito == -1):
+                return json.dumps(user.to_dict())
+            return json.dumps(usuario_y_carrito.to_dict())
+            
         return json.dumps(user.to_dict())
     except Exception as e:
         print("Error:", e)
@@ -59,11 +69,13 @@ def create_user():
         return json.dumps(new_user.to_dict())
     except:
         return json.dumps({'error': 'Faltan datos'})
-  
+
     
 @usuario_blueprint.route('/logout', methods=['GET'])
 def logout():
     session.pop('user_id', None)
+    #if session['carrito']:
+    #   session.pop('carrito', None)
     return "Sesión cerrada"
 
 ## Update

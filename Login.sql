@@ -84,7 +84,7 @@ CREATE TABLE Contener (
 
 drop table if exists Tener;
 CREATE TABLE Tener (
-    idCarrito INT,
+    idCarrito INT auto_increment,
     idComprador INT,
     nombre VARCHAR(50),
     apPat VARCHAR(50),
@@ -92,9 +92,23 @@ CREATE TABLE Tener (
     correo VARCHAR(100),
     telefono VARCHAR(15),
     contraseña VARCHAR(50),
-    FOREIGN KEY (idCarrito) REFERENCES Carrito(idCarrito),
+    imagen varchar(50),
+    vendedor tinyint not null,
+    primary key (idCarrito),
     FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
 );
+
+DELIMITER //
+CREATE TRIGGER after_insert_usuario
+AFTER INSERT ON Usuario
+FOR EACH ROW
+BEGIN
+    IF NEW.vendedor = 0 THEN
+        INSERT INTO Tener (idComprador, nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
+        VALUES (NEW.idUsuario, NEW.nombre, NEW.apPat, NEW.apMat, NEW.correo, NEW.telefono, NEW.contraseña, NEW.imagen, NEW.vendedor);
+    END IF;
+END//
+DELIMITER ;
 
 
 select * from Usuario;
