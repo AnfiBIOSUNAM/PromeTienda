@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { Success, Error, Alert } from '../../../Swal/Swal';
 
 
 function ActualizarProducto() {
@@ -46,9 +47,11 @@ function ActualizarProducto() {
                     console.log(data);
                     try {
                         if (data['error'] === "No se pudo crear la categoria") {
-                            alert("No se pudo crear la categoria");
+                            //alert("No se pudo crear la categoria");
+                            Error('No se pudo crear la categoria');
                         } else if (data['error'] === 'Faltan datos') {
-                            alert("Faltan datos");
+                            //alert("Faltan datos");
+                            Error('Faltan datos al crear categoria');
                         } else {
                             console.log(data);
                         }
@@ -76,7 +79,8 @@ function ActualizarProducto() {
                 console.log(data);
                 try {
                     if (data['error'] === "No se pudieron borrar las categorias") {
-                        alert("No se pudieron borrar las categorias");
+                        //alert("No se pudieron borrar las categorias");
+                        Error('No se pudieron borrar las categorias');
                     } else {
                         console.log(data);
                     }
@@ -142,7 +146,8 @@ function ActualizarProducto() {
         } catch (error) {
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde')
+            //alert('Ocurrió un error inesperado, inténtalo más tarde')
+            Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 
@@ -172,7 +177,8 @@ function ActualizarProducto() {
         } catch (error) {
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde')
+            //alert('Ocurrió un error inesperado, inténtalo más tarde')
+            Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 
@@ -202,7 +208,8 @@ function ActualizarProducto() {
         } catch (error) {
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde')
+            //alert('Ocurrió un error inesperado, inténtalo más tarde')
+            Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 
@@ -238,9 +245,11 @@ function ActualizarProducto() {
 
                 try {
                     if (data['error'] === "No se pudo actualizar producto") {
-                        alert("No se pudo actualizar el producto");
+                        //alert("No se pudo actualizar el producto");
+                        Error('No se pudo actualizar el producto');
                     } else if (data['error'] === "No autorizado para actualizar producto") {
-                        alert("No tienes autorización para actualizar dicho producto");
+                        //alert("No tienes autorización para actualizar dicho producto");
+                        Error('No tienes autorización para actualizar dicho producto');
                     } else {
 
                         navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
@@ -253,7 +262,8 @@ function ActualizarProducto() {
         } catch (error) {
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde');
+            //alert('Ocurrió un error inesperado, inténtalo más tarde');
+            Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 
@@ -285,13 +295,17 @@ function ActualizarProducto() {
 
                 try {
                     if (data.error === "No se pudo actualizar el producto") {
-                        alert("No se pudo actualizar el producto");
+                        //alert("No se pudo actualizar el producto");
+                        Error('No se pudo actualizar el producto');
                     } else if (data.error === "No autorizado para actualizar producto") {
-                        alert("No tienes autorización para actualizar dicho producto");
+                        //alert("No tienes autorización para actualizar dicho producto");
+                        Error('No tienes autorización para actualizar dicho producto');
                     } else if (data.error=== "No hay productos" ) {
-                        alert("NO existe producto con dicho id");
+                        //alert("NO existe producto con dicho id");
+                        Error('No existe producto con dicho id');
                     } else {
-                        alert('Producto actualizado correctamente');
+                        //alert('Producto actualizado correctamente');
+                        Success('Producto actualizado correctamente');
                         console.log(data);
                         if (categoriasSeleccionadas.length > 0) {
                             actualizar_categorias(categoriasSeleccionadas);
@@ -313,7 +327,8 @@ function ActualizarProducto() {
         } catch (error) {
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde');
+            //alert('Ocurrió un error inesperado, inténtalo más tarde');
+            Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 

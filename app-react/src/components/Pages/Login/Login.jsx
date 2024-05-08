@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import SHA256 from 'crypto-js/sha256';
+import { Success, Error, Alert } from "../../Swal/Swal";
 
 import '../../Style/Login.css'
 
@@ -36,9 +37,11 @@ export default function Login() {
                 console.log(data);
                 try{
                     if(data['error'] === "usuario_incorrecto"){
-                        alert("Usuario inexistente");
+                        //alert("Usuario inexistente");
+                        Error("Usuario inexistente");
                     }else if(data['error'] === "contraseña_incorrecta"){
-                          alert("Contraseña incorrecta");
+                          //alert("Contraseña incorrecta");
+                            Error("Contraseña incorrecta");
                     }else{
                         setCookie('userToken', data.correo, { path: '/', maxAge: 3600 * 24 * 7 });
                         setCookie('user', data, { path: '/', maxAge: 3600 * 24 * 7 });
@@ -52,7 +55,8 @@ export default function Login() {
         }catch(error){
             console.log('Error en la petición');
             console.log(error);
-            alert('Ocurrió un error inesperado, inténtalo más tarde')
+            //alert('Ocurrió un error inesperado, inténtalo más tarde')
+            Alert('Ocurrió un error inesperado, inténtalo más tarde');
         }
     }
 

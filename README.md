@@ -14,10 +14,13 @@ Hacer entorno virtual con:
 
 pymysql
 Flask-SQLAlchemy
+alchemy
+SQLAlchemy
 pycryptodomex
 flask
 Cryptography
 flask-cors
+Flask-Reuploaded
 
 O en su defecto, utilizar el archivo requirements.txt que se proporciona
 
@@ -25,6 +28,8 @@ Run:
 python -m flask run
 
 ## Para app-react:
+
+npm install sweetalert2
 
 npm install
 npm start
