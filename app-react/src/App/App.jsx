@@ -10,6 +10,7 @@ import HomeProducto from '../components/Pages/Producto/HomeProducto.jsx';
 import ActualizarProducto from '../components/Pages/Producto/Actualizar_Producto/ActualizarProducto.jsx';
 import { useCookies } from 'react-cookie';
 import RegistroP from '../components/Pages/RegistroProducto/RegistroP.jsx';
+import VerProducto from '../components/Pages/Producto/Ver_Producto/Ver_Producto.jsx';
 
 function NoPermissions({mensaje}){
   return(
@@ -71,6 +72,7 @@ const router = createBrowserRouter(
         {path: '/productos', element:<HomeProducto/>},
         {path: '/productos/actualizar', element: <ProtectedRoute element={<ActualizarProducto/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
         {path: '/productos/registrar', element: <ProtectedRoute element={<RegistroP/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
+        {path: '/productos/ver', element:<VerProducto/>},
       ]
     },
     

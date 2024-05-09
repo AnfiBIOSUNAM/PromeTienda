@@ -30,6 +30,7 @@ class Producto(db.Model):
             'idUsuario': self.idUsuario,
             'nombreProducto': self.nombreProducto,
             'descripcion': self.descripcion,
+            'foto': self.foto,
             'precio': float(self.precio),
             'contacto': self.contacto,
             'cantidad': self.cantidad

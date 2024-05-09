@@ -1,4 +1,4 @@
-from flask import Flask, redirect, render_template, url_for, request, flash, session, jsonify
+from flask import Flask, redirect, render_template, url_for, request, flash, session, jsonify, send_from_directory
 from alchemyClasses import db
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 from controller.ControllerUsuario import usuario_blueprint
@@ -6,6 +6,7 @@ from controller.ControllerProducto import producto_blueprint
 from controller.ControllerCategoria import categoria_blueprint
 from controller.ControllerTener import tener_blueprint
 from controller.ControllerAlmacenar import almacenar_blueprint
+from Model import model_productos
 from flask_cors import CORS, cross_origin
 import json
 import os
@@ -20,7 +21,7 @@ app.config.from_mapping(
 
 app.config['UPLOADS_DEFAULT_DEST'] = './ProductosImg'
 app.config['UPLOADS_IMAGES_DEST'] = './ProductosImg/imagenes'
-app.config['UPLOADED_IMAGES_DEST'] = 'ProductosImg'
+app.config['UPLOADED_IMAGES_DEST'] = './ProductosImg/imagenes'
 app.config['UPLOADED_IMAGES_ALLOW'] = IMAGES
 imagenes = UploadSet('imagenes', IMAGES)
 configure_uploads(app, imagenes)
@@ -69,6 +70,21 @@ def eliminar_imagen():
     except Exception as e:
         return json.dumps({'error': str(e)})
 
+@app.route('/products', methods=['GET'])
+def products():
+    products = model_productos.read_products()
+    return jsonify([product.to_dict() for product in products])
+
+@app.route('/imagenes/<nombre_imagen>')
+def servir_imagen(nombre_imagen):
+    try:
+        ruta_imagen = os.path.join(app.config['UPLOADED_IMAGES_DEST'], nombre_imagen)
+        if os.path.exists(ruta_imagen):
+            return send_from_directory(app.config['UPLOADED_IMAGES_DEST'], nombre_imagen)
+        else:
+            return jsonify({'error': 'Imagen no encontrada'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 
