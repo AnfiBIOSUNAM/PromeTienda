@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import { agregarAlCarrito } from '../../Carrito/Carrito';
 import './Ver_Producto.css'
 
 function VerProducto() {
@@ -22,6 +23,12 @@ function VerProducto() {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
+  const agregar = (idProducto)=>{
+    let res = agregarAlCarrito(idProducto, cookies.user['idCarrito']).then(response => {
+        console.log(res)
+    })
+}
+
   return (
     <div>
       <h1>Productos</h1>
@@ -35,7 +42,7 @@ function VerProducto() {
             </div>
             <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 {cookies.user['vendedor']==0 &&(
-                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
+                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#" onClick={()=>agregar(product.idProducto)}>Agregar al carrito</a></div>
                 )}
 
                 {cookies.user['vendedor']==1 &&(
