@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './HomeUser.css'
 import { useCookies } from 'react-cookie';
+import { agregarAlCarrito } from '../Carrito/Carrito';
 
 export default function HomeUser() {
 
@@ -23,6 +24,12 @@ export default function HomeUser() {
         .catch(error => console.error('Error fetching data:', error));
     }, []);
 
+    const agregar = (idProducto)=>{
+        let res = agregarAlCarrito(idProducto, cookies.user['idCarrito']).then(response => {
+            console.log(res)
+        })
+    }
+
     return (
         <>
             <div className="fullscreen-shape"></div>
@@ -32,7 +39,7 @@ export default function HomeUser() {
             <div className="container px-4 px-lg-5 my-5">
                 <div className="text-center text-white">
                     <h1 className="display-4 fw-bolder">Bienvenido a Prometienda {cookies.user['nombre']}</h1>
-                    <p className="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+                    <p className="lead fw-normal text-white-50 mb-0">Tu tienda virtual de la Facultad de Ciencias</p>
                 </div>
             </div>
         </header>
@@ -59,8 +66,15 @@ export default function HomeUser() {
                                 </div>
                                 
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">View options</a></div>
+                                    {cookies.user['vendedor']==0 &&(
+                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#" onClick={()=>agregar(product.idProducto)}>Agregar al carrito</a></div>
+                                    )}
+
+                                    {cookies.user['vendedor']==1 &&(
+                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Opciones</a></div>
+                                    )}
                                 </div>
+                                
                             </div>
                         </div>
                     ))}

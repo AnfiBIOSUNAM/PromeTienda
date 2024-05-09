@@ -11,7 +11,7 @@ from flask import jsonify
         return -1"""
     
 def agregar_al_carrito(idProducto, idCarrito):
-    new_producto = Almacenar(idProducto, idCarrito, 1)
+    new_producto = Almacenar(idCarrito, idProducto, 1)
     try:
         db.session.add(new_producto)
         db.session.commit()

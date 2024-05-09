@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import './Ver_Producto.css'
 
 function VerProducto() {
   const [products, setProducts] = useState([]);
+  const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
+
 
   useEffect(() => {
     axios.get('http://localhost:5000/products')
@@ -29,6 +32,15 @@ function VerProducto() {
             <div className="product-info">
               <h3>{product.descripcion}</h3>
               <p>${product.precio}</p>
+            </div>
+            <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                {cookies.user['vendedor']==0 &&(
+                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Agregar al carrito</a></div>
+                )}
+
+                {cookies.user['vendedor']==1 &&(
+                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Opciones</a></div>
+                )}
             </div>
           </div>
         ))}
