@@ -20,3 +20,8 @@
     text-align: center;
     padding-top: 10%;
 }
+
+.img-card{
+    /*Estilo para que la imagen ocupe todo el ancho del card*/
+    max-height: fit-content;
+}
