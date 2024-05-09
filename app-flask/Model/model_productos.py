@@ -25,6 +25,7 @@ def read_product(idProducto):
 def read_products():
     return Producto.query.all()
 
+
 def update_product(idProducto, idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad):
     producto = Producto.query.get(idProducto)
     if producto is None:

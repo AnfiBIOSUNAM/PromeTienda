@@ -48,3 +48,24 @@ def obtener_productos(idCarrito):
     if productos == -1:
         return json.dumps({'error': 'No se encontraron productos en el carrito'})
     return json.dumps([producto.to_dict() for producto in productos])
+
+
+@almacenar_blueprint.route('/productosInfo/<idCarrito>', methods=['GET'])
+def productos_info(idCarrito):
+    productos = ma.obtener_productos_de_carrito(idCarrito)
+    contador=0
+    dict = []
+    for fila in productos:
+        contador +=1
+        dict.append({'idProducto': fila[0], 
+                         'idUsuario': fila[1], 
+                         'nombreProducto': fila[2], 
+                         'descripcion': fila[3],
+                         'foto': fila[4],
+                         'precio': str(fila[5]),
+                         'contacto': fila[6],
+                         'cantidad': fila[7]})
+    """if productos == -1:
+        return json.dumps({'error': 'No se encontraron productos en el carrito'})
+    print(productos)"""
+    return json.dumps(dict)

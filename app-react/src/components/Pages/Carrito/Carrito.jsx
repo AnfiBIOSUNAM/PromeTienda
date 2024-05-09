@@ -42,16 +42,19 @@ export default function Carrito() {
     const [products, setProducts] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
-
     useEffect(() => {
-        axios.get(`http://localhost:5000/carrito/productos/${cookies.user['idCarrito']}`)
-        .then(response => {
-            console.log(cookies.user)
-            const updatedProducts = response.data;
+        axios.get(`http://localhost:5000/carrito/productosInfo/${cookies.user['idCarrito']}`)
+          .then(response => {
+            const updatedProducts = response.data.map(product => {
+              return {
+                ...product,
+                fotourl: `http://localhost:5000/imagenes/${product.foto}` // Construir la URL completa aquí
+              };
+            });
             setProducts(updatedProducts);
-        })
-        .catch(error => console.error('Error fetching data:', error));
-    }, []);
+          })
+          .catch(error => console.error('Error fetching data:', error));
+      }, []);
 
     return (
         <>
