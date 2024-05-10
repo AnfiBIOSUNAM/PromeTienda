@@ -5,6 +5,7 @@ export default function HomeProducto(){
 
   return (
     <div>
+      <div className="fullscreen-shape"></div>
       <h1>Productos</h1>
       <NavLink to="/productos/registrar"><button>Agregar</button></NavLink>
       <NavLink to="/productos/ver"><button>Ver</button></NavLink>

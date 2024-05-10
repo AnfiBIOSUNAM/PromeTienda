@@ -85,12 +85,12 @@ export default function HomeUser() {
 
         <div className='text-center mb-5'>
             {cookies.user['vendedor'] === 0 && (
-                <NavLink to='/productos/ver' className={'btn btn-primary'} >Ver más productos</NavLink>
+                <NavLink to='/productos/ver' className={'btn btn-azul'} >Ver más productos</NavLink>
             )}
             {cookies.user['vendedor'] === 1 && (
                 <>
-                <NavLink to='#' className={'btn btn-primary'}>Ver todos mis productos en venta</NavLink>
-                <NavLink to='/productos/registrar' className={'btn btn-primary'}>Registrar producto</NavLink>
+                <NavLink to='#' className={'btn btn-azul'}>Ver todos mis productos en venta</NavLink>
+                <NavLink to='/productos/registrar' className={'btn btn-azul'}>Registrar producto</NavLink>
                 </>
             )}
             

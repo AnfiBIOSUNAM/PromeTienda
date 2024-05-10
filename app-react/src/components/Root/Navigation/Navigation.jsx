@@ -47,7 +47,7 @@ export default function Navigation(){
                     <NavLink to="/productos" className="nav-link">Productos</NavLink>
                 </li>
 
-                {cookies.user['vendedor']==0 &&
+                {cookies.user && cookies.user['vendedor']==0 &&
                   <li>
                     <NavLink to="/carrito" className="nav-link">Carrito</NavLink>
                   </li>

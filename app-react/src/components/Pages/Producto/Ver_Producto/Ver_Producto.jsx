@@ -31,6 +31,7 @@ function VerProducto() {
 
   return (
     <div>
+      <div className="fullscreen-shape"></div>
       <h1>Productos</h1>
       <div className="products-container">
         {products.map(product => (

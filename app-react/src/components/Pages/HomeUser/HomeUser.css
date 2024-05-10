@@ -25,3 +25,23 @@
     /*Estilo para que la imagen ocupe todo el ancho del card*/
     max-height: fit-content;
 }
+
+.btn-azul{
+    background-color: #2b36b0;
+    color: white;
+    border: solid 1px #2b36b0;
+    padding: 15px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.btn-azul:hover{
+    background-color: none;
+    color: #2b36b0;
+    border: solid 1px #2b36b0;
+}
