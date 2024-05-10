@@ -12,13 +12,25 @@ from sqlalchemy import text
         return -1"""
     
 def agregar_al_carrito(idProducto, idCarrito):
-    new_producto = Almacenar(idCarrito, idProducto, 1)
-    try:
-        db.session.add(new_producto)
-        db.session.commit()
-        return new_producto
-    except:
-        return -1
+    
+    producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
+    if producto is None:
+        new_producto = Almacenar(idCarrito, idProducto, 1)
+        try:
+            db.session.add(new_producto)
+            db.session.commit()
+            return new_producto
+        except:
+            return -1
+    else:
+        producto.cantidad += 1
+        try:
+            db.session.commit()
+            return producto
+        except:
+            return -1
+    
+    
     
 def aumentar_cantidad_producto(idProducto, idCarrito):
     producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
