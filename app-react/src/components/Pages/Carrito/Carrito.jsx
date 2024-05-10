@@ -12,8 +12,8 @@ export async function agregarAlCarrito(idProducto, idCarrito){
     const formdata = new FormData();
     formdata.append("idProducto", idProducto);
     formdata.append("idCarrito", idCarrito);
-    console.log(formdata.get("idProducto"))
-    console.log(formdata.get('idCarrito'))
+    //console.log(formdata.get("idProducto"))
+    //console.log(formdata.get('idCarrito'))
     try{
         const res = await fetch('http://localhost:5000/carrito/agregar',{
             method: 'POST',
@@ -61,6 +61,31 @@ export default function Carrito() {
           .catch(error => console.error('Error fetching data:', error));
       }, []);
 
+    const eliminarProducto = (idProducto) => {
+        const formdata = new FormData();
+        formdata.append('idCarrito', cookies.user['idCarrito'])
+        formdata.append('idProducto', idProducto);
+        try{
+            const res = fetch('http://localhost:5000/carrito/eliminarProducto',{
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+                if(data['success']){
+                    const updatedProducts = products.filter(product => product.idProducto !== idProducto);
+                    setProducts(updatedProducts);
+                    Success('Producto eliminado del carrito')
+                }else{
+                    Error('No se pudo eliminar del carrito');
+                }
+            })
+        }catch(error){
+            console.log(error)
+            return error;
+        }
+    }
+
+
     return (
         <>
             <div className="fullscreen-shape"></div>
@@ -92,8 +117,7 @@ export default function Carrito() {
                                     
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-                                        
-                                            <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Opciones</a></div>
+                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto btn-eliminar" href="#" onClick={()=>eliminarProducto(product.idProducto)}>Eliminar</a></div>   
                                        
                                     </div>
                                     
