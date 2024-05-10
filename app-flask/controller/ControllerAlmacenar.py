@@ -57,6 +57,7 @@ def productos_info(idCarrito):
     dict = []
     for fila in productos:
         contador +=1
+        #print(fila)
         dict.append({'idProducto': fila[0], 
                          'idUsuario': fila[1], 
                          'nombreProducto': fila[2], 
@@ -64,7 +65,9 @@ def productos_info(idCarrito):
                          'foto': fila[4],
                          'precio': str(fila[5]),
                          'contacto': fila[6],
-                         'cantidad': fila[7]})
+                         'cantidad': fila[7],
+                        'cantidad_carrito': fila[8]}
+                        )
     """if productos == -1:
         return json.dumps({'error': 'No se encontraron productos en el carrito'})
     print(productos)"""

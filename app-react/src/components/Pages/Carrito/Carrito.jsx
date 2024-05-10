@@ -86,6 +86,7 @@ export default function Carrito() {
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
                                             <p>{product.descripcion}</p>
                                             <p>$ {product.precio}</p>
+                                            <p>Cantidad: {product.cantidad_carrito}</p>
                                         </div>
                                     </div>
                                     

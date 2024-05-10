@@ -53,7 +53,8 @@ def obtener_productos_de_carrito(idCarrito):
 
 # Obtener la informacion de los productos de la tabla producto de acuerdo al id de los productos que están en la tabla almacenar que coincida con el idCarrito
 def obtener_productos_de_carrito(idCarrito):
-    query = text('SELECT * FROM Producto WHERE idProducto IN (SELECT idProducto FROM Almacenar WHERE idCarrito = :idCarrito)')
+    query = text('SELECT p.*, a.cantidad AS cantidad_carrito FROM Producto AS p JOIN Almacenar AS a ON p.idProducto = a.idProducto WHERE a.idCarrito = :idCarrito')
+    #query = text('SELECT * FROM Producto WHERE idProducto IN (SELECT idProducto FROM Almacenar WHERE idCarrito = :idCarrito)')
     productos = db.session.execute(query, {'idCarrito': idCarrito})
     if productos is None:
         print('El carrito con id: ' + str(idCarrito) + ' no tiene productos')
