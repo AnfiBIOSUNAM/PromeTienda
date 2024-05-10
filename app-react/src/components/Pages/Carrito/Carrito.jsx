@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import './Carrito.css'
-import { Success } from '../../Swal/Swal';
+import { Success, Error } from '../../Swal/Swal';
 
 
 
@@ -20,6 +20,11 @@ export async function agregarAlCarrito(idProducto, idCarrito){
             body: formdata
         }).then((response) => response.json()).then((data) => {
             console.log(data);
+            if(data['idCarrito']){
+                Success('Producto agregado al carrito')
+            }else{
+                Error('No se pudo agregar el producto al carrito');
+            }
             return data;
             /*try{
                 if(data['error']){

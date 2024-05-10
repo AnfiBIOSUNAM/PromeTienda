@@ -37,7 +37,7 @@ function VerProducto() {
           <div key={product.idProducto} className="product-item">
             <img src={product.fotourl} alt={product.fotourl} className="product-image" />
             <div className="product-info">
-              <h3>{product.descripcion}</h3>
+              <h3>{product.nombreProducto}</h3>
               <p>${product.precio}</p>
             </div>
             <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
