@@ -8,8 +8,8 @@ almacenar_blueprint = Blueprint('carrito', __name__, url_prefix='/carrito')
 @almacenar_blueprint.route('/agregar', methods=['POST'])
 def agregar_al_carrito():
     try:
-        idProducto = request.json['idProducto']
-        idCarrito = request.json['idCarrito']
+        idProducto = request.form.get('idProducto')
+        idCarrito = request.form.get('idCarrito')
         almacenar = ma.agregar_al_carrito(idProducto, idCarrito)
         if almacenar == -1:
             return json.dumps({'error': 'No se pudo agregar el producto al carrito'})
@@ -21,8 +21,8 @@ def agregar_al_carrito():
 @almacenar_blueprint.route('/aumentar', methods=['POST'])
 def aumentar_cantidad():
     try:
-        idProducto = request.json['idProducto']
-        idCarrito = request.json['idCarrito']
+        idProducto = request.form.get('idProducto')
+        idCarrito = request.form.get('idCarrito')
         almacenar = ma.aumentar_cantidad_producto(idProducto, idCarrito)
         if almacenar == -1:
             return json.dumps({'error': 'No se pudo aumentar la cantidad del producto'})
@@ -33,8 +33,8 @@ def aumentar_cantidad():
 @almacenar_blueprint.route('/eliminarProducto', methods=['POST'])
 def eliminar_producto():
     try:
-        idProducto = request.json['idProducto']
-        idCarrito = request.json['idCarrito']
+        idProducto = request.form.get('idProducto')
+        idCarrito = request.form.get('idCarrito')
         eliminado = ma.quitar_del_carrito(idProducto, idCarrito)
         if eliminado == -1:
             return json.dumps({'error': 'No se pudo eliminar el producto del carrito'})
@@ -48,3 +48,27 @@ def obtener_productos(idCarrito):
     if productos == -1:
         return json.dumps({'error': 'No se encontraron productos en el carrito'})
     return json.dumps([producto.to_dict() for producto in productos])
+
+
+@almacenar_blueprint.route('/productosInfo/<idCarrito>', methods=['GET'])
+def productos_info(idCarrito):
+    productos = ma.obtener_productos_de_carrito(idCarrito)
+    contador=0
+    dict = []
+    for fila in productos:
+        contador +=1
+        #print(fila)
+        dict.append({'idProducto': fila[0], 
+                         'idUsuario': fila[1], 
+                         'nombreProducto': fila[2], 
+                         'descripcion': fila[3],
+                         'foto': fila[4],
+                         'precio': str(fila[5]),
+                         'contacto': fila[6],
+                         'cantidad': fila[7],
+                        'cantidad_carrito': fila[8]}
+                        )
+    """if productos == -1:
+        return json.dumps({'error': 'No se encontraron productos en el carrito'})
+    print(productos)"""
+    return json.dumps(dict)

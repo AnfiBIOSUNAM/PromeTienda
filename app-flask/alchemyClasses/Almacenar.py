@@ -8,12 +8,13 @@ class Almacenar(db.Model):
     idProducto=Column(Integer, ForeignKey('Producto.idProducto'))
     cantidad = Column(Integer)
     
-    def _init_(self, idCarrito, idProducto, cantidad):
+    
+    def __init__(self, idCarrito, idProducto, cantidad):
         self.idCarrito = idCarrito
         self.idProducto = idProducto
         self.cantidad = cantidad
     
-    def _str_(self):
+    def __str__(self):
         return f'Carrito: {self.idCarrito}, Producto: {self.idProducto}, Cantidad: {self.cantidad}'
     
     def to_dict(self):

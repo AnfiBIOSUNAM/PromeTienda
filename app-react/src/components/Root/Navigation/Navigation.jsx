@@ -43,6 +43,15 @@ export default function Navigation(){
                 <li className="nav-item">
                   <a className="nav-link" href="#">About</a>
                 </li>
+                <li className="nav-item">
+                    <NavLink to="/productos" className="nav-link">Productos</NavLink>
+                </li>
+
+                {cookies.user && cookies.user['vendedor']==0 &&
+                  <li>
+                    <NavLink to="/carrito" className="nav-link">Carrito</NavLink>
+                  </li>
+                }
                 
                 {!cookies.user && (
                   <>
@@ -55,9 +64,7 @@ export default function Navigation(){
                   
                   </>
                 )}
-                <li className="nav-item">
-                    <NavLink to="/productos" className="nav-link">Productos</NavLink>
-                  </li>
+                
                 
               </ul>
               {cookies.user && (
