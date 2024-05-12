@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './HomeUser.css'
@@ -7,6 +7,7 @@ import { agregarAlCarrito } from '../Carrito/Carrito';
 
 export default function HomeUser() {
 
+    const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [products, setProducts] = useState([]);
 
@@ -30,6 +31,13 @@ export default function HomeUser() {
         })
     }
 
+    const irADetalle = (product) => {
+        return () => {
+            const jsonStr = JSON.stringify(product)
+            navigate(`/detalle/${encodeURIComponent(jsonStr)}/false`);
+        }
+    }
+
     return (
         <>
             <div className="fullscreen-shape"></div>
@@ -39,7 +47,7 @@ export default function HomeUser() {
             <div className="container px-4 px-lg-5 my-5">
                 <div className="text-center text-white">
                     <h1 className="display-4 fw-bolder">Bienvenido a Prometienda {cookies.user['nombre']}</h1>
-                    <p className="lead fw-normal text-white-50 mb-0">Tu tienda virtual de la Facultad de Ciencias</p>
+                    <p className="lead fw-normal text-white-70 mb-0">Tu tienda virtual de la Facultad de Ciencias</p>
                 </div>
             </div>
         </header>
@@ -56,7 +64,7 @@ export default function HomeUser() {
                                 
                                 <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} />
                                 
-                                <div className="card-body p-4">
+                                <div className="card-body p-4" onClick={irADetalle(product)}>
                                     <div className="text-center">
                                         
                                         <h5 className="fw-bolder">{product.nombreProducto}</h5>
