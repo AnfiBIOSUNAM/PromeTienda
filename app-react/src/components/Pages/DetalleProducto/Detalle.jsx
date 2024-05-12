@@ -15,7 +15,7 @@ export default function Detalle(){
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [contacto, setContacto] = useState("");
     const [numero, setNumero]= useState(1);
-    const [cant, setCant]=useState(jsonDataObject.cantidad_carrito)
+    const [cant, setCant]=useState(jsonDataObject.cantidad_carrito?jsonDataObject.cantidad_carrito:1)
 
     useEffect(()=>{
         axios.get(`http://localhost:5000/usuario/read/${jsonDataObject.idUsuario}`).then(response =>{
@@ -80,7 +80,8 @@ export default function Detalle(){
                                 <p>Contacto: {jsonDataObject.contacto}</p>
                                 <p>Publicación de: {contacto}</p>
                                     
-                                <div className="d-flex">
+                                {cookies.user && cookies.user['vendedor']==0 && 
+                                    <div className="d-flex">
                                     
                                     {carrito==="true" &&
                                         <>
@@ -105,6 +106,8 @@ export default function Detalle(){
                                     
                                     }
                                 </div>
+                                }
+                                
                                 <p>Existencias: {jsonDataObject.cantidad}</p>
                             </div>
                         </div>
