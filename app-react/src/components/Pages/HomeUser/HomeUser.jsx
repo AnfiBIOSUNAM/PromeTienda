@@ -26,7 +26,7 @@ export default function HomeUser() {
     }, []);
 
     const agregar = (idProducto)=>{
-        let res = agregarAlCarrito(idProducto, cookies.user['idCarrito']).then(response => {
+        let res = agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1).then(response => {
             console.log(response)
         })
     }

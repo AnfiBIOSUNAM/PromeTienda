@@ -6,13 +6,13 @@ import './Carrito.css'
 import { Success, Error } from '../../Swal/Swal';
 
 
-export async function agregarAlCarrito(idProducto, idCarrito){
+export async function agregarAlCarrito(idProducto, idCarrito, cantidad){
     console.log(idProducto, idCarrito);
     const formdata = new FormData();
     formdata.append("idProducto", idProducto);
     formdata.append("idCarrito", idCarrito);
-    //console.log(formdata.get("idProducto"))
-    //console.log(formdata.get('idCarrito'))
+    formdata.append("cantidad", cantidad)
+    
     try{
         const res = await fetch('http://localhost:5000/carrito/agregar',{
             method: 'POST',
@@ -25,15 +25,7 @@ export async function agregarAlCarrito(idProducto, idCarrito){
                 Error('No se pudo agregar el producto al carrito');
             }
             return data;
-            /*try{
-                if(data['error']){
-                    Error('No se pudo agregar el producto al carrito');
-                }else{
-                    Success('Producto agregado al carrito')
-                }
-            }catch(error){
-                console.log(error);
-            }*/
+            
         })
     }catch(error){
         console.log(error)

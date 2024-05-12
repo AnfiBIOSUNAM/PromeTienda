@@ -10,7 +10,8 @@ def agregar_al_carrito():
     try:
         idProducto = request.form.get('idProducto')
         idCarrito = request.form.get('idCarrito')
-        almacenar = ma.agregar_al_carrito(idProducto, idCarrito)
+        cantidad = request.form.get('cantidad')
+        almacenar = ma.agregar_al_carrito(idProducto, idCarrito, cantidad)
         if almacenar == -1:
             return json.dumps({'error': 'No se pudo agregar el producto al carrito'})
         return json.dumps(almacenar.to_dict())
