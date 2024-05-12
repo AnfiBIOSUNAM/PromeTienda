@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom";
-import { agregarAlCarrito } from "../Carrito/Carrito";
+import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import './Detalle.css'
@@ -15,6 +15,7 @@ export default function Detalle(){
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [contacto, setContacto] = useState("");
     const [numero, setNumero]= useState(1);
+    const [cant, setCant]=useState(jsonDataObject.cantidad_carrito)
 
     useEffect(()=>{
         axios.get(`http://localhost:5000/usuario/read/${jsonDataObject.idUsuario}`).then(response =>{
@@ -40,8 +41,24 @@ export default function Detalle(){
 
     function agregar(){
         let res = agregarAlCarrito(jsonDataObject.idProducto, cookies.user['idCarrito'], numero).then(response => {
-            console.log(response)
+            console.log(res)
         })
+    }
+
+    function poner(){
+        if (cant < jsonDataObject.cantidad){
+            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant+1)
+            console.log(res)
+            setCant(cant+1)
+        }
+    }
+
+    function quitar(){
+        if(cant-1>0){
+            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant-1)
+            console.log(res)
+            setCant(cant-1)
+        }
     }
 
     return(
@@ -67,9 +84,9 @@ export default function Detalle(){
                                     
                                     {carrito==="true" &&
                                         <>
-                                      <button className="btn st-btn">-</button>
-                                      <p className="m-3">{jsonDataObject.cantidad_carrito}</p>
-                                      <button className="btn st-btn">+</button>
+                                      <button className="btn st-btn" onClick={()=>quitar()}>-</button>
+                                      <p className="m-3">{cant}</p>
+                                      <button className="btn st-btn" onClick={()=>poner()}>+</button>
                                       </>
                                     }
                                     {carrito==="false"&&

@@ -33,6 +33,24 @@ export async function agregarAlCarrito(idProducto, idCarrito, cantidad){
     }
 }
 
+export function cambiarCantidad(idProducto, idCarrito, cantidad){
+    const formdata = new FormData();
+    formdata.append('idCarrito', idCarrito)
+    formdata.append('idProducto', idProducto);
+    formdata.append('cantidad', cantidad);
+    try{
+        const res = fetch('http://localhost:5000/carrito/editarCantidad',{
+            method: 'POST',
+            body: formdata
+        }).then((response) => response.json()).then((data) => {
+            console.log(data);
+        })
+    }catch(error){
+        console.log(error)
+        return error;
+    }
+}
+
 export default function Carrito() {
 
     const navigate = useNavigate();
