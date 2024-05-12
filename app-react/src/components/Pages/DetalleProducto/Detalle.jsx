@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import { useLocation, useParams } from "react-router-dom";
+import { agregarAlCarrito } from "../Carrito/Carrito";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 import './Detalle.css'
 
@@ -10,6 +12,7 @@ export default function Detalle(){
     const producto = decodeURIComponent(product)
     const jsonDataObject = JSON.parse(producto)
 
+    const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [contacto, setContacto] = useState("");
     const [numero, setNumero]= useState(1);
 
@@ -35,7 +38,11 @@ export default function Detalle(){
         }
     }
 
-    function agregar(){}
+    function agregar(){
+        let res = agregarAlCarrito(jsonDataObject.idProducto, cookies.user['idCarrito'], numero).then(response => {
+            console.log(response)
+        })
+    }
 
     return(
        
