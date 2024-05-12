@@ -62,7 +62,7 @@ export default function HomeUser() {
 
                             <div key={product.idProducto} className="card h-100">
                                 
-                                <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} />
+                                <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)}/>
                                 
                                 <div className="card-body p-4" onClick={irADetalle(product)}>
                                     <div className="text-center">
