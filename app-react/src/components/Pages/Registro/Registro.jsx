@@ -129,15 +129,15 @@ export default function Registro() {
                     <div className="radio">
                     <div>
                         <input className="form-check-input" type='radio' name='imagen' id='imagen1' value='1' defaultChecked/>
-                        <img src={gato} alt='Gato' className='img-thumbnail imagen-perfil'/>
+                        <img src={gato} alt='Gato' className='imagen-perfil'/>
                     </div>
                     <div>
                         <input className="form-check-input" type='radio' name='imagen' id='imagen2' value='2'/>
-                        <img src={perro} alt='Perro' className='img-thumbnail imagen-perfil'/>
+                        <img src={perro} alt='Perro' className='imagen-perfil'/>
                     </div>
                     <div>
                         <input className="form-check-input" type='radio' name='imagen' id='imagen3' value='3'/>
-                        <img src={arbol} alt='Arbol' className='img-thumbnail imagen-perfil'/>
+                        <img src={arbol} alt='Arbol' className='imagen-perfil'/>
                     </div>
                 </div>
                 <fieldset>

@@ -1,10 +1,9 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import './Carrito.css'
 import { Success, Error } from '../../Swal/Swal';
-
 
 
 export async function agregarAlCarrito(idProducto, idCarrito){
@@ -43,6 +42,8 @@ export async function agregarAlCarrito(idProducto, idCarrito){
 }
 
 export default function Carrito() {
+
+    const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
@@ -85,6 +86,13 @@ export default function Carrito() {
         }
     }
 
+    const irADetalle = (product) => {
+        return () => {
+            const jsonStr = JSON.stringify(product)
+            navigate(`/detalle/${encodeURIComponent(jsonStr)}/true`);
+        }
+    }
+
 
     return (
         <>
@@ -105,7 +113,7 @@ export default function Carrito() {
                                     
                                     <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} />
                                     
-                                    <div className="card-body p-4">
+                                    <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
