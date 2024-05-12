@@ -30,6 +30,20 @@ def aumentar_cantidad():
         return json.dumps(almacenar.to_dict())
     except:
         return json.dumps({'error': 'No se pudo aumentar la cantidad del producto por falta de datos'})
+ 
+ 
+@almacenar_blueprint.route('/editarCantidad', methods=['POST'])
+def editar_cantidad():
+    try:
+        idProducto = request.form.get('idProducto')
+        idCarrito = request.form.get('idCarrito')
+        cantidad = request.form.get('cantidad')
+        almacenar = ma.editar_cantidad(idProducto, idCarrito, cantidad)
+        if almacenar == -1:
+            return json.dumps({'error': 'No se pudo editar la cantidad del producto'})
+        return json.dumps(almacenar.to_dict())
+    except:
+        return json.dumps({'error': 'No se pudo editar la cantidad del producto por falta de datos'})
     
 @almacenar_blueprint.route('/eliminarProducto', methods=['POST'])
 def eliminar_producto():

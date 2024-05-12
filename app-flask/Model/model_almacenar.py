@@ -29,7 +29,18 @@ def agregar_al_carrito(idProducto, idCarrito, numero):
             return producto
         except:
             return -1
-    
+   
+def editar_cantidad(idProducto, idCarrito, numero):
+    producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
+    if producto is None:
+        print('El producto con id: ' + str(idProducto) + ' no está en el carrito con id: ' + str(idCarrito))
+        return -1
+    producto.cantidad = int(numero)
+    try:
+        db.session.commit()
+        return producto
+    except:
+        return -1 
     
     
 def aumentar_cantidad_producto(idProducto, idCarrito):

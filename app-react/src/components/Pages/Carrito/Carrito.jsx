@@ -80,8 +80,29 @@ export default function Carrito() {
 
     const irADetalle = (product) => {
         return () => {
+            if(product.cantidad_carrito>product.cantidad){
+                product.cantidad_carrito=product.cantidad
+            }
             const jsonStr = JSON.stringify(product)
             navigate(`/detalle/${encodeURIComponent(jsonStr)}/true`);
+        }
+    }
+
+    const modificaCantidad = (idProducto, cantidad) => {
+        const formdata = new FormData();
+        formdata.append('idCarrito', cookies.user['idCarrito'])
+        formdata.append('idProducto', idProducto);
+        formdata.append('cantidad', cantidad);
+        try{
+            const res = fetch('http://localhost:5000/carrito/editarCantidad',{
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+            })
+        }catch(error){
+            console.log(error)
+            return error;
         }
     }
 
@@ -109,9 +130,8 @@ export default function Carrito() {
                                         <div className="text-center">
                                             
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
-                                            <p>{product.descripcion}</p>
                                             <p>$ {product.precio}</p>
-                                            <p>Cantidad: {product.cantidad_carrito}</p>
+                                            <p>Cantidad: {product.cantidad_carrito > product.cantidad? (<>{product.cantidad} {modificaCantidad(product.idProducto, product.cantidad)}</>) : product.cantidad_carrito}</p>
                                         </div>
                                     </div>
                                     
