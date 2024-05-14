@@ -12,6 +12,7 @@ function ActualizarProducto() {
     const [descripcion, setDescripcion] = useState('');
     const [imagenes, setImagenes] = useState([]);
     const [imagen, setImagen] = useState([]);
+    const [imagenCambiada, setImagenCambiada] = useState(false);
     const [precio, setPrecio] = useState('');
     const [contacto, setContacto] = useState('');
     const [cantidad, setCantidad] = useState('');
@@ -99,6 +100,8 @@ function ActualizarProducto() {
         const files = e.target.files;
         const arrayFiles = Array.from(files);
         setImagenes(arrayFiles);
+        setImagenCambiada(true);
+
     }
 
     const guardar_imagenes = async () => {
@@ -218,8 +221,9 @@ function ActualizarProducto() {
 
         console.log(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
 
-
+        if(imagenCambiada===true){
         manejarImagen(idProducto, idUsuario);
+        }
         actualizarProducto(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
     };
 
@@ -310,7 +314,7 @@ function ActualizarProducto() {
                         if (categoriasSeleccionadas.length > 0) {
                             actualizar_categorias(categoriasSeleccionadas);
                         }
-                        if (imagenes.length > 0) {
+                        if (imagenCambiada === true) {
 
 
                             guardar_imagenes();
