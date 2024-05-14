@@ -6,14 +6,16 @@ export default function Error(){
     const error = useRouteError();
     return(
         <div id="error-page">
+            <div className="fullscreen-shape"></div>
+
             <h1>Oops!</h1>
-            <p>Sorry, an unexpected error has occurred</p>
-            <p>
+            <h2>Ha ocurrido un error inesperado</h2>
+            <h3>
                 <i>
                     {error.statusText || error.message}
                 </i>
-            </p>
-            <Link to='/'>Go back home</Link>
+            </h3>
+            <Link to='/'><button className="btn btn-secondary return">Go back home</button></Link>
         </div>
     )
 }

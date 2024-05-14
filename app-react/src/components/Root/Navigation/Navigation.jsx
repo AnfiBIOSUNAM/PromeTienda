@@ -34,46 +34,39 @@ export default function Navigation(){
                   <NavLink to="/home" className="nav-link">Home</NavLink>
                 </li>
                 )}
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Features</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">Pricing</a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#">About</a>
-                </li>
+
                 <li className="nav-item">
                     <NavLink to="/productos" className="nav-link">Productos</NavLink>
                 </li>
-
-                {cookies.user && cookies.user['vendedor']==0 &&
-                  <li>
-                    <NavLink to="/carrito" className="nav-link">Carrito</NavLink>
-                  </li>
-                }
                 
                 {!cookies.user && (
-                  <>
-                  <li className="nav-item">
-                    <NavLink to="/registro" className="nav-link">Registrarse</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink to="/login" className="nav-link">Login</NavLink>
-                  </li>
+                  <div className='d-flex registro'>
+                    <li className="nav-item">
+                      <NavLink to="/registro" className="nav-link">Registrarse</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink to="/login" className="nav-link">Login</NavLink>
+                    </li>
                   
-                  </>
+                  </div>
                 )}
                 
                 
               </ul>
               {cookies.user && (
-                <div className='foto'>
-                    <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{<img src={cookies.user.imagen} alt="Imagen de perfil" className="imagen-perfil" />}</a>
-                    <div className="dropdown-menu  position-dropdown">
-                      <NavLink to="#" className="dropdown-item">Ver perfil</NavLink>
-                      <NavLink to="/" className="dropdown-item" onClick={handleLogout}>Cerrar sesión</NavLink>
-                    </div>
+                <div className='d-flex'>
+                  {cookies.user['vendedor']==0 &&
+                    <li className="carrito">
+                      <NavLink to="/carrito" className="nav-link"><i class="bi bi-cart4 tam"></i></NavLink>
+                    </li>
+                  }
+                  <div className='foto'>
+                      <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{<img src={cookies.user.imagen} alt="Imagen de perfil" className="imagen-perfil" />}</a>
+                      <div className="dropdown-menu  position-dropdown">
+                        <NavLink to="#" className="dropdown-item">Ver perfil</NavLink>
+                        <NavLink to="/" className="dropdown-item" onClick={handleLogout}>Cerrar sesión</NavLink>
+                      </div>
+                  </div>
                 </div>
               )}
             </div>
