@@ -26,3 +26,23 @@ img{
 .foto{
     margin-right: 3%;
 }
+
+.carrito{
+    /*Poner el carrito a la derecha*/
+    /*right: 10%;
+    position: absolute;
+    margin-right:1%;*/
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 22px;
+    margin-top:10px;
+}
+
+.tam{
+    font-size: 1.5em;
+}
+
+.registro{
+    position:absolute;
+    right: 5%;
+}

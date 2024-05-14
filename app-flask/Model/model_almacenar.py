@@ -11,11 +11,11 @@ from sqlalchemy import text
     except:
         return -1"""
     
-def agregar_al_carrito(idProducto, idCarrito):
+def agregar_al_carrito(idProducto, idCarrito, numero):
     
     producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
     if producto is None:
-        new_producto = Almacenar(idCarrito, idProducto, 1)
+        new_producto = Almacenar(idCarrito, idProducto, numero)
         try:
             db.session.add(new_producto)
             db.session.commit()
@@ -23,13 +23,24 @@ def agregar_al_carrito(idProducto, idCarrito):
         except:
             return -1
     else:
-        producto.cantidad += 1
+        producto.cantidad = producto.cantidad + int(numero)
         try:
             db.session.commit()
             return producto
         except:
             return -1
-    
+   
+def editar_cantidad(idProducto, idCarrito, numero):
+    producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
+    if producto is None:
+        print('El producto con id: ' + str(idProducto) + ' no está en el carrito con id: ' + str(idCarrito))
+        return -1
+    producto.cantidad = int(numero)
+    try:
+        db.session.commit()
+        return producto
+    except:
+        return -1 
     
     
 def aumentar_cantidad_producto(idProducto, idCarrito):

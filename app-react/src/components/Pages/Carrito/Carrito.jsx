@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -6,14 +6,13 @@ import './Carrito.css'
 import { Success, Error } from '../../Swal/Swal';
 
 
-
-export async function agregarAlCarrito(idProducto, idCarrito){
+export async function agregarAlCarrito(idProducto, idCarrito, cantidad){
     console.log(idProducto, idCarrito);
     const formdata = new FormData();
     formdata.append("idProducto", idProducto);
     formdata.append("idCarrito", idCarrito);
-    //console.log(formdata.get("idProducto"))
-    //console.log(formdata.get('idCarrito'))
+    formdata.append("cantidad", cantidad)
+    
     try{
         const res = await fetch('http://localhost:5000/carrito/agregar',{
             method: 'POST',
@@ -26,15 +25,25 @@ export async function agregarAlCarrito(idProducto, idCarrito){
                 Error('No se pudo agregar el producto al carrito');
             }
             return data;
-            /*try{
-                if(data['error']){
-                    Error('No se pudo agregar el producto al carrito');
-                }else{
-                    Success('Producto agregado al carrito')
-                }
-            }catch(error){
-                console.log(error);
-            }*/
+            
+        })
+    }catch(error){
+        console.log(error)
+        return error;
+    }
+}
+
+export function cambiarCantidad(idProducto, idCarrito, cantidad){
+    const formdata = new FormData();
+    formdata.append('idCarrito', idCarrito)
+    formdata.append('idProducto', idProducto);
+    formdata.append('cantidad', cantidad);
+    try{
+        const res = fetch('http://localhost:5000/carrito/editarCantidad',{
+            method: 'POST',
+            body: formdata
+        }).then((response) => response.json()).then((data) => {
+            console.log(data);
         })
     }catch(error){
         console.log(error)
@@ -43,6 +52,8 @@ export async function agregarAlCarrito(idProducto, idCarrito){
 }
 
 export default function Carrito() {
+
+    const navigate = useNavigate();
 
     const [products, setProducts] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
@@ -85,6 +96,34 @@ export default function Carrito() {
         }
     }
 
+    const irADetalle = (product) => {
+        return () => {
+            if(product.cantidad_carrito>product.cantidad){
+                product.cantidad_carrito=product.cantidad
+            }
+            const jsonStr = JSON.stringify(product)
+            navigate(`/detalle/${encodeURIComponent(jsonStr)}/true`);
+        }
+    }
+
+    const modificaCantidad = (idProducto, cantidad) => {
+        const formdata = new FormData();
+        formdata.append('idCarrito', cookies.user['idCarrito'])
+        formdata.append('idProducto', idProducto);
+        formdata.append('cantidad', cantidad);
+        try{
+            const res = fetch('http://localhost:5000/carrito/editarCantidad',{
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+            })
+        }catch(error){
+            console.log(error)
+            return error;
+        }
+    }
+
 
     return (
         <>
@@ -103,15 +142,14 @@ export default function Carrito() {
 
                                 <div key={product.idProducto} className="card h-100">
                                     
-                                    <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} />
+                                    <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
                                     
-                                    <div className="card-body p-4">
+                                    <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
-                                            <p>{product.descripcion}</p>
                                             <p>$ {product.precio}</p>
-                                            <p>Cantidad: {product.cantidad_carrito}</p>
+                                            <p>Cantidad: {product.cantidad_carrito > product.cantidad? (<>{product.cantidad} {modificaCantidad(product.idProducto, product.cantidad)}</>) : product.cantidad_carrito}</p>
                                         </div>
                                     </div>
                                     
