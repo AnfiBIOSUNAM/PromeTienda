@@ -52,11 +52,11 @@ function VerProducto() {
             </div>
             <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 {cookies.user && cookies.user['vendedor']==0 &&(
-                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#" onClick={()=>agregar(product.idProducto)}>Agregar al carrito</a></div>
+                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#" onClick={()=>agregar(product.idProducto)}><i class="bi bi-cart4"/>  Agregar al carrito</a></div>
                 )}
 
                 {cookies.user && cookies.user['vendedor']==1 &&(
-                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Opciones</a></div>
+                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#"><i class="bi bi-gear"/>  Opciones</a></div>
                 )}
             </div>
           </div>
