@@ -50,4 +50,8 @@
     margin: 20px;
     padding: 10px 20px;
 }
+
+.card-borrosa{
+  filter: blur(5px);
+}
   

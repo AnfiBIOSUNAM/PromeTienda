@@ -30,7 +30,7 @@ function VerProducto() {
         if(vendedor){
           filtrar(updatedProducts)
         }else{
-          setProducts(updatedProducts);
+          quitarSinExistencias(updatedProducts)
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -59,6 +59,11 @@ function VerProducto() {
 
   const filtrar = (productos) => {
     let productosFiltrados = productos.filter(producto => producto.idUsuario === cookies.user['idUsuario'])
+    setProducts(productosFiltrados)
+  }
+
+  const quitarSinExistencias = (productos) => {
+    let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
     setProducts(productosFiltrados)
   }
 
@@ -98,7 +103,7 @@ function VerProducto() {
               </p>
             )}
             {products.map(product => (
-              <div key={product.idProducto} className="product-item m-2">
+              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad===0 ? 'card-borrosa ' : ''}`}>
                 <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
                 <div className="product-info" onClick={irADetalle(product)}>
                   <h3>{product.nombreProducto}</h3>
