@@ -61,16 +61,22 @@ export default function Carrito() {
     useEffect(() => {
         axios.get(`http://localhost:5000/carrito/productosInfo/${cookies.user['idCarrito']}`)
           .then(response => {
-            const updatedProducts = response.data.map(product => {
+            var updatedProducts = response.data.map(product => {
               return {
                 ...product,
                 fotourl: `http://localhost:5000/imagenes/${product.foto}` // Construir la URL completa aquí
               };
             });
-            setProducts(updatedProducts);
+            quitarSinExistencias(updatedProducts);
           })
           .catch(error => console.error('Error fetching data:', error));
-      }, []);
+    }, []);
+
+    const quitarSinExistencias = (productos) => {
+        let productosFiltrados = productos.filter(producto => producto.cantidad_carrito > 0)
+        setProducts(productosFiltrados)
+    }
+      
 
     const eliminarProducto = (idProducto) => {
         const formdata = new FormData();
@@ -125,7 +131,7 @@ export default function Carrito() {
     }
 
     const comprar = () => {
-        
+
     }
 
 

@@ -103,7 +103,7 @@ function VerProducto() {
               </p>
             )}
             {products.map(product => (
-              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad===0 ? 'card-borrosa ' : ''}`}>
+              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad<=0 ? 'card-borrosa ' : ''}`}>
                 <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
                 <div className="product-info" onClick={irADetalle(product)}>
                   <h3>{product.nombreProducto}</h3>
