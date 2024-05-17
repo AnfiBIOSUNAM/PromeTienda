@@ -73,7 +73,7 @@ export default function Carrito() {
     }, []);
 
     const quitarSinExistencias = (productos) => {
-        let productosFiltrados = productos.filter(producto => producto.cantidad_carrito > 0)
+        let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
         setProducts(productosFiltrados)
     }
       
