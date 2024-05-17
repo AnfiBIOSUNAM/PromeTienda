@@ -68,33 +68,39 @@ function VerProducto() {
           <option value="otra">Otra</option>
         </select>
       </div>
-      <div className="products-container">
-        {products.map(product => (
-          <div key={product.idProducto} className="product-item">
-            <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
-            <div className="product-info" onClick={irADetalle(product)}>
-              <h3>{product.nombreProducto}</h3>
-              <p>${product.precio}</p>
-            </div>
-            <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              {cookies.user && cookies.user['vendedor'] === 0 && (
-                <div className="text-center">
-                  <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
-                    <i className="bi bi-cart4" /> Agregar al carrito
-                  </button>
+
+
+      <section className="py-5">
+        <div className="container px-4 px-lg-5 mt-5">
+            <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
+            {products.map(product => (
+              <div key={product.idProducto} className="product-item m-2">
+                <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
+                <div className="product-info" onClick={irADetalle(product)}>
+                  <h3>{product.nombreProducto}</h3>
+                  <p>${product.precio}</p>
                 </div>
-              )}
-              {cookies.user && cookies.user['vendedor'] === 1 && (
-                <div className="text-center">
-                  <button className="btn btn-outline-dark mt-auto">
-                    <i className="bi bi-gear" /> Opciones
-                  </button>
+                <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                  {cookies.user && cookies.user['vendedor'] === 0 && (
+                    <div className="text-center">
+                      <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
+                        <i className="bi bi-cart4" /> Agregar al carrito
+                      </button>
+                    </div>
+                  )}
+                  {cookies.user && cookies.user['vendedor'] === 1 && (
+                    <div className="text-center">
+                      <button className="btn btn-outline-dark mt-auto">
+                        <i className="bi bi-gear" /> Opciones
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+            ))}
             </div>
-          </div>
-        ))}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }
