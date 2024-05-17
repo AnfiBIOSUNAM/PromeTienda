@@ -19,11 +19,15 @@ export default function HomeUser() {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
                 }
                 const response = await axios.get(url);
-                const updatedProducts = response.data.map(product => ({
+                var updatedProducts = response.data.map(product => ({
                     ...product,
                     fotourl: `http://localhost:5000/imagenes/${product.foto}`
                 }));
-                setProducts(updatedProducts);
+                if(cookies.user && cookies.user['vendedor']==1){
+                    filtrar(updatedProducts)
+                }else{
+                    setProducts(updatedProducts);
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -48,6 +52,11 @@ export default function HomeUser() {
             navigate(`/detalle/${encodeURIComponent(jsonStr)}/false`);
         }
     }
+
+    const filtrar = (productos) => {
+        let productosFiltrados = productos.filter(producto => producto.idUsuario === cookies.user['idUsuario'])
+        setProducts(productosFiltrados)
+      }
 
     return (
         <>
@@ -117,7 +126,7 @@ export default function HomeUser() {
                 )}
                 {cookies.user['vendedor'] === 1 && (
                     <>
-                        <NavLink to='#' className={'btn btn-azul'}>Ver todos mis productos en venta</NavLink>
+                        <NavLink to='/productos/ver' className={'btn btn-azul'}>Ver todos mis productos en venta</NavLink>
                         <NavLink to='/productos/registrar' className={'btn btn-azul'}>Registrar producto</NavLink>
                     </>
                 )}
