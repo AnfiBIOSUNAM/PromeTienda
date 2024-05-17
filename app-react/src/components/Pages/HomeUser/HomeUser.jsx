@@ -26,7 +26,7 @@ export default function HomeUser() {
                 if(cookies.user && cookies.user['vendedor']==1){
                     filtrar(updatedProducts)
                 }else{
-                    setProducts(updatedProducts);
+                    quitarSinExistencias(updatedProducts)
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
@@ -55,6 +55,11 @@ export default function HomeUser() {
 
     const filtrar = (productos) => {
         let productosFiltrados = productos.filter(producto => producto.idUsuario === cookies.user['idUsuario'])
+        setProducts(productosFiltrados)
+    }
+
+    const quitarSinExistencias = (productos) => {
+        let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
         setProducts(productosFiltrados)
       }
 
@@ -87,7 +92,7 @@ export default function HomeUser() {
                 <div className="container px-4 px-lg-5 mt-5">
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {products.slice(0, 8).map(product => (
-                            <div className="col mb-5" key={product.idProducto}>
+                            <div className={`col mb-5 ${product.cantidad=== 0 ? 'card-borrosa':''}`} key={product.idProducto}>
                                 <div className="card h-100">
                                     <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
