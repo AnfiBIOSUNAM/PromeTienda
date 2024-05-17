@@ -7,34 +7,46 @@ import './Ver_Producto.css'
 
 function VerProducto() {
   const [products, setProducts] = useState([]);
+  const [category, setCategory] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get('http://localhost:5000/products')
-      .then(response => {
-        const updatedProducts = response.data.map(product => {
-          return {
-            ...product,
-            fotourl: `http://localhost:5000/imagenes/${product.foto}` // Construir la URL completa aquí
-          };
-        });
+    const fetchProducts = async () => {
+      try {
+        let url = 'http://localhost:5000/producto/read';
+        if (category) {
+          url = `http://localhost:5000/producto/read/categoria/${category}`;
+        }
+        const response = await axios.get(url);
+        const updatedProducts = response.data.map(product => ({
+          ...product,
+          fotourl: `http://localhost:5000/imagenes/${product.foto}`
+        }));
         setProducts(updatedProducts);
-      })
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
-  const agregar = (idProducto)=>{
-    let res = agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1).then(response => {
-        console.log(res)
-    })
+    fetchProducts();
+  }, [category]);
+
+  const agregar = (idProducto) => {
+    agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
+      .then(response => {
+        console.log(response)
+      })
+      .catch(error => {
+        console.error('Error adding to cart:', error);
+      });
   }
 
   const irADetalle = (product) => {
     return () => {
-        const jsonStr = JSON.stringify(product)
-        navigate(`/detalle/${encodeURIComponent(jsonStr)}/false`);
+      const jsonStr = JSON.stringify(product)
+      navigate(`/detalle/${encodeURIComponent(jsonStr)}/false`);
     }
   }
 
@@ -42,6 +54,20 @@ function VerProducto() {
     <div>
       <div className="fullscreen-shape"></div>
       <h1>Productos</h1>
+      <div className="products-container">
+        <label>Selecciona una categoría:</label>
+        <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
+          <option value="">Todo</option>
+          <option value="alimentos">Alimentos</option>
+          <option value="electronica">Electrónica</option>
+          <option value="ropa">Ropa</option>
+          <option value="flores">Flores</option>
+          <option value="accesorios">Accesorios</option>
+          <option value="papeleria">Papelería</option>
+          <option value="regalos">Regalos</option>
+          <option value="otra">Otra</option>
+        </select>
+      </div>
       <div className="products-container">
         {products.map(product => (
           <div key={product.idProducto} className="product-item">
@@ -51,13 +77,20 @@ function VerProducto() {
               <p>${product.precio}</p>
             </div>
             <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                {cookies.user && cookies.user['vendedor']==0 &&(
-                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#" onClick={()=>agregar(product.idProducto)}><i class="bi bi-cart4"/>  Agregar al carrito</a></div>
-                )}
-
-                {cookies.user && cookies.user['vendedor']==1 &&(
-                    <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#"><i class="bi bi-gear"/>  Opciones</a></div>
-                )}
+              {cookies.user && cookies.user['vendedor'] === 0 && (
+                <div className="text-center">
+                  <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
+                    <i className="bi bi-cart4" /> Agregar al carrito
+                  </button>
+                </div>
+              )}
+              {cookies.user && cookies.user['vendedor'] === 1 && (
+                <div className="text-center">
+                  <button className="btn btn-outline-dark mt-auto">
+                    <i className="bi bi-gear" /> Opciones
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         ))}
