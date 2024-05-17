@@ -124,6 +124,10 @@ export default function Carrito() {
         }
     }
 
+    const comprar = () => {
+        
+    }
+
 
     return (
         <>
@@ -155,7 +159,7 @@ export default function Carrito() {
                                     
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto btn-eliminar" href="#" onClick={()=>eliminarProducto(product.idProducto)}>Eliminar</a></div>   
+                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto btn-eliminar" href="#" onClick={()=>eliminarProducto(product.idProducto)}><i class="bi bi-trash3"/> Eliminar</a></div>   
                                        
                                     </div>
                                     
@@ -164,6 +168,9 @@ export default function Carrito() {
                         ))}
                         
                     </div>
+                </div>
+                <div className='text-center'>
+                    <button className='p-4 btn-azul fs-5' onClick={()=>comprar()}>Comprar</button>
                 </div>
             </section>
 
