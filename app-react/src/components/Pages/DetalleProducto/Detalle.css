@@ -59,3 +59,12 @@
     background-color: rgb(31, 31, 31);
     color: white;
 }
+
+.link{
+    text-decoration: none;
+    color: #2b36b0;
+}
+
+.link:hover{
+    color: black;
+}

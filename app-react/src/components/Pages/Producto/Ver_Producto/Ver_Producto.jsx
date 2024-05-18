@@ -92,7 +92,9 @@ function VerProducto() {
         </div>
       )}
       
-
+      {!cookies.user && (
+        <p className='text-center mt-5 mb-0 text-white'><NavLink to='/login' className='link'>Inicia sesión </NavLink>para comenzar a comprar</p>
+      )}
 
       <section className="py-5">
         <div className="container px-4 px-lg-5 mt-5">
@@ -110,7 +112,7 @@ function VerProducto() {
                   <p>${product.precio}</p>
                 </div>
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                  {!vendedor && (
+                  {cookies.user && !vendedor && (
                     <div className="text-center">
                       <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
                         <i className="bi bi-cart4" /> Agregar al carrito

@@ -82,7 +82,7 @@ export default function Detalle(){
                                 <p>Contacto: {jsonDataObject.contacto}</p>
                                 <p>Publicación de: {contacto}</p>
                                     
-                                {!vendedor && 
+                                {cookies.user && !vendedor && 
                                     <div className="d-flex">
                                     
                                     {carrito==="true" &&
@@ -117,6 +117,11 @@ export default function Detalle(){
                                         <NavLink className={'editar m-2'}><i class="bi bi-pencil-square"/> Editar</NavLink>
                                         <NavLink className={'eliminar'}><i class="bi bi-trash3"/> Eliminar</NavLink>
                                     </div>
+                                )}
+
+                                {!cookies.user && (
+                                    <p><NavLink to="/login" className='link'>Inicia sesión </NavLink>para comprar este producto</p>
+                                
                                 )}
                                 
                             </div>

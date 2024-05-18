@@ -98,7 +98,6 @@ export default function HomeUser() {
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
-                                            <p>{product.descripcion}</p>
                                             <p>$ {product.precio}</p>
                                         </div>
                                     </div>
