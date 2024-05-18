@@ -8,3 +8,27 @@
     z-index: -2; /* Para colocar el div detrás del contenido */
 }
 
+
+.image-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+}
+
+.custom-image{
+    min-height: 400px;
+    min-width: 400px;
+}
+
+.link{
+    text-decoration: none;
+    color: #2b36b0;
+}
+
+.link:hover{
+    color: black;
+}
+

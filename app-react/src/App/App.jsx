@@ -17,7 +17,8 @@ import Detalle from '../components/Pages/DetalleProducto/Detalle.jsx';
 function NoPermissions({mensaje}){
   return(
     <>
-    <h1>{mensaje}</h1>
+      <div className="fullscreen-shape"></div>
+      <h1 className='text-white m-5'>{mensaje}</h1>
     </>
   )
 }

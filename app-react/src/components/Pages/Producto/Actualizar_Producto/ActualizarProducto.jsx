@@ -340,7 +340,7 @@ function ActualizarProducto() {
     return (
         <>
             <div className="form-container">
-                <h1>Actualizar Producto</h1>
+                <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>
                         <div>

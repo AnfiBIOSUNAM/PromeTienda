@@ -165,7 +165,9 @@ export default function RegistroP(){
 
     return(
         <div className="container">
-            <h1>Registro de Producto</h1>
+            <div className="fullscreen-shape"></div>
+
+            <h1 className="text-white">Registro de Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
                     <label htmlFor="nombre" className="form-label">Nombre</label>

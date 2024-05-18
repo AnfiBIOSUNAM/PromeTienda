@@ -62,25 +62,25 @@ export default function Login() {
 
     return (
         <>
-        <div className="form-container">
-        <h1>Login</h1>
-        <form className='m-5' onSubmit={handleSubmit}>
-            <fieldset>
-                <div>
-                <label htmlFor="correo" className="form-label mt-4">Correo electrónico</label>
-                <input type="email" className="form-control" id="correo" aria-describedby="emailHelp" placeholder="correo@ejemplo.com" required/>
-                </div>
-                <div>
-                <label htmlFor="contraseña" className="form-label mt-4">Contraseña</label>
-                <input type="password" className="form-control" id="contraseña" placeholder="Contraseña" autoComplete="off" required/>
-                </div>
-                <div className='text-center'>
-                <button type="submit" className="btn btn-primary">Login</button>
-                </div>
-                
-            </fieldset>
-        </form>
-        </div>
+            <div className="fullscreen-shape"></div>
+
+            <h1 className="text-white">Login</h1>
+            <form className='m-5' onSubmit={handleSubmit}>
+                <fieldset>
+                    <div>
+                    <label htmlFor="correo" className="form-label mt-4">Correo electrónico</label>
+                    <input type="email" className="form-control" id="correo" aria-describedby="emailHelp" placeholder="correo@ejemplo.com" required/>
+                    </div>
+                    <div>
+                    <label htmlFor="contraseña" className="form-label mt-4">Contraseña</label>
+                    <input type="password" className="form-control" id="contraseña" placeholder="Contraseña" autoComplete="off" required/>
+                    </div>
+                    <div className='text-center'>
+                    <button type="submit" className="btn btn-primary">Login</button>
+                    </div>
+                    
+                </fieldset>
+            </form>
         </>
     );
 }

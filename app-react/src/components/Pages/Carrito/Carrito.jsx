@@ -139,7 +139,7 @@ export default function Carrito() {
         <>
             <div className="fullscreen-shape"></div>
 
-            <h1 className='text-center mt-3'>Carrito</h1>
+            <h1 className='text-center mt-3 text-white'>Carrito</h1>
             <section className="py-5">
                 {products.length==0 && (
                     <p className='text-center'>No hay productos en tu carrito</p>

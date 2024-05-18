@@ -70,9 +70,9 @@ function VerProducto() {
   return (
     <div>
       <div className="fullscreen-shape"></div>
-      <h1>Productos</h1>
+      <h1 className='text-white'>Productos</h1>
       <div className="products-container">
-        <label>Selecciona una categoría:</label>
+        <label className='text-white'>Selecciona una categoría:</label>
         <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
           <option value="">Todo</option>
           <option value="alimentos">Alimentos</option>
