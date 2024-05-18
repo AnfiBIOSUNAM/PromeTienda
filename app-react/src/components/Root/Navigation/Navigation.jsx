@@ -1,7 +1,7 @@
 import './Navigation.css'
 import { NavLink } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-import logo from "../../../Images/logo.png"
+import logo from "../../../Images/logo2.png"
 
 export default function Navigation(){
     const [cookies, setCookie, removeCookie] = useCookies(['user']);

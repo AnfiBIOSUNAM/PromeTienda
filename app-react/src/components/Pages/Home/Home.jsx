@@ -2,7 +2,7 @@ import './Home.css';
 import { useCookies } from 'react-cookie';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import image from "../../../Images/logo.png"
+import image from "../../../Images/logo2.png"
 import { NavLink } from 'react-router-dom';
 
 export function Home() {
