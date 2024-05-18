@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Success, Error, Alert } from "../../Swal/Swal";
 
+import "../CSS/Form.css"
+
 export default function RegistroP(){
 
     const [cookies, setCookies] = useCookies(['userToken']);
@@ -235,7 +237,9 @@ export default function RegistroP(){
                     <input type="file" className="form-control" id="imagen" aria-describedby="imagenHelp" onChange={handleImagenChange} multiple/>
                     <div id="imagenHelp" className="form-text">Selecciona una o varias imagenes del producto</div>
                 </div>
-                <button type="submit" className="btn btn-primary">Registrar</button>
+                <div className="text-center">
+                    <button type="submit" className="btn btn-azul mt-3 mb-4">Registrar</button>
+                </div>
             </form>
         </div>
     )

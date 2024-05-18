@@ -76,7 +76,7 @@ export default function Login() {
                     <input type="password" className="form-control" id="contraseña" placeholder="Contraseña" autoComplete="off" required/>
                     </div>
                     <div className='text-center'>
-                    <button type="submit" className="btn btn-primary">Login</button>
+                    <button type="submit" className="btn btn-azul mt-5">Login</button>
                     </div>
                     
                 </fieldset>

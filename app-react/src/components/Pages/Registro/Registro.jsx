@@ -160,7 +160,7 @@ export default function Registro() {
                 </div>
                 </fieldset>
                 <div className='text-center'>
-                <button type="submit" className="btn btn-primary black">Registrarse</button>
+                <button type="submit" className="btn btn-azul mt-5">Registrarse</button>
                 </div>
             </fieldset>
         </form>
