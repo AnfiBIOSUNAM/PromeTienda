@@ -340,6 +340,8 @@ function ActualizarProducto() {
     return (
         <>
             <div className="form-container">
+            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
+
                 <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>

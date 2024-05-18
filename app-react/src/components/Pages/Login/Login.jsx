@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useCookies } from 'react-cookie';
 import SHA256 from 'crypto-js/sha256';
 import { Success, Error, Alert } from "../../Swal/Swal";
-
+import { NavLink } from "react-router-dom";
 import '../../Style/Login.css'
 
 export default function Login() {
@@ -63,7 +63,7 @@ export default function Login() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-
+            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
             <h1 className="text-white">Login</h1>
             <form className='m-5' onSubmit={handleSubmit}>
                 <fieldset>

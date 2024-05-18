@@ -34,7 +34,7 @@
   .btn-azul{
     background-color: #8a73c2; 
     color: rgb(254, 254, 254);
-    border: #8a73c2; 
+    border-color: #432888;  
     padding: 10px 20px; 
     text-align: center;
     text-decoration: none;
@@ -48,6 +48,19 @@
 .btn-azul:hover{
    background-color:#ffffff;
    color:rgb(0, 0, 0); 
+}
+
+.btn-regresar{
+    background-color: #8a73c2; 
+    color: rgb(254, 254, 254);
+    border-color: #432888; 
+    padding: 10px 20px; 
+    text-decoration: none;
+    margin: 50px 50px;
+    cursor: pointer;
+    border-radius: 5px; 
+    position: absolute;
+
 }
 
 .agregar{

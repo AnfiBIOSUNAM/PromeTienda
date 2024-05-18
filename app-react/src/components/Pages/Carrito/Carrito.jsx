@@ -138,7 +138,7 @@ export default function Carrito() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-
+            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
             <h1 className='text-center mt-3 text-white'>Carrito</h1>
             <section className="py-5">
                 {products.length==0 && (
@@ -154,7 +154,7 @@ export default function Carrito() {
                                     <div className='imagen text-center'>
                                         <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
                                     </div>
-                                    <div className="card-body pt-1" onClick={irADetalle(product)}>
+                                    <div className="card-body pt-1 mt-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>

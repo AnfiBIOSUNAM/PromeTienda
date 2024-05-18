@@ -70,6 +70,7 @@ function VerProducto() {
   return (
     <div>
       <div className="fullscreen-shape"></div>
+      <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
       <h1 className='text-white'>Productos</h1>
       <div className="products-container">
         <label className='text-white'>Selecciona una categoría:</label>
