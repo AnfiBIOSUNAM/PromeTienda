@@ -10,7 +10,7 @@ export default function RegistroP(){
     const [cookies, setCookies] = useCookies(['userToken']);
     const navigate = useNavigate();
 
-    const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+    const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState(["otra"]);
     const [imagenes, setImagenes] = useState([]);
 
     const handleCategoriaChange = (e) => {
