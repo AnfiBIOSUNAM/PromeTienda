@@ -67,7 +67,7 @@ export default function Detalle(){
        
             <>
                 <div className="fullscreen-shape"></div>
-
+                <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
                 <section className="py-5">
                     <div className="container px-4 px-lg-5 my-5">
                         <div className="row gx-4 gx-lg-5 align-items-center">

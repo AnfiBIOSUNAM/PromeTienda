@@ -3,7 +3,7 @@ import perro from "../../../Images/dog.png";
 import arbol from "../../../Images/tree.png";
 import '../CSS/Registro.css';
 import '../CSS/Form.css'
-import { useNavigate } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import SHA256 from 'crypto-js/sha256';
 import { Success, Error } from "../../Swal/Swal";
 
@@ -96,6 +96,7 @@ export default function Registro() {
     return(
         < >
         <div className="fullscreen-shape"></div>
+        <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
         <h1 className="text-white">Registro de usuario</h1>
         <form className='m-5' onSubmit={handleSubmit}>
             <fieldset className="container">

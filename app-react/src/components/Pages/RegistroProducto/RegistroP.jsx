@@ -2,7 +2,7 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Success, Error, Alert } from "../../Swal/Swal";
-
+import { NavLink } from "react-router-dom";
 import "../CSS/Form.css"
 
 export default function RegistroP(){
@@ -168,7 +168,7 @@ export default function RegistroP(){
     return(
         <div className="container">
             <div className="fullscreen-shape"></div>
-
+            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
             <h1 className="text-white">Registro de Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">
