@@ -68,3 +68,7 @@
 .link:hover{
     color: black;
 }
+
+.bg-gris{
+    background-color: rgb(69, 70, 71);
+}

@@ -6,22 +6,29 @@
   }
   
   .product-item {
-    border: 1px solid #ccc;
+    border: 1px solid rgb(69, 70, 71);;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
-    background-color: white;
+    background-color: rgb(69, 70, 71);
+    color: white;
   }
   
   .product-image {
-    width: 100%;
+    max-width: 207px;
+    max-height: 250px;
+    /*width: 100%;
     height: 150px; /* Fixed height, or as per your design */
     object-fit: cover;
     border-radius: 4px;
   }
   
   .product-info {
-    margin-top: 10px;
+    margin-top: 20px;
+  }
+
+  .product-info:hover{
+    cursor: pointer;
   }
 
   .btn-azul{
@@ -53,5 +60,13 @@
 
 .card-borrosa{
   filter: blur(5px);
+}
+
+.imagen{
+  height: 250px;
+}
+
+.imagen:hover{
+  cursor: pointer;
 }
   

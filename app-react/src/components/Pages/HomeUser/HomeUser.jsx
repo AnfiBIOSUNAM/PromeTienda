@@ -93,8 +93,10 @@ export default function HomeUser() {
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {products.slice(0, 8).map(product => (
                             <div className={`col mb-5 ${product.cantidad<= 0 ? 'card-borrosa':''}`} key={product.idProducto}>
-                                <div className="card h-100">
-                                    <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
+                                <div className="card h-100 tarjeta">
+                                    <div className='cont-img text-center' onClick={irADetalle(product)}>
+                                     <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto}/>
+                                    </div>
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
@@ -104,14 +106,14 @@ export default function HomeUser() {
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                         {cookies.user['vendedor'] === 0 && (
                                             <div className="text-center">
-                                                <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
+                                                <button className="btn btn-outline-light mt-auto" onClick={() => agregar(product.idProducto)}>
                                                     <i className="bi bi-cart4" /> Agregar al carrito
                                                 </button>
                                             </div>
                                         )}
                                         {cookies.user['vendedor'] === 1 && (
                                             <div className="text-center">
-                                                <button className="btn btn-outline-dark mt-auto">
+                                                <button className="btn btn-outline-light mt-auto">
                                                     <i className="bi bi-gear" /> Opciones
                                                 </button>
                                             </div>

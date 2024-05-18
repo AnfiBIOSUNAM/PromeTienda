@@ -87,16 +87,16 @@ export default function Detalle(){
                                     
                                     {carrito==="true" &&
                                         <>
-                                      <button className="btn st-btn" onClick={()=>quitar()}>-</button>
+                                      <button className="btn btn-azul" onClick={()=>quitar()}>-</button>
                                       <p className="m-3">{cant}</p>
-                                      <button className="btn st-btn" onClick={()=>poner()}>+</button>
+                                      <button className="btn btn-azul" onClick={()=>poner()}>+</button>
                                       </>
                                     }
                                     {carrito==="false"&&
                                         <>
-                                        <button className="btn st-btn" onClick={() => disminuir()}>-</button>
+                                        <button className="btn btn-azul" onClick={() => disminuir()}>-</button>
                                         <p className="m-4">{numero}</p>
-                                        <button className="btn st-btn" onClick={() => aumentar(jsonDataObject.cantidad)}>+</button>
+                                        <button className="btn btn-azul" onClick={() => aumentar(jsonDataObject.cantidad)}>+</button>
                                         </>
                                     }
                                     
@@ -131,9 +131,9 @@ export default function Detalle(){
                     </div>
                 </section>
                 
-                <section className="py-5 bg-light">
+                <section className="py-5 bg-gris">
                     <div className="container px-4 px-lg-5 mt-5">
-                        <h2 className="fw-bolder mb-4">Comentarios</h2>
+                        <h2 className="fw-bolder mb-4 text-white">Comentarios</h2>
                         <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                             <div className="col mb-5">
                                 <div className="card h-100">

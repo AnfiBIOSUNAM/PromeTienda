@@ -106,7 +106,9 @@ function VerProducto() {
             )}
             {products.map(product => (
               <div key={product.idProducto} className={`product-item m-2 ${product.cantidad<=0 ? 'card-borrosa ' : ''}`}>
-                <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
+                <div className='imagen' onClick={irADetalle(product)}>
+                  <img src={product.fotourl} alt={product.descripcion} className="product-image"/>
+                </div>
                 <div className="product-info" onClick={irADetalle(product)}>
                   <h3>{product.nombreProducto}</h3>
                   <p>${product.precio}</p>
@@ -114,14 +116,14 @@ function VerProducto() {
                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                   {cookies.user && !vendedor && (
                     <div className="text-center">
-                      <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
+                      <button className="btn btn-outline-light mt-auto" onClick={() => agregar(product.idProducto)}>
                         <i className="bi bi-cart4" /> Agregar al carrito
                       </button>
                     </div>
                   )}
                   {vendedor && (
                     <div className="text-center">
-                      <button className="btn btn-outline-dark mt-auto">
+                      <button className="btn btn-outline-light mt-auto">
                         <i className="bi bi-gear" /> Opciones
                       </button>
                     </div>

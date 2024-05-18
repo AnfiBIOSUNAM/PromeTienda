@@ -150,11 +150,11 @@ export default function Carrito() {
                         {products.map(product => (
                             <div className="col mb-5">
 
-                                <div key={product.idProducto} className="card h-100">
-                                    
-                                    <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
-                                    
-                                    <div className="card-body p-4" onClick={irADetalle(product)}>
+                                <div key={product.idProducto} className="card h-100 tarjeta">
+                                    <div className='imagen text-center'>
+                                        <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
+                                    </div>
+                                    <div className="card-body pt-1" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
