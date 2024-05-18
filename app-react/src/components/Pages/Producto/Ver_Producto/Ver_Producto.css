@@ -6,28 +6,35 @@
   }
   
   .product-item {
-    border: 1px solid #ccc;
+    border: 1px solid rgb(69, 70, 71);;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
-    background-color: white;
+    background-color: rgb(69, 70, 71);
+    color: white;
   }
   
   .product-image {
-    width: 100%;
+    max-width: 207px;
+    max-height: 250px;
+    /*width: 100%;
     height: 150px; /* Fixed height, or as per your design */
     object-fit: cover;
     border-radius: 4px;
   }
   
   .product-info {
-    margin-top: 10px;
+    margin-top: 20px;
+  }
+
+  .product-info:hover{
+    cursor: pointer;
   }
 
   .btn-azul{
     background-color: #8a73c2; 
-    color: rgb(0, 0, 0);
-    border: black; 
+    color: rgb(254, 254, 254);
+    border: #8a73c2; 
     padding: 10px 20px; 
     text-align: center;
     text-decoration: none;
@@ -41,5 +48,25 @@
 .btn-azul:hover{
    background-color:#ffffff;
    color:rgb(0, 0, 0); 
+}
+
+.agregar{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    margin: 20px;
+    padding: 10px 20px;
+}
+
+.card-borrosa{
+  filter: blur(5px);
+}
+
+.imagen{
+  height: 250px;
+}
+
+.imagen:hover{
+  cursor: pointer;
 }
   

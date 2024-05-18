@@ -19,11 +19,15 @@ export default function HomeUser() {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
                 }
                 const response = await axios.get(url);
-                const updatedProducts = response.data.map(product => ({
+                var updatedProducts = response.data.map(product => ({
                     ...product,
                     fotourl: `http://localhost:5000/imagenes/${product.foto}`
                 }));
-                setProducts(updatedProducts);
+                if(cookies.user && cookies.user['vendedor']==1){
+                    filtrar(updatedProducts)
+                }else{
+                    quitarSinExistencias(updatedProducts)
+                }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -49,6 +53,16 @@ export default function HomeUser() {
         }
     }
 
+    const filtrar = (productos) => {
+        let productosFiltrados = productos.filter(producto => producto.idUsuario === cookies.user['idUsuario'])
+        setProducts(productosFiltrados)
+    }
+
+    const quitarSinExistencias = (productos) => {
+        let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
+        setProducts(productosFiltrados)
+      }
+
     return (
         <>
             <div className="fullscreen-shape"></div>
@@ -61,7 +75,7 @@ export default function HomeUser() {
                 </div>
             </header>
             <div className="products-container">
-                <label>Selecciona una categoría:</label>
+                <label className='text-white'>Selecciona una categoría:</label>
                 <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
                     <option value="">Todo</option>
                     <option value="alimentos">Alimentos</option>
@@ -78,27 +92,28 @@ export default function HomeUser() {
                 <div className="container px-4 px-lg-5 mt-5">
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {products.slice(0, 8).map(product => (
-                            <div className="col mb-5" key={product.idProducto}>
-                                <div className="card h-100">
-                                    <img className="card-img-top img-fluid img-card" src={product.fotourl} alt={product.nombreProducto} onClick={irADetalle(product)} />
+                            <div className={`col mb-5 ${product.cantidad<= 0 ? 'card-borrosa':''}`} key={product.idProducto}>
+                                <div className="card h-100 tarjeta">
+                                    <div className='cont-img text-center' onClick={irADetalle(product)}>
+                                     <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto}/>
+                                    </div>
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
                                             <h5 className="fw-bolder">{product.nombreProducto}</h5>
-                                            <p>{product.descripcion}</p>
                                             <p>$ {product.precio}</p>
                                         </div>
                                     </div>
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                         {cookies.user['vendedor'] === 0 && (
                                             <div className="text-center">
-                                                <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
+                                                <button className="btn btn-outline-light mt-auto" onClick={() => agregar(product.idProducto)}>
                                                     <i className="bi bi-cart4" /> Agregar al carrito
                                                 </button>
                                             </div>
                                         )}
                                         {cookies.user['vendedor'] === 1 && (
                                             <div className="text-center">
-                                                <button className="btn btn-outline-dark mt-auto">
+                                                <button className="btn btn-outline-light mt-auto">
                                                     <i className="bi bi-gear" /> Opciones
                                                 </button>
                                             </div>
@@ -117,7 +132,7 @@ export default function HomeUser() {
                 )}
                 {cookies.user['vendedor'] === 1 && (
                     <>
-                        <NavLink to='#' className={'btn btn-azul'}>Ver todos mis productos en venta</NavLink>
+                        <NavLink to='/productos/ver' className={'btn btn-azul'}>Ver todos mis productos en venta</NavLink>
                         <NavLink to='/productos/registrar' className={'btn btn-azul'}>Registrar producto</NavLink>
                     </>
                 )}

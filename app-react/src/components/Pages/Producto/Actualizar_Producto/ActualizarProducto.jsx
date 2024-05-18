@@ -340,7 +340,7 @@ function ActualizarProducto() {
     return (
         <>
             <div className="form-container">
-                <h1>Actualizar Producto</h1>
+                <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>
                         <div>
@@ -409,8 +409,8 @@ function ActualizarProducto() {
 
                         </div>
                         <div className='text-center'>
-                            <button type="submit" className="btn btn-primary mt-4">Actualizar</button>
-                            <NavLink to="/productos"><button type="button" className="btn btn-primary mt-4 ms-2">Regresar</button></NavLink>
+                            <button type="submit" className="btn btn-azul mt-4">Actualizar</button>
+                            <NavLink to="/productos"><button type="button" className="btn btn-azul mt-4 ms-2">Regresar</button></NavLink>
                         </div>
                     </fieldset>
                 </form>

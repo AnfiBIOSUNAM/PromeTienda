@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
@@ -10,6 +11,8 @@ function VerProducto() {
   const [category, setCategory] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
+  const vendedor = cookies.user && cookies.user['vendedor']===1;
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,11 +23,15 @@ function VerProducto() {
           url = `http://localhost:5000/producto/read/categoria/${category}`;
         }
         const response = await axios.get(url);
-        const updatedProducts = response.data.map(product => ({
+        var updatedProducts = response.data.map(product => ({
           ...product,
           fotourl: `http://localhost:5000/imagenes/${product.foto}`
         }));
-        setProducts(updatedProducts);
+        if(vendedor){
+          filtrar(updatedProducts)
+        }else{
+          quitarSinExistencias(updatedProducts)
+        }
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -50,12 +57,22 @@ function VerProducto() {
     }
   }
 
+  const filtrar = (productos) => {
+    let productosFiltrados = productos.filter(producto => producto.idUsuario === cookies.user['idUsuario'])
+    setProducts(productosFiltrados)
+  }
+
+  const quitarSinExistencias = (productos) => {
+    let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
+    setProducts(productosFiltrados)
+  }
+
   return (
     <div>
       <div className="fullscreen-shape"></div>
-      <h1>Productos</h1>
+      <h1 className='text-white'>Productos</h1>
       <div className="products-container">
-        <label>Selecciona una categoría:</label>
+        <label className='text-white'>Selecciona una categoría:</label>
         <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
           <option value="">Todo</option>
           <option value="alimentos">Alimentos</option>
@@ -68,33 +85,55 @@ function VerProducto() {
           <option value="otra">Otra</option>
         </select>
       </div>
-      <div className="products-container">
-        {products.map(product => (
-          <div key={product.idProducto} className="product-item">
-            <img src={product.fotourl} alt={product.fotourl} className="product-image" onClick={irADetalle(product)} />
-            <div className="product-info" onClick={irADetalle(product)}>
-              <h3>{product.nombreProducto}</h3>
-              <p>${product.precio}</p>
-            </div>
-            <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              {cookies.user && cookies.user['vendedor'] === 0 && (
-                <div className="text-center">
-                  <button className="btn btn-outline-dark mt-auto" onClick={() => agregar(product.idProducto)}>
-                    <i className="bi bi-cart4" /> Agregar al carrito
-                  </button>
+
+      {vendedor && (
+        <div className='agregar'>
+          <NavLink to='/productos/registrar' className={'btn btn-azul p-3'}><i class="bi bi-plus-lg"/> Nuevo producto</NavLink>
+        </div>
+      )}
+      
+      {!cookies.user && (
+        <p className='text-center mt-5 mb-0 text-white'><NavLink to='/login' className='link'>Inicia sesión </NavLink>para comenzar a comprar</p>
+      )}
+
+      <section className="py-5">
+        <div className="container px-4 px-lg-5 mt-5">
+            <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
+            {products.length === 0 && (
+              <p className='text-center'>
+                {vendedor ? 'No tienes productos registrados' : 'No hay productos disponibles'}
+              </p>
+            )}
+            {products.map(product => (
+              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad<=0 ? 'card-borrosa ' : ''}`}>
+                <div className='imagen' onClick={irADetalle(product)}>
+                  <img src={product.fotourl} alt={product.descripcion} className="product-image"/>
                 </div>
-              )}
-              {cookies.user && cookies.user['vendedor'] === 1 && (
-                <div className="text-center">
-                  <button className="btn btn-outline-dark mt-auto">
-                    <i className="bi bi-gear" /> Opciones
-                  </button>
+                <div className="product-info" onClick={irADetalle(product)}>
+                  <h3>{product.nombreProducto}</h3>
+                  <p>${product.precio}</p>
                 </div>
-              )}
+                <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                  {cookies.user && !vendedor && (
+                    <div className="text-center">
+                      <button className="btn btn-outline-light mt-auto" onClick={() => agregar(product.idProducto)}>
+                        <i className="bi bi-cart4" /> Agregar al carrito
+                      </button>
+                    </div>
+                  )}
+                  {vendedor && (
+                    <div className="text-center">
+                      <button className="btn btn-outline-light mt-auto">
+                        <i className="bi bi-gear" /> Opciones
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
             </div>
-          </div>
-        ))}
-      </div>
+        </div>
+      </section>
     </div>
   );
 }

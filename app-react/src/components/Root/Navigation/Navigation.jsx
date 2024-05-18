@@ -1,6 +1,7 @@
 import './Navigation.css'
 import { NavLink } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import logo from "../../../Images/logo2.png"
 
 export default function Navigation(){
     const [cookies, setCookie, removeCookie] = useCookies(['user']);
@@ -23,7 +24,7 @@ export default function Navigation(){
         <>
         <nav className="navbar navbar-expand-lg navegacion" data-bs-theme="dark">
           <div className="container-fluid">
-            <a className="navbar-brand" href="#">Prometienda</a>
+            <a className="navbar-brand marca" ><img src={logo} className='logo'/>Prometienda</a>
             <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"></span>
             </button>

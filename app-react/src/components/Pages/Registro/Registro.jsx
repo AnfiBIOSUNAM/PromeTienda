@@ -95,10 +95,12 @@ export default function Registro() {
     
     return(
         < >
-        <h1>Registro de usuario</h1>
+        <div className="fullscreen-shape"></div>
+        <h1 className="text-white">Registro de usuario</h1>
         <form className='m-5' onSubmit={handleSubmit}>
             <fieldset className="container">
-            
+            <legend className="mt-4">Datos personales</legend>
+
             <div className="row">
                 <div className="col-6">
                     <label htmlFor='nombre' className='form-label'>Nombre</label>
@@ -158,7 +160,7 @@ export default function Registro() {
                 </div>
                 </fieldset>
                 <div className='text-center'>
-                <button type="submit" className="btn btn-primary black">Registrarse</button>
+                <button type="submit" className="btn btn-azul mt-5">Registrarse</button>
                 </div>
             </fieldset>
         </form>
