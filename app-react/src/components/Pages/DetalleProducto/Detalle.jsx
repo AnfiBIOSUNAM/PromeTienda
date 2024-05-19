@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react"
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import './Detalle.css'
 
 export default function Detalle(){
+
+    const navigate = useNavigate()
 
     const{carrito} = useParams();
     const {product} = useParams();
@@ -63,11 +65,15 @@ export default function Detalle(){
         }
     }
 
+    const goBack = () => {
+        navigate(-1)
+    }
+
     return(
        
             <>
                 <div className="fullscreen-shape"></div>
-                <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
+                <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
                 <section className="py-5">
                     <div className="container px-4 px-lg-5 my-5">
                         <div className="row gx-4 gx-lg-5 align-items-center">
@@ -80,7 +86,7 @@ export default function Detalle(){
                                 </div>
                                 <p className="lead">{jsonDataObject.descripcion}</p>
                                 <p>Contacto: {jsonDataObject.contacto}</p>
-                                <p>Publicación de: {contacto}</p>
+                                <p>Publicación de: <NavLink to={`/galeria/${jsonDataObject.idUsuario}`} className="link">{contacto}</NavLink></p>
                                     
                                 {cookies.user && !vendedor && 
                                     <div className="d-flex">

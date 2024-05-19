@@ -130,6 +130,10 @@ export default function Carrito() {
         }
     }
 
+    const goBack = () => {
+        navigate(-1)
+    }
+
     const comprar = () => {
 
     }
@@ -138,7 +142,7 @@ export default function Carrito() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
+            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
             <h1 className='text-center mt-3 text-white'>Carrito</h1>
             <section className="py-5">
                 {products.length==0 && (

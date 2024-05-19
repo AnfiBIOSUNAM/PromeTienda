@@ -21,7 +21,12 @@ def read_products():
         return json.dumps({'error': 'No hay productos'})
     return json.dumps([product.to_dict() for product in products])
 
-
+@producto_blueprint.route('/readV/<idVendedor>', methods=['GET'])
+def read_products_vendor(idVendedor):
+    products = mp.read_products_vendor(idVendedor)
+    if products == -1:
+        return json.dumps({'error': 'No hay productos'})
+    return json.dumps([product.to_dict() for product in products])
 
     
     

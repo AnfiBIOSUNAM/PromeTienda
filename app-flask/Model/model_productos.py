@@ -25,6 +25,15 @@ def read_product(idProducto):
 def read_products():
     return Producto.query.all()
 
+def read_products_vendor(idVendedor):
+    try:
+        productos = Producto.query.filter_by(idUsuario=idVendedor).all()
+        print(productos)
+        return productos
+    except Exception as e:
+        print("Ocurrió un error al intentar obtener los productos del vendedor: ", e)
+        return -1
+
 
 def update_product(idProducto, idUsuario, nombreProducto, descripcion, foto, precio, contacto, cantidad):
     producto = Producto.query.get(idProducto)
