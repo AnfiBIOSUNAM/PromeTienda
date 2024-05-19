@@ -35,7 +35,6 @@ class Usuario(db.Model):
             'apMat': self.apMat,
             'correo': self.correo,
             'telefono': self.telefono,
-            'contraseña': self.contraseña,
             'imagen': self.imagen,
             'vendedor': self.vendedor
         }
