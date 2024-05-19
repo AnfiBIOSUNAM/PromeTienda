@@ -92,11 +92,15 @@ export default function Registro() {
             //alert('Ocurrió un error inesperado, inténtalo más tarde')
         }
     }
+
+    const goBack = () => {
+        navigate(-1)
+    }
     
     return(
         < >
         <div className="fullscreen-shape"></div>
-        <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
+        <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
         <h1 className="text-white">Registro de usuario</h1>
         <form className='m-5' onSubmit={handleSubmit}>
             <fieldset className="container">

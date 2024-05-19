@@ -336,11 +336,15 @@ function ActualizarProducto() {
         }
     }
 
+    const goBack = () => {
+        navigate(-1);
+    }
+
 
     return (
         <>
             <div className="form-container">
-            <NavLink to="/"><button type="button" className="btn-regresar"><i class="bi bi-arrow-left"/></button></NavLink>
+            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
 
                 <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
