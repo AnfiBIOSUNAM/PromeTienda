@@ -148,17 +148,6 @@ export default function RegistroP(){
 
                 return arr[0]
                
-                /*try{
-                    if(data['error'] === "No se pudo crear la imagen"){
-                        alert("No se pudo crear la imagen");
-                    }else if(data['error'] === 'Faltan datos'){
-                        alert("Faltan datos");
-                    }else{
-                        console.log(data);
-                    }
-                }catch(error){
-                    console.log(error);
-                }*/
             });
         } catch(error){
             console.log('Error al subir las imagenes: ',error);
@@ -172,7 +161,7 @@ export default function RegistroP(){
     return(
         <div className="container">
             <div className="fullscreen-shape"></div>
-            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
             <h1 className="text-white">Registro de Producto</h1>
             <form onSubmit={handleSubmit}>
                 <div className="mb-3">

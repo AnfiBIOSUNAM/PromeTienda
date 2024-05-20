@@ -142,7 +142,7 @@ export default function Carrito() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
             <h1 className='text-center mt-3 text-white'>Carrito</h1>
             <section className="py-5">
                 {products.length==0 && (

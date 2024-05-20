@@ -73,7 +73,7 @@ export default function Detalle(){
        
             <>
                 <div className="fullscreen-shape"></div>
-                <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+                <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
                 <section className="py-5">
                     <div className="container px-4 px-lg-5 my-5">
                         <div className="row gx-4 gx-lg-5 align-items-center">

@@ -67,7 +67,7 @@ export default function Login() {
     return (
         <>
             <div className="fullscreen-shape"></div>
-            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
             <h1 className="text-white">Login</h1>
             <form className='m-5' onSubmit={handleSubmit}>
                 <fieldset>

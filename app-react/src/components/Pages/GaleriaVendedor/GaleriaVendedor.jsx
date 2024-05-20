@@ -95,7 +95,7 @@ export default function GaleriaVendedor(){
     return(
         <>
     
-            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
 
             <div className="fullscreen-shape"></div>
             <h1 className="text-white">Galería del vendedor</h1>

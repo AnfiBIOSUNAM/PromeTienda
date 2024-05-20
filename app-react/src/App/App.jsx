@@ -14,6 +14,7 @@ import VerProducto from '../components/Pages/Producto/Ver_Producto/Ver_Producto.
 import Carrito from '../components/Pages/Carrito/Carrito.jsx'
 import Detalle from '../components/Pages/DetalleProducto/Detalle.jsx';
 import GaleriaVendedor from '../components/Pages/GaleriaVendedor/GaleriaVendedor.jsx';
+import Perfil from '../components/Pages/Perfil/Perfil.jsx';
 
 function NoPermissions({mensaje}){
   return(
@@ -79,7 +80,8 @@ const router = createBrowserRouter(
         {path: '/productos/ver', element:<VerProducto/>},
         {path: '/carrito', element:<ProtectedRoute element={<Carrito/>} mensaje="Inicia sesión para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===0}/>},
         {path: '/detalle/:product/:carrito', element:<Detalle/>},
-        {path: '/galeria/:idVendedor', element: <GaleriaVendedor/>}
+        {path: '/galeria/:idVendedor', element: <GaleriaVendedor/>},
+        {path: '/perfil', element: <ProtectedRoute element={<Perfil/>} mensaje="Inicia sesión para acceder a esta ruta" condicion={isLogged()}/>}
       ]
     },
     
