@@ -344,7 +344,7 @@ function ActualizarProducto() {
     return (
         <>
             <div className="form-container">
-            <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
 
                 <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>

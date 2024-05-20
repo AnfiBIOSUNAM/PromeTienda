@@ -100,6 +100,41 @@ def update_user(user):
     except:
         return json.dumps({'error': 'Faltan datos'})
     
+@usuario_blueprint.route('/updateNombre/<idUsuario>/<nombre>', methods=['POST', 'GET'])
+def update_nombre(idUsuario, nombre):
+    print(idUsuario, nombre)
+    user = mu.update_nombre(int(idUsuario), nombre)
+    if user == -1:
+        return json.dumps({'error': 'No se pudo actualizar el nombre'})
+    return json.dumps(user.to_dict())
+
+@usuario_blueprint.route('/updateApPat/<idUsuario>/<apellido>', methods=['POST'])
+def update_apPat(idUsuario, apellido):
+    user = mu.update_apPat(idUsuario, apellido)
+    if user == -1:
+        return json.dumps({'error': 'No se pudo actualizar el apellido paterno'})
+    return json.dumps(user.to_dict())
+
+@usuario_blueprint.route('updateApMat/<idUsuario>/<apellido>', methods=['POST'])
+def update_apMat(idUsuario, apellido):
+    user = mu.update_apMat(idUsuario, apellido)
+    if user == -1:
+        return json.dumps({'error': 'No se pudo actualizar el apellido materno'})
+    return json.dumps(user.to_dict())
+
+@usuario_blueprint.route('/updateCorreo/<idUsuario>/<correo>', methods=['POST'])
+def update_correo(idUsuario, correo):
+    user = mu.update_correo(idUsuario, correo)
+    if user == -1:
+        return json.dumps({'error': 'No se pudo actualizar el correo'})
+    return json.dumps(user.to_dict())
+
+@usuario_blueprint.route('/updateTelefono/<idUsuario>/<telefono>', methods=['POST'])
+def update_telefono(idUsuario, telefono):
+    user = mu.update_telefono(idUsuario, telefono)
+    if user == -1:
+        return json.dumps({'error': 'No se pudo actualizar el telefono'})
+    return json.dumps(user.to_dict())
     
 ## Delete
 ## Receives an id

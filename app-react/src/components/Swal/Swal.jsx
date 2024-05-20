@@ -5,7 +5,7 @@ export function Error(msj){
         position:"top-end",
         icon: "error",
         title: msj,
-        showConfirmationButton: false,
+        showConfirmButton: false,
         timer: 1500
     })
 }
@@ -15,7 +15,7 @@ export function Success(msj){
             position:"top-end",
             icon: "success",
             title: msj,
-            showConfirmationButton: false,
+            showConfirmButton: false,
             timer: 1500
         })
 }
@@ -26,7 +26,7 @@ export function Confirm(msj){
             showCancelButton: true,
             confirmButtonText: "Yes",
             cancelButtonText: "No",
-            showConfirmationButton: false
+            showConfirmButton: false
         })
 }
 
@@ -35,7 +35,7 @@ export function Alert(msj){
             position:"top-end",
             icon: "warning",
             title: msj,
-            showConfirmationButton: false,
+            showConfirmButton: false,
             timer: 1500
         })
 }

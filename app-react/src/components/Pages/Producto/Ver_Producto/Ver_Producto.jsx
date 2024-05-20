@@ -74,7 +74,7 @@ function VerProducto() {
   return (
     <div>
       <div className="fullscreen-shape"></div>
-      <button type="button" className="btn-regresar" onClick={goBack}><i class="bi bi-arrow-left"/></button>
+      <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
       <h1 className='text-white'>Productos</h1>
       <div className="products-container">
         <label className='text-white'>Selecciona una categoría:</label>

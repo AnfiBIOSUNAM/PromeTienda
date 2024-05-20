@@ -49,6 +49,69 @@ def update_user(idUsuario, nombre, apPat, apMat, correo, telefono, contraseña, 
     db.session.commit()
     return user
 
+def update_nombre(idUsuario, nombre):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.nombre = nombre
+    db.session.commit()
+    return user
+
+def update_apPat(idUsuario, apellido):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.apPat = apellido
+    db.session.commit()
+    return user
+
+def update_apMat(idUsuario, apellido):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.apMat = apellido
+    db.session.commit()
+    return user
+
+def update_correo(idUsuario, correo):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.correo = correo
+    db.session.commit()
+    return user
+
+def update_telefono(idUsuario, telefono):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.telefono = telefono
+    db.session.commit()
+    return user
+
+def update_contraseña(idUsuario, contraseña):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.contraseña = contraseña
+    db.session.commit()
+    return user
+
+def update_imagen(idUsuario, imagen):
+    user = Usuario.query.filter_by(idUsuario=idUsuario).first()
+    if user is None:
+        print('El usuario con id: '+str(idUsuario)+' no existe')
+        return -1
+    user.imagen = imagen
+    db.session.commit()
+    return user
+
 def delete_user(idUsuario):
     user = Usuario.query.filter_by(idUsuario=idUsuario).first()
     if user is None:
