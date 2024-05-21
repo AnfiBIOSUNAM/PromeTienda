@@ -6,6 +6,8 @@ from controller.ControllerProducto import producto_blueprint
 from controller.ControllerCategoria import categoria_blueprint
 from controller.ControllerTener import tener_blueprint
 from controller.ControllerAlmacenar import almacenar_blueprint
+from controller.ControllerCompra import compra_blueprint
+from controller.ControllerContener import contener_blueprint
 from Model import model_productos
 from flask_cors import CORS, cross_origin
 import json
@@ -33,6 +35,8 @@ app.register_blueprint(producto_blueprint)
 app.register_blueprint(categoria_blueprint)
 app.register_blueprint(tener_blueprint)
 app.register_blueprint(almacenar_blueprint)
+app.register_blueprint(compra_blueprint)
+app.register_blueprint(contener_blueprint)
 
 
 @app.route('/imagenes/guardar', methods=['POST'])
