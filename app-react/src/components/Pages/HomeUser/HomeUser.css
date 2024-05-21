@@ -49,10 +49,6 @@
     color:rgb(0, 0, 0);  
 }
 
-.card-borrosa{
-    filter: blur(5px);
-}
-
 .cont-img{
     height: 250px;
 }

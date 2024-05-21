@@ -13,7 +13,7 @@ class Contener(db.Model):
     
     
     
-    def _init_(self, idCompra, idProducto, cantidad, importe, calificacion=None, comentario=None):
+    def __init__(self, idCompra, idProducto, cantidad, importe, calificacion=None, comentario=None):
         self.idCompra = idCompra
         self.idProducto = idProducto
         self.cantidad = cantidad
@@ -21,7 +21,7 @@ class Contener(db.Model):
         self.calificacion = calificacion
         self.comentario = comentario
         
-    def _str_(self):
+    def __str__(self):
         return f'Compra: {self.idCompra}, producto: {self.idProducto}, cantidad: {self.cantidad}, importe: {self.importe}, calificacion: {self.calificacion}, comentario: {self.comentario}'
     
     def to_dict(self):

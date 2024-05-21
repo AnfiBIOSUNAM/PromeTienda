@@ -116,5 +116,16 @@ BEGIN
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE TRIGGER actualizar_cantidad_producto AFTER INSERT ON Contener
+FOR EACH ROW
+BEGIN
+    UPDATE Producto
+    SET cantidad = cantidad - NEW.cantidad
+    WHERE idProducto = NEW.idProducto;
+END;
+//
+DELIMITER ;
+
 
 select * from Usuario;

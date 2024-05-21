@@ -57,6 +57,13 @@ def eliminar_producto():
     except:
         return json.dumps({'error': 'No se pudo eliminar el producto del carrito por falta de datos'})
     
+@almacenar_blueprint.route('/limpiar/<idCarrito>', methods=['POST', 'GET'])
+def limpiar_carrito(idCarrito):
+    eliminado = ma.limpiar_carrito(idCarrito)
+    if eliminado == -1:
+        return json.dumps({'error': 'No se pudo limpiar el carrito'})
+    return json.dumps({'success': 'Carrito limpiado'})
+    
 @almacenar_blueprint.route('/productos/<idCarrito>', methods=['GET'])
 def obtener_productos(idCarrito):
     productos = ma.obtener_productos_de_carrito(idCarrito)

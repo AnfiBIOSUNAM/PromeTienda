@@ -58,7 +58,7 @@ export default function Navigation(){
                 <div className='d-flex'>
                   {cookies.user['vendedor']==0 &&
                     <li className="carrito">
-                      <NavLink to="/carrito" className="nav-link"><i class="bi bi-cart4 tam"></i></NavLink>
+                      <NavLink to="/carrito" className="nav-link"><i className="bi bi-cart4 tam"></i></NavLink>
                     </li>
                   }
                   <div className='foto'>

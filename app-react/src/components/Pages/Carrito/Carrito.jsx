@@ -135,8 +135,59 @@ export default function Carrito() {
     }
 
     const comprar = () => {
-        
+        var idComp = 0
+        const formdata = new FormData();
+        console.log(cookies.user)
+        formdata.append('idUsuario', cookies.user['idComprador'])
+        formdata.append('total', products.reduce((total, product) => total + product.precio*product.cantidad_carrito, 0))
+        formdata.append('fecha', new Date().toISOString().slice(0, 10))
 
+        try{
+
+            const r = fetch('http://localhost:5000/compra/agregar', {
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+                if(data['idCompra']){
+                    const id = data['idCompra']
+                    const promises = products.map(product => {
+                        const formdata = new FormData();
+                        formdata.append('idCompra', id)
+                        formdata.append('idProducto', product.idProducto)
+                        formdata.append('cantidad', product.cantidad_carrito)
+                        formdata.append('importe', product.precio * product.cantidad_carrito)
+                        fetch('http://localhost:5000/contener/agregar', {
+                            method: 'POST',
+                            body: formdata
+                        }).then((response) => response.json()).then((data) => {
+                            console.log(data);
+                        })
+                    })
+                    Success('Compra realizada correctamente')
+
+                    Promise.all(promises).then(() => {
+                        fetch(`http://localhost:5000/carrito/limpiar/${cookies.user['idCarrito']}`).then(
+                        (response) => response.json()
+                        ).then((data) => {
+                            console.log(data);
+                            if(data['error']){
+                                console.log('No se pudo limpiar el carrito')
+                            }else{
+                                setProducts([])
+                            }
+                        })
+                    })
+                }else{
+                    Error('No se pudo realizar la compra')
+                }
+            })
+
+        }catch(error){
+            console.log('Error en la petición');
+            console.log(error);
+            Error('Ocurrió un error inesperado, inténtalo más tarde')
+        }
     }
 
 
@@ -153,7 +204,7 @@ export default function Carrito() {
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         
                         {products.map(product => (
-                            <div className="col mb-5">
+                            <div key={product.idProducto} className="col mb-5">
 
                                 <div key={product.idProducto} className="card h-100 tarjeta">
                                     <div className='imagen text-center'>
@@ -170,7 +221,7 @@ export default function Carrito() {
                                     
                                     <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
 
-                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto btn-eliminar" href="#" onClick={()=>eliminarProducto(product.idProducto)}><i class="bi bi-trash3"/> Eliminar</a></div>   
+                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto btn-eliminar" href="#" onClick={()=>eliminarProducto(product.idProducto)}><i className="bi bi-trash3"/> Eliminar</a></div>   
                                        
                                     </div>
                                     
