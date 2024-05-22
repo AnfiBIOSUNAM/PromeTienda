@@ -2,11 +2,14 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from 'axios'
 import "./Compras.css"
+import { useNavigate } from "react-router-dom";
 
 export default function Compras(){
 
     const [compras, setCompras] = useState([]);
     const [cookies, setCookies] = useCookies(['userToken']);
+
+    const navigation = useNavigate()
 
     useEffect(() => {
         const fetchCompras = async () => {
@@ -46,9 +49,15 @@ export default function Compras(){
         fetchCompras();
     }, []);
 
+    function goBack(){
+        navigation(-1)
+    }
+
     return (
         <>
             <div className="fullscreen-shape"></div>
+            <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
+
             <h1 className="text-white">Mis compras</h1>
             <div className="container">
                 <div className="row">
