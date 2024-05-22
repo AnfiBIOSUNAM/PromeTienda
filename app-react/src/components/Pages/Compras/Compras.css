@@ -1,7 +1,7 @@
 .tabla{
     background-color: rgb(69, 70, 71);
     color: white;
-    border-radius: 5px;
+    border-radius: 10px;
     width: 100%;
     margin-bottom: 50px;
 }
@@ -10,6 +10,11 @@
     padding: 10px 20px 20px 20px;
     border-bottom: ridge;
     border-color: grey;
+
+}
+
+.tr1:last-child{
+    border-bottom: none;
 
 }
 
