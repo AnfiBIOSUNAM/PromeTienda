@@ -65,6 +65,7 @@ export default function Navigation(){
                       <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{<img src={cookies.user.imagen} alt="Imagen de perfil" className="imagen-perfil" />}</a>
                       <div className="dropdown-menu  position-dropdown">
                         <NavLink to="/perfil" className="dropdown-item">Ver perfil</NavLink>
+                        <NavLink to="/misCompras" className="dropdown-item">Mis compras</NavLink>
                         <NavLink to="/" className="dropdown-item" onClick={handleLogout}>Cerrar sesión</NavLink>
                       </div>
                   </div>

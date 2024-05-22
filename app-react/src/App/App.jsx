@@ -15,6 +15,7 @@ import Carrito from '../components/Pages/Carrito/Carrito.jsx'
 import Detalle from '../components/Pages/DetalleProducto/Detalle.jsx';
 import GaleriaVendedor from '../components/Pages/GaleriaVendedor/GaleriaVendedor.jsx';
 import Perfil from '../components/Pages/Perfil/Perfil.jsx';
+import Compras from '../components/Pages/Compras/Compras.jsx';
 
 function NoPermissions({mensaje}){
   return(
@@ -81,7 +82,8 @@ const router = createBrowserRouter(
         {path: '/carrito', element:<ProtectedRoute element={<Carrito/>} mensaje="Inicia sesión para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===0}/>},
         {path: '/detalle/:product/:carrito', element:<Detalle/>},
         {path: '/galeria/:idVendedor', element: <GaleriaVendedor/>},
-        {path: '/perfil', element: <ProtectedRoute element={<Perfil/>} mensaje="Inicia sesión para acceder a esta ruta" condicion={isLogged()}/>}
+        {path: '/perfil', element: <ProtectedRoute element={<Perfil/>} mensaje="Inicia sesión para acceder a esta ruta" condicion={isLogged()}/>},
+        {path: '/misCompras', element: <ProtectedRoute element={<Compras/>} mensaje={"Inicia sesión como cliente para accededr a esta ruta"} condicion={isLogged() && cookies.user['vendedor']===0}/>}
       ]
     },
     
