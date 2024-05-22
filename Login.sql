@@ -27,6 +27,7 @@ CREATE TABLE Compra (
     idCompra int auto_increment,
     idUsuario int,
     total Float,
+    fecha Date,
     FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario),
     primary key (idCompra)
 );
@@ -75,11 +76,14 @@ CREATE TABLE Categoria (
 
 drop table if exists Contener;
 CREATE TABLE Contener (
+    idContener INT auto_increment,
     idCompra INT,
     idProducto INT,
     cantidad INT,
+    importe Float,
     calificacion INT,
     comentario text,
+    primary key(idContener),
     FOREIGN KEY (idCompra) REFERENCES Compra(idCompra),
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
@@ -110,6 +114,17 @@ BEGIN
         VALUES (NEW.idUsuario, NEW.nombre, NEW.apPat, NEW.apMat, NEW.correo, NEW.telefono, NEW.contraseña, NEW.imagen, NEW.vendedor);
     END IF;
 END//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER actualizar_cantidad_producto AFTER INSERT ON Contener
+FOR EACH ROW
+BEGIN
+    UPDATE Producto
+    SET cantidad = cantidad - NEW.cantidad
+    WHERE idProducto = NEW.idProducto;
+END;
+//
 DELIMITER ;
 
 

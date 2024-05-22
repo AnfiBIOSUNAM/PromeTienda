@@ -67,6 +67,14 @@ def quitar_del_carrito(idProducto, idCarrito):
     except:
         return -1
     
+def limpiar_carrito(idCarrito):
+    Almacenar.query.filter(Almacenar.idCarrito == idCarrito).delete()
+    try:
+        db.session.commit()
+        return 1
+    except:
+        return -1
+    
 def obtener_productos_de_carrito(idCarrito):
     productos = Almacenar.query.filter(Almacenar.idCarrito == idCarrito).all()
     if productos is None:
@@ -84,7 +92,7 @@ def obtener_productos_de_carrito(idCarrito):
         return -1
     return productos.fetchall()
     
-    
+
     
 """def quitar_del_carrito(idProducto, idCarrito):
     try:

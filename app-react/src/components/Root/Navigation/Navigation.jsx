@@ -58,13 +58,14 @@ export default function Navigation(){
                 <div className='d-flex'>
                   {cookies.user['vendedor']==0 &&
                     <li className="carrito">
-                      <NavLink to="/carrito" className="nav-link"><i class="bi bi-cart4 tam"></i></NavLink>
+                      <NavLink to="/carrito" className="nav-link"><i className="bi bi-cart4 tam"></i></NavLink>
                     </li>
                   }
                   <div className='foto'>
                       <a className="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{<img src={cookies.user.imagen} alt="Imagen de perfil" className="imagen-perfil" />}</a>
                       <div className="dropdown-menu  position-dropdown">
                         <NavLink to="/perfil" className="dropdown-item">Ver perfil</NavLink>
+                        {cookies.user['vendedor']===0 &&(<NavLink to="/misCompras" className="dropdown-item">Mis compras</NavLink>)}
                         <NavLink to="/" className="dropdown-item" onClick={handleLogout}>Cerrar sesión</NavLink>
                       </div>
                   </div>
