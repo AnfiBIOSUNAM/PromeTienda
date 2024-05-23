@@ -5,13 +5,15 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { agregarAlCarrito } from '../../Carrito/Carrito';
 import './Ver_Producto.css'
+import ButtonGroup from './MultiButton.jsx'
 
 function VerProducto() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('');
+  const [showButtons, setShowButtons] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
-  const vendedor = cookies.user && cookies.user['vendedor']===1;
+  const vendedor = cookies.user && cookies.user['vendedor'] === 1;
 
   const navigate = useNavigate();
 
@@ -27,9 +29,9 @@ function VerProducto() {
           ...product,
           fotourl: `http://localhost:5000/imagenes/${product.foto}`
         }));
-        if(vendedor){
+        if (vendedor) {
           filtrar(updatedProducts)
-        }else{
+        } else {
           quitarSinExistencias(updatedProducts)
         }
       } catch (error) {
@@ -67,6 +69,11 @@ function VerProducto() {
     setProducts(productosFiltrados)
   }
 
+  const handleButtons = () => {
+    console.log("Funciona el onclick de los botones");
+    setShowButtons(true);
+  };
+
   const goBack = () => {
     navigate(-1)
   }
@@ -74,7 +81,7 @@ function VerProducto() {
   return (
     <div>
       <div className="fullscreen-shape"></div>
-      <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left"/></button>
+      <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left" /></button>
       <h1 className='text-white'>Productos</h1>
       <div className="products-container">
         <label className='text-white'>Selecciona una categoría:</label>
@@ -93,26 +100,26 @@ function VerProducto() {
 
       {vendedor && (
         <div className='agregar'>
-          <NavLink to='/productos/registrar' className={'btn btn-azul p-3'}><i class="bi bi-plus-lg"/> Nuevo producto</NavLink>
+          <NavLink to='/productos/registrar' className={'btn btn-azul p-3'}><i class="bi bi-plus-lg" /> Nuevo producto</NavLink>
         </div>
       )}
-      
+
       {!cookies.user && (
         <p className='text-center mt-5 mb-0 text-white'><NavLink to='/login' className='link'>Inicia sesión </NavLink>para comenzar a comprar</p>
       )}
 
       <section className="py-5">
         <div className="container px-4 px-lg-5 mt-5">
-            <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
+          <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-4 row-cols-xl-5 justify-content-center">
             {products.length === 0 && (
               <p className='text-center'>
                 {vendedor ? 'No tienes productos registrados' : 'No hay productos disponibles'}
               </p>
             )}
             {products.map(product => (
-              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad<=0 ? 'card-borrosa ' : ''}`}>
+              <div key={product.idProducto} className={`product-item m-2 ${product.cantidad <= 0 ? 'card-borrosa ' : ''}`}>
                 <div className='imagen' onClick={irADetalle(product)}>
-                  <img src={product.fotourl} alt={product.descripcion} className="product-image"/>
+                  <img src={product.fotourl} alt={product.descripcion} className="product-image" />
                 </div>
                 <div className="product-info" onClick={irADetalle(product)}>
                   <h3>{product.nombreProducto}</h3>
@@ -128,19 +135,18 @@ function VerProducto() {
                   )}
                   {vendedor && (
                     <div className="text-center">
-                      <button className="btn btn-outline-light mt-auto">
-                        <i className="bi bi-gear" /> Opciones
-                      </button>
+                      <ButtonGroup />
                     </div>
                   )}
                 </div>
               </div>
             ))}
-            </div>
+          </div>
         </div>
       </section>
     </div>
   );
 }
+
 
 export default VerProducto;

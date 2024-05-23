@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
+import { useParams } from 'react-router-dom';
 import { Success, Error, Alert } from '../../../Swal/Swal';
 
 
 function ActualizarProducto() {
     const navigate = useNavigate();
     const [cookies] = useCookies(['user']);
-    const [idProducto, setIdProducto] = useState('');
+    const { idProducto } = useParams();
+
     const [nombreProducto, setNombreProducto] = useState('');
     const [descripcion, setDescripcion] = useState('');
     const [imagenes, setImagenes] = useState([]);
@@ -349,10 +351,7 @@ function ActualizarProducto() {
                 <h1 className='text-white'>Actualizar Producto</h1>
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>
-                        <div>
-                            <label htmlFor="idProducto" className="form-label mt-4">ID del Producto (obligatorio)</label>
-                            <input type="text" className="form-control" id="idProducto" placeholder="Ingrese el ID del producto" value={idProducto} onChange={(e) => setIdProducto(e.target.value)} required />
-                        </div>
+                        
                         <div>
                             <label htmlFor="nombreProducto" className="form-label mt-4">Nombre del Producto</label>
                             <input type="text" className="form-control" id="nombreProducto" placeholder="Ingrese el nombre del producto" value={nombreProducto} onChange={(e) => setNombreProducto(e.target.value)} />
