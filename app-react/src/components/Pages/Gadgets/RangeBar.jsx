@@ -1,21 +1,53 @@
 import React from 'react';
+import { Range, getTrackBackground } from 'react-range';
+import './RangeBar.css'; // Importa el archivo CSS
 
-const RangeBarControl = ({ value, onChange }) => {
+const RangeSlider = ({ min, max, step, values, onChange }) => {
   return (
-    <div>
-      <input 
-        type="range" 
-        id="range-bar" 
-        name="range-bar" 
-        min="0" 
-        max="10000" 
-        value={value}
+    <div className="range-slider">
+      <Range
+        values={values}
+        step={step}
+        min={min}
+        max={max}
         onChange={onChange}
+        renderTrack={({ props, children }) => (
+          <div
+            {...props}
+            style={{
+              ...props.style,
+              background: getTrackBackground({
+                values,
+                colors: ['#ccc', '#548BF4', '#ccc'],
+                min: min,
+                max: max
+              }),
+            }}
+            className="range-slider-track"
+          >
+            {children}
+          </div>
+        )}
+        renderThumb={({ props, isDragged }) => (
+          <div
+            {...props}
+            className="range-slider-thumb"
+          >
+            <div
+              className="range-slider-thumb-inner"
+              style={{
+                backgroundColor: isDragged ? '#548BF4' : '#CCC'
+              }}
+            />
+          </div>
+        )}
       />
-      <label htmlFor="range-bar">Precio: {value}</label>
+      <div className="range-slider-output">
+        <output>{values[0]}</output>
+        <output>{values[1]}</output>
+      </div>
     </div>
   );
 };
 
-export default RangeBarControl;
-
+export default RangeSlider;

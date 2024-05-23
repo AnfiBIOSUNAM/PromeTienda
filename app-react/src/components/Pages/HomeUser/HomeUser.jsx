@@ -3,7 +3,7 @@ import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { agregarAlCarrito } from '../Carrito/Carrito';
-import RangeBarControl from '../Gadgets/RangeBar.jsx';
+import RangeSlider from '../Gadgets/RangeBar.jsx';
 import './HomeUser.css';
 
 export default function HomeUser() {
@@ -12,7 +12,23 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
-    const [price, setPrice] = useState(10000); // Valor inicial del rango
+    const [minPrice, setMinPrice] = useState(0); // Valor inicial del rango mínimo
+    const [maxPrice, setMaxPrice] = useState(10000); // Valor inicial del rango máximo
+    const [rangeValues, setRangeValues] = useState([0, 5000]);
+
+    const handleRangeChange = (values) => {
+        setRangeValues(values);
+      };
+  
+    const handleMinChange = (e) => {
+      const value = Math.min(Number(e.target.value), maxPrice - 1);
+      setMinPrice(value);
+    };
+  
+    const handleMaxChange = (e) => {
+      const value = Math.max(Number(e.target.value), minPrice + 1);
+      setMaxPrice(value);
+    };
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -77,10 +93,7 @@ export default function HomeUser() {
 
      
 
-      const handlePriceChange = (e) => {
-        setPrice(e.target.value);
-        console.log(price);
-      };
+     
     
 
     return (
@@ -97,12 +110,12 @@ export default function HomeUser() {
             <div class="topnav">
   <div class="search-container">
       <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
-      <button type="submit" onClick={handleSearch}><i class="fa fa-search" ></i></button>
+      
 
   </div>
   <div>
-      <p>Rango de precios</p>
-      <RangeBarControl value={price} onChange={handlePriceChange} />
+  <label className='text-white'>Rango de precio:</label>
+      <RangeSlider min={0} max={5000} step={1} values={rangeValues} onChange={handleRangeChange}/>
       {/* Puedes agregar más componentes aquí */}
     </div>
 
