@@ -10,22 +10,27 @@ export default function HomeUser() {
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
+    const [searchString, setSearchString] = useState('');
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 let url = 'http://localhost:5000/products';
+                if(searchString){
+                    url = `http://localhost:5000/producto/read/buscador/${searchString}`;
+                }
                 if (category) {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
                 }
+                
                 const response = await axios.get(url);
                 var updatedProducts = response.data.map(product => ({
                     ...product,
                     fotourl: `http://localhost:5000/imagenes/${product.foto}`
                 }));
-                if(cookies.user && cookies.user['vendedor']==1){
+                if (cookies.user && cookies.user['vendedor'] == 1) {
                     filtrar(updatedProducts)
-                }else{
+                } else {
                     quitarSinExistencias(updatedProducts)
                 }
             } catch (error) {
@@ -34,7 +39,7 @@ export default function HomeUser() {
         };
 
         fetchProducts();
-    }, [category]);
+    }, [category, searchString]);
 
     const agregar = (idProducto) => {
         agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
@@ -61,7 +66,12 @@ export default function HomeUser() {
     const quitarSinExistencias = (productos) => {
         let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
         setProducts(productosFiltrados)
-      }
+    }
+
+    const handleSearch = () => {
+        // Realizar la acción deseada aquí, por ejemplo, enviar la cadena de búsqueda a una función
+        console.log("Cadena de búsqueda:", searchString);
+      };
 
     return (
         <>
@@ -74,6 +84,13 @@ export default function HomeUser() {
                     </div>
                 </div>
             </header>
+            <div class="topnav">
+  <div class="search-container">
+      <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
+      <button type="submit" onClick={handleSearch}><i class="fa fa-search" ></i></button>
+
+  </div>
+</div>
             <div className="products-container">
                 <label className='text-white'>Selecciona una categoría:</label>
                 <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
@@ -93,9 +110,9 @@ export default function HomeUser() {
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {products.slice(0, 8).map(product => (
                             <div className={`col mb-5`} key={product.idProducto}>
-                                <div className={`card h-100 tarjeta ${product.cantidad<= 0 ? 'card-borrosa':''}`}>
+                                <div className={`card h-100 tarjeta ${product.cantidad <= 0 ? 'card-borrosa' : ''}`}>
                                     <div className='cont-img text-center' onClick={irADetalle(product)}>
-                                     <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto}/>
+                                        <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto} />
                                     </div>
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">

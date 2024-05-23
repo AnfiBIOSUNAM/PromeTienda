@@ -10,6 +10,7 @@ import ButtonGroup from './MultiButton.jsx'
 function VerProducto() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('');
+  const [searchString, setSearchString] = useState('');
   const [showButtons, setShowButtons] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
 
@@ -21,9 +22,13 @@ function VerProducto() {
     const fetchProducts = async () => {
       try {
         let url = 'http://localhost:5000/producto/read';
+        if(searchString){
+          url = `http://localhost:5000/producto/read/buscador/${searchString}`;
+      }
         if (category) {
           url = `http://localhost:5000/producto/read/categoria/${category}`;
         }
+        
         const response = await axios.get(url);
         var updatedProducts = response.data.map(product => ({
           ...product,
@@ -40,7 +45,7 @@ function VerProducto() {
     };
 
     fetchProducts();
-  }, [category]);
+  }, [category, searchString]);
 
   const agregar = (idProducto) => {
     agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
