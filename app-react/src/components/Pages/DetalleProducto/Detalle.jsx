@@ -18,7 +18,7 @@ export default function Detalle(){
     const [contacto, setContacto] = useState("");
     const [numero, setNumero]= useState(1);
     const [cant, setCant]=useState(jsonDataObject.cantidad_carrito?jsonDataObject.cantidad_carrito:1)
-
+    
     const vendedor = cookies.user && cookies.user['vendedor']===1;
 
     useEffect(()=>{
@@ -120,7 +120,7 @@ export default function Detalle(){
 
                                 {vendedor &&(
                                     <div>
-                                        <NavLink className={'editar m-2'}><i class="bi bi-pencil-square"/> Editar</NavLink>
+                                        <NavLink to={`/productos/actualizar/${jsonDataObject.idProducto}`} className={'editar m-2'}><i class="bi bi-pencil-square"/> Editar</NavLink>
                                         <NavLink className={'eliminar'}><i class="bi bi-trash3"/> Eliminar</NavLink>
                                     </div>
                                 )}
