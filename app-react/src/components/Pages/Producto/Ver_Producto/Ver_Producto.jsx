@@ -13,6 +13,7 @@ function VerProducto() {
   const [searchString, setSearchString] = useState('');
   const [showButtons, setShowButtons] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
+  const [rangeValues, setRangeValues] = useState([0, 5000]);
 
   const vendedor = cookies.user && cookies.user['vendedor'] === 1;
 
@@ -22,8 +23,11 @@ function VerProducto() {
     const fetchProducts = async () => {
       try {
         let url = 'http://localhost:5000/producto/read';
+        if (rangeValues) {
+          url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
+      }
         if(searchString){
-          url = `http://localhost:5000/producto/read/buscador/${searchString}`;
+          url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
       }
         if (category) {
           url = `http://localhost:5000/producto/read/categoria/${category}`;
@@ -45,7 +49,7 @@ function VerProducto() {
     };
 
     fetchProducts();
-  }, [category, searchString]);
+  }, [category, searchString, rangeValues]);
 
   const agregar = (idProducto) => {
     agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)

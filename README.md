@@ -30,7 +30,7 @@ python -m flask run
 ## Para app-react:
 
 npm install sweetalert2
-
+npm install react-range
 npm install
 npm start
 

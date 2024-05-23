@@ -12,34 +12,30 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
-    const [minPrice, setMinPrice] = useState(0); // Valor inicial del rango mínimo
-    const [maxPrice, setMaxPrice] = useState(10000); // Valor inicial del rango máximo
+   
     const [rangeValues, setRangeValues] = useState([0, 5000]);
 
     const handleRangeChange = (values) => {
         setRangeValues(values);
       };
   
-    const handleMinChange = (e) => {
-      const value = Math.min(Number(e.target.value), maxPrice - 1);
-      setMinPrice(value);
-    };
   
-    const handleMaxChange = (e) => {
-      const value = Math.max(Number(e.target.value), minPrice + 1);
-      setMaxPrice(value);
-    };
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 let url = 'http://localhost:5000/products';
+                if (rangeValues) {
+                    url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
+                }
+                
                 if(searchString){
-                    url = `http://localhost:5000/producto/read/buscador/${searchString}`;
+                    url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
                 }
                 if (category) {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
                 }
+
                 
                 const response = await axios.get(url);
                 var updatedProducts = response.data.map(product => ({
@@ -57,7 +53,7 @@ export default function HomeUser() {
         };
 
         fetchProducts();
-    }, [category, searchString]);
+    }, [category, searchString, rangeValues]);
 
     const agregar = (idProducto) => {
         agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
