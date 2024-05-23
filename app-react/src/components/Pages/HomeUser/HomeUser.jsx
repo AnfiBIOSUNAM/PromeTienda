@@ -3,6 +3,7 @@ import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { agregarAlCarrito } from '../Carrito/Carrito';
+import RangeBarControl from '../Gadgets/RangeBar.jsx';
 import './HomeUser.css';
 
 export default function HomeUser() {
@@ -11,6 +12,7 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
+    const [price, setPrice] = useState(10000); // Valor inicial del rango
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -73,6 +75,14 @@ export default function HomeUser() {
         console.log("Cadena de búsqueda:", searchString);
       };
 
+     
+
+      const handlePriceChange = (e) => {
+        setPrice(e.target.value);
+        console.log(price);
+      };
+    
+
     return (
         <>
             <div className="fullscreen-shape"></div>
@@ -90,6 +100,13 @@ export default function HomeUser() {
       <button type="submit" onClick={handleSearch}><i class="fa fa-search" ></i></button>
 
   </div>
+  <div>
+      <p>Rango de precios</p>
+      <RangeBarControl value={price} onChange={handlePriceChange} />
+      {/* Puedes agregar más componentes aquí */}
+    </div>
+
+
 </div>
             <div className="products-container">
                 <label className='text-white'>Selecciona una categoría:</label>
