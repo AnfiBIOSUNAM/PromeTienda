@@ -79,6 +79,23 @@ def productos_por_categoria(categoria):
         print("Ocurrió un error al intentar obtener los productos por categoría: ", e)
         return -1
 
+def products_by_name(string):
+    try:
+        productos = Producto.query.filter(Producto.nombreProducto.ilike(f"%{string}%")).all()
+        return productos
+    except Exception as e:
+        print("Ocurrió un error al intentar obtener los productos por nombre: ", e)
+        return -1
+
+def products_by_price(min_price, max_price):
+    try:
+        productos = Producto.query.filter(Producto.precio >= min_price, Producto.precio <= max_price).all()
+        return productos
+    except Exception as e:
+        print("Ocurrió un error al intentar obtener los productos por precio: ", e)
+        return -1
+
+
 
 def get_product_image(idProducto):
     producto = Producto.query.get(idProducto)

@@ -98,6 +98,24 @@ def read_products_by_category(categoria):
     return json.dumps([product.to_dict() for product in products])
 
 
+@producto_blueprint.route('/read/buscador/nombre/<palabra>', methods=['GET'])
+def search_products_by_name(palabra):
+    products = mp.products_by_name(palabra)
+    if products == -1:
+        return json.dumps({'error': 'No se pudieron obtener los productos con ese nombre'})
+    return json.dumps([product.to_dict() for product in products])
+
+@producto_blueprint.route('/read/buscador/precio/<precio>', methods=['GET'])
+def search_products_by_price(precio):
+    min, max = map(int, precio.split(','))
+    print(min)
+    print(max)
+    products = mp.products_by_price(min,max)
+    if products == -1:
+        return json.dumps({'error': 'No se pudieron obtener los productos con ese nombre'})
+    return json.dumps([product.to_dict() for product in products])
+
+
     
 
 @producto_blueprint.route('/nombreImagen', methods=['POST'])

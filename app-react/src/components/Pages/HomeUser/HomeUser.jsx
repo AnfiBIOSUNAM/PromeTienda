@@ -3,6 +3,7 @@ import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { agregarAlCarrito } from '../Carrito/Carrito';
+import RangeSlider from '../Gadgets/RangeBar.jsx';
 import './HomeUser.css';
 
 export default function HomeUser() {
@@ -10,22 +11,40 @@ export default function HomeUser() {
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
+    const [searchString, setSearchString] = useState('');
+   
+    const [rangeValues, setRangeValues] = useState([0, 5000]);
+
+    const handleRangeChange = (values) => {
+        setRangeValues(values);
+      };
+  
+  
 
     useEffect(() => {
         const fetchProducts = async () => {
             try {
                 let url = 'http://localhost:5000/products';
+                if (rangeValues) {
+                    url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
+                }
+                
+                if(searchString){
+                    url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
+                }
                 if (category) {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
                 }
+
+                
                 const response = await axios.get(url);
                 var updatedProducts = response.data.map(product => ({
                     ...product,
                     fotourl: `http://localhost:5000/imagenes/${product.foto}`
                 }));
-                if(cookies.user && cookies.user['vendedor']==1){
+                if (cookies.user && cookies.user['vendedor'] == 1) {
                     filtrar(updatedProducts)
-                }else{
+                } else {
                     quitarSinExistencias(updatedProducts)
                 }
             } catch (error) {
@@ -34,7 +53,7 @@ export default function HomeUser() {
         };
 
         fetchProducts();
-    }, [category]);
+    }, [category, searchString, rangeValues]);
 
     const agregar = (idProducto) => {
         agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
@@ -61,7 +80,17 @@ export default function HomeUser() {
     const quitarSinExistencias = (productos) => {
         let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
         setProducts(productosFiltrados)
-      }
+    }
+
+    const handleSearch = () => {
+        // Realizar la acción deseada aquí, por ejemplo, enviar la cadena de búsqueda a una función
+        console.log("Cadena de búsqueda:", searchString);
+      };
+
+     
+
+     
+    
 
     return (
         <>
@@ -74,6 +103,20 @@ export default function HomeUser() {
                     </div>
                 </div>
             </header>
+            <div class="topnav">
+  <div class="search-container">
+      <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
+      
+
+  </div>
+  <div>
+  <label className='text-white'>Rango de precio:</label>
+      <RangeSlider min={0} max={5000} step={1} values={rangeValues} onChange={handleRangeChange}/>
+      {/* Puedes agregar más componentes aquí */}
+    </div>
+
+
+</div>
             <div className="products-container">
                 <label className='text-white'>Selecciona una categoría:</label>
                 <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
@@ -93,9 +136,9 @@ export default function HomeUser() {
                     <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                         {products.slice(0, 8).map(product => (
                             <div className={`col mb-5`} key={product.idProducto}>
-                                <div className={`card h-100 tarjeta ${product.cantidad<= 0 ? 'card-borrosa':''}`}>
+                                <div className={`card h-100 tarjeta ${product.cantidad <= 0 ? 'card-borrosa' : ''}`}>
                                     <div className='cont-img text-center' onClick={irADetalle(product)}>
-                                     <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto}/>
+                                        <img className="card-img-top img-fluid img-card mt-1" src={product.fotourl} alt={product.nombreProducto} />
                                     </div>
                                     <div className="card-body p-4" onClick={irADetalle(product)}>
                                         <div className="text-center">
