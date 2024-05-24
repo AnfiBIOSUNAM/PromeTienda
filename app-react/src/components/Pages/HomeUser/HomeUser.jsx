@@ -12,20 +12,29 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
-   
-    const [rangeValues, setRangeValues] = useState([0, 5000]);
+    const [rangeValues, setRangeValues] = useState([0, 100000]);
+    const [dataValues, setDataValues] = useState(['','','',''])
 
-    const handleRangeChange = (values) => {
-        setRangeValues(values);
+  
+  
+  
+      const handleMinChange = (e) => {
+        const newMin = parseFloat(e.target.value);
+        setRangeValues([newMin, rangeValues[1]]);
+        
       };
-  
-  
-
+    
+      const handleMaxChange = (e) => {
+        const newMax = parseFloat(e.target.value);
+        setRangeValues([rangeValues[0], newMax]);
+        
+      };
     useEffect(() => {
+        setDataValues(searchString, category, rangeValues[0], rangeValues[1]);
         const fetchProducts = async () => {
             try {
                 let url = 'http://localhost:5000/products';
-                if (rangeValues) {
+              /*  if (rangeValues) {
                     url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
                 }
                 
@@ -34,7 +43,7 @@ export default function HomeUser() {
                 }
                 if (category) {
                     url = `http://localhost:5000/producto/read/categoria/${category}`;
-                }
+                }*/
 
                 
                 const response = await axios.get(url);
@@ -109,9 +118,30 @@ export default function HomeUser() {
       
 
   </div>
-  <div>
-  <label className='text-white'>Rango de precio:</label>
-      <RangeSlider min={0} max={5000} step={1} values={rangeValues} onChange={handleRangeChange}/>
+  <div className="app-container">
+      
+      <label className="text-white">Rango de precio:</label>
+      <div className="range-inputs">
+        <input
+          type="number"
+          min="0"
+          max="5000"
+          step="1"
+          value={rangeValues[0]}
+          onChange={handleMinChange}
+          className="range-input"
+        />
+        <input
+          type="number"
+          min="0"
+          max="5000"
+          step="1"
+          value={rangeValues[1]}
+          onChange={handleMaxChange}
+          className="range-input"
+        />
+      </div>
+      <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
       {/* Puedes agregar más componentes aquí */}
     </div>
 
