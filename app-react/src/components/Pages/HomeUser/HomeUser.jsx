@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback} from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -12,7 +12,7 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
-    const [rangeValues, setRangeValues] = useState(['', '']);
+    const [rangeValues, setRangeValues] = useState([0, 1000000]);
     const [dataValues, setDataValues] = useState(['','','',''])
 
   
@@ -28,44 +28,40 @@ export default function HomeUser() {
         const newMax = parseFloat(e.target.value);
         setRangeValues([rangeValues[0], newMax]);
         
+        
       };
-    useEffect(() => {
+      useEffect(() => {
         setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
-        const fetchProducts = async () => {
-            try {
-                let url = 'http://localhost:5000/products';
-
-                if (rangeValues||searchString || category) {
-                    if(rangeValues[0]>=0 && rangeValues[1]>=0){
-                    url = `http://localhost:5000/producto/read/checks/${dataValues}`;
-                    }
-                }
-                
-                /*if(searchString){
-                    url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
-                }
-                if (category) {
-                    url = `http://localhost:5000/producto/read/categoria/${category}`;
-                }*/
-
-                
-                const response = await axios.get(url);
-                var updatedProducts = response.data.map(product => ({
-                    ...product,
-                    fotourl: `http://localhost:5000/imagenes/${product.foto}`
-                }));
-                if (cookies.user && cookies.user['vendedor'] == 1) {
-                    filtrar(updatedProducts)
-                } else {
-                    quitarSinExistencias(updatedProducts)
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        };
-
-        fetchProducts();
     }, [category, searchString, rangeValues]);
+
+    const fetchProducts = useCallback(async () => {
+        try {
+            let url = 'http://localhost:5000/products';
+
+            if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
+                url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
+            }
+
+            const response = await axios.get(url);
+            var updatedProducts = response.data.map(product => ({
+                ...product,
+                fotourl: `http://localhost:5000/imagenes/${product.foto}`
+            }));
+
+            if (cookies.user && cookies.user['vendedor'] == 1) {
+                filtrar(updatedProducts);
+            } else {
+                quitarSinExistencias(updatedProducts);
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }, [dataValues, cookies]);
+
+    useEffect(() => {
+        fetchProducts();
+    }, [fetchProducts]);
+
 
     const agregar = (idProducto) => {
         agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
