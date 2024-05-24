@@ -12,7 +12,7 @@ export default function HomeUser() {
     const [products, setProducts] = useState([]);
     const [category, setCategory] = useState('');
     const [searchString, setSearchString] = useState('');
-    const [rangeValues, setRangeValues] = useState([0, 100000]);
+    const [rangeValues, setRangeValues] = useState(['', '']);
     const [dataValues, setDataValues] = useState(['','','',''])
 
   
@@ -30,15 +30,18 @@ export default function HomeUser() {
         
       };
     useEffect(() => {
-        setDataValues(searchString, category, rangeValues[0], rangeValues[1]);
+        setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
         const fetchProducts = async () => {
             try {
                 let url = 'http://localhost:5000/products';
-              /*  if (rangeValues) {
-                    url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
+
+                if (rangeValues||searchString || category) {
+                    if(rangeValues[0]>=0 && rangeValues[1]>=0){
+                    url = `http://localhost:5000/producto/read/checks/${dataValues}`;
+                    }
                 }
                 
-                if(searchString){
+                /*if(searchString){
                     url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
                 }
                 if (category) {
