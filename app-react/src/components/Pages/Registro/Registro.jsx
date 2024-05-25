@@ -26,6 +26,7 @@ export default function Registro() {
         const apMat = e.target.apMat.value;
         const correo = e.target.correo.value;
         const telefono = e.target.telefono.value;
+        const msg_password = e.target.contraseña.value;
         const contraseña = hashPassword(e.target.contraseña.value);
         let imagen = e.target.imagen.value;
         let tipoCuenta = e.target.tipoCuenta.value;
@@ -46,11 +47,11 @@ export default function Registro() {
         
         console.log(nombre, apPat, apMat, correo, telefono, contraseña, imagen, tipoCuenta);
 
-        registro(nombre, apPat, apMat, correo, telefono, contraseña, imagen, tipoCuenta);
+        registro(nombre, apPat, apMat, correo, telefono, contraseña, imagen, tipoCuenta, msg_password);
 
     }
 
-    const registro = async (nombre, apPat, apMat, correo, telefono, contraseña, imagen, tipoCuenta) => {
+    const registro = async (nombre, apPat, apMat, correo, telefono, contraseña, imagen, tipoCuenta, msg_password) => {
         const formdata = new FormData();
         formdata.append('nombre', nombre);
         formdata.append('apPat', apPat);
@@ -77,6 +78,7 @@ export default function Registro() {
                     }else{
                         Success('Usuario creado correctamente')
                         //alert('Usuario creado correctamente')
+                        enviar_correo(nombre, correo,msg_password);
                         console.log(data);
                         navigate('/')
                     }
@@ -90,6 +92,37 @@ export default function Registro() {
             console.log(error);
             Error('Ocurrió un error inesperado, inténtalo más tarde')
             //alert('Ocurrió un error inesperado, inténtalo más tarde')
+        }
+    }
+
+
+    const enviar_correo = async (nombre,correo, msg_password) => {
+        const formdata = new FormData();
+        formdata.append('nombre', nombre);
+        formdata.append('correo', correo);
+        formdata.append('contraseña', msg_password);
+
+        try{
+            const response = await fetch(`http://localhost:5000/correos/cuenta`, {
+                method: 'POST',
+                body: formdata
+            }).then((response) => response.json()).then((data) => {
+                console.log(data);
+                try{
+                    if(data['error'] ){
+                        
+                        Error('No se pudo enviar el correo')
+                    }
+                }catch(error){
+                    console.log(error);
+                }
+            });
+            
+        }catch(error){
+            console.log('Error en la petición');
+            console.log(error);
+            Error('Ocurrió un error inesperado, inténtalo más tarde')
+          
         }
     }
 

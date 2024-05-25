@@ -9,6 +9,9 @@ from controller.ControllerAlmacenar import almacenar_blueprint
 from controller.ControllerCompra import compra_blueprint
 from controller.ControllerContener import contener_blueprint
 from Model import model_productos
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS, cross_origin
 import json
 import os
@@ -87,6 +90,34 @@ def servir_imagen(nombre_imagen):
             return send_from_directory(app.config['UPLOADED_IMAGES_DEST'], nombre_imagen)
         else:
             return jsonify({'error': 'Imagen no encontrada'}), 404
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/correos/cuenta', methods=['POST'])
+def enviar_correo_cuenta():
+    from_email = "prometienda.fc@gmail.com"
+    password = "uictyyyzilngdczu"
+    name = request.form.get('nombre')
+    to_email = request.form.get('correo')
+    user_password = request.form.get('contraseña')
+    message = "Hola, "+ name +".\n\nEste correo es para informar que la creación de tu cuenta en Prometienda ha sido exitosa.\n\nNo olvides que tu contraseña es: "+ user_password
+   
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = "Creación de cuenta exitosa"
+
+    # Add body to email
+    msg.attach(MIMEText(message, 'plain'))
+
+    # Create SMTP session for sending the mail
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()  # Enable security
+            server.login(from_email, password)  # Login with mail_id and password
+            text = msg.as_string()
+            server.sendmail(from_email, to_email, text)
+        return json.dumps({'success': 'usuario_incorrecto'})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
