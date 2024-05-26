@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -11,45 +11,60 @@ function VerProducto() {
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState('');
   const [searchString, setSearchString] = useState('');
-  const [showButtons, setShowButtons] = useState(false);
   const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
-  const [rangeValues, setRangeValues] = useState([0, 5000]);
+  const [rangeValues, setRangeValues] = useState([0, 100000]);
+  const [dataValues, setDataValues] = useState(['', '', '', ''])
+
 
   const vendedor = cookies.user && cookies.user['vendedor'] === 1;
 
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let url = 'http://localhost:5000/producto/read';
-        if (rangeValues) {
-          url = `http://localhost:5000/producto/read/buscador/precio/${rangeValues}`;
-      }
-        if(searchString){
-          url = `http://localhost:5000/producto/read/buscador/nombre/${searchString}`;
-      }
-        if (category) {
-          url = `http://localhost:5000/producto/read/categoria/${category}`;
-        }
-        
-        const response = await axios.get(url);
-        var updatedProducts = response.data.map(product => ({
-          ...product,
-          fotourl: `http://localhost:5000/imagenes/${product.foto}`
-        }));
-        if (vendedor) {
-          filtrar(updatedProducts)
-        } else {
-          quitarSinExistencias(updatedProducts)
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  const handleMinChange = (e) => {
+    const newMin = parseFloat(e.target.value);
+    setRangeValues([newMin, rangeValues[1]]);
 
-    fetchProducts();
+  };
+
+  const handleMaxChange = (e) => {
+    const newMax = parseFloat(e.target.value);
+    setRangeValues([rangeValues[0], newMax]);
+
+
+  };
+  useEffect(() => {
+    setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
   }, [category, searchString, rangeValues]);
+
+  const fetchProducts = useCallback(async () => {
+    try {
+      let url = 'http://localhost:5000/products';
+
+      if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
+        url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
+      }
+
+      const response = await axios.get(url);
+      var updatedProducts = response.data.map(product => ({
+        ...product,
+        fotourl: `http://localhost:5000/imagenes/${product.foto}`
+      }));
+
+      if (cookies.user && cookies.user['vendedor'] == 1) {
+        filtrar(updatedProducts);
+      } else {
+        quitarSinExistencias(updatedProducts);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }, [dataValues, cookies]);
+
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
+
 
   const agregar = (idProducto) => {
     agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
@@ -78,10 +93,7 @@ function VerProducto() {
     setProducts(productosFiltrados)
   }
 
-  const handleButtons = () => {
-    console.log("Funciona el onclick de los botones");
-    setShowButtons(true);
-  };
+  
 
   const goBack = () => {
     navigate(-1)
@@ -92,7 +104,41 @@ function VerProducto() {
       <div className="fullscreen-shape"></div>
       <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left" /></button>
       <h1 className='text-white'>Productos</h1>
+      <div class="topnav">
+  <div class="search-container">
+      <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
+      
+
+  </div>
+  </div>
+      
+      <div className="app-container">
+      
+      <label className="text-white">Rango de precio:</label>
+      <div className="range-inputs">
+        <input
+          type="number"
+          min="0"
+          max="5000"
+          step="1"
+          value={rangeValues[0]}
+          onChange={handleMinChange}
+          className="range-input"
+        />
+        <input
+          type="number"
+          min="0"
+          max="5000"
+          step="1"
+          value={rangeValues[1]}
+          onChange={handleMaxChange}
+          className="range-input"
+        />
+      </div>
+      <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
+    </div>
       <div className="products-container">
+
         <label className='text-white'>Selecciona una categoría:</label>
         <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
           <option value="">Todo</option>
