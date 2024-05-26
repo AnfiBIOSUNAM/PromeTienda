@@ -141,7 +141,6 @@ export default function HomeUser() {
         />
       </div>
       <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
-      {/* Puedes agregar más componentes aquí */}
     </div>
 
 
