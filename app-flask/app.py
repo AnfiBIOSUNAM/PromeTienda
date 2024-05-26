@@ -121,6 +121,51 @@ def enviar_correo_cuenta():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/correos/compra', methods=['POST']) 
+def enviar_correo_compra():   
+    from_email = "prometienda.fc@gmail.com"
+    password = "uictyyyzilngdczu"
+    data = request.get_json()
+    if all(key in data for key in ('correo', 'idCompra', 'products')):
+        to_email = data['correo']
+        idCompra = data['idCompra']
+        products = data['products']
+        nombre = data['nombre']      
+        # Crear la cadena de productos con nombre y cantidad separados por saltos de línea
+        productos_detalle = "\n".join([f"{product['idProducto']} - Cantidad: {product['cantidad']}" for product in products])
+        message = f"Hola, {nombre}.\nEstos son los detalles de tu compra más reciente:\nID compra: {idCompra}\n\nProductos:\n{productos_detalle}"
+        # Procesar la compra con los datos recibidos
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = to_email
+        msg['Subject'] = "Compra exitosa"
+
+        # Add body to email
+        msg.attach(MIMEText(message, 'plain'))
+
+        # Create SMTP session for sending the mail
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()  # Enable security
+                server.login(from_email, password)  # Login with mail_id and password
+                text = msg.as_string()
+                server.sendmail(from_email, to_email, text)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+        resultado = {
+            'correo': to_email,
+            'idCompra': idCompra,
+            'productos': productos_detalle
+        }
+        
+        print("Correo del usuario:", to_email)
+        print("ID de Compra:", idCompra)
+        print("Detalles de productos:\n", productos_detalle)
+        
+        return jsonify({'success': True, 'resultado': resultado}), 200
+    else:
+        return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
+
 
 
 if __name__ == '__main__':

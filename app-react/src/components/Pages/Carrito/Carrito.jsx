@@ -57,6 +57,7 @@ export default function Carrito() {
 
     const [products, setProducts] = useState([]);
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
+    
 
     useEffect(() => {
         axios.get(`http://localhost:5000/carrito/productosInfo/${cookies.user['idCarrito']}`)
@@ -164,6 +165,7 @@ export default function Carrito() {
                             console.log(data);
                         })
                     })
+                    enviarCompra(id, products);
                     Success('Compra realizada correctamente')
 
                     Promise.all(promises).then(() => {
@@ -190,6 +192,44 @@ export default function Carrito() {
         }
     }
 
+    const enviarCompra = (idCompra, products) => {
+        // Crear un objeto con el correo, idCompra y productos
+        const payload = {
+            correo: cookies.user['correo'],
+            nombre: cookies.user['nombre'],
+            idCompra: idCompra,
+            products: products.map(product => ({
+                idProducto: product.idProducto,
+                nombre: product.nombre,
+                cantidad: product.cantidad_carrito,
+            }))
+        };
+    
+        // Convertir el objeto a JSON
+        const jsonPayload = JSON.stringify(payload);
+    
+        try {
+            fetch('http://localhost:5000/correos/compra', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonPayload
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta del servidor:', data);
+                if (data.success) {
+                    console.log('Compra enviada correctamente');
+                } else {
+                    console.error('Error al enviar la compra:', data.error);
+                }
+            });
+        } catch (error) {
+            console.error('Error en la petición:', error);
+        }
+    }
+    
 
     return (
         <>
