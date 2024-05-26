@@ -111,8 +111,8 @@ export default function HomeUser() {
                     </div>
                 </div>
             </header>
-            <div class="topnav">
-  <div class="search-container">
+            <div className="topnav">
+  <div className="search-container">
       <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
       
 
