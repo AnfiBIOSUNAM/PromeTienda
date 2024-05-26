@@ -9,6 +9,9 @@ from controller.ControllerAlmacenar import almacenar_blueprint
 from controller.ControllerCompra import compra_blueprint
 from controller.ControllerContener import contener_blueprint
 from Model import model_productos
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from flask_cors import CORS, cross_origin
 import json
 import os
@@ -89,6 +92,82 @@ def servir_imagen(nombre_imagen):
             return jsonify({'error': 'Imagen no encontrada'}), 404
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
+@app.route('/correos/cuenta', methods=['POST'])
+def enviar_correo_cuenta():
+    from_email = "prometienda.fc@gmail.com"
+    password = "uictyyyzilngdczu"
+    name = request.form.get('nombre')
+    to_email = request.form.get('correo')
+    user_password = request.form.get('contraseña')
+    message = "Hola, "+ name +".\n\nEste correo es para informar que la creación de tu cuenta en Prometienda ha sido exitosa.\n\nNo olvides que tu contraseña es: "+ user_password
+   
+    msg = MIMEMultipart()
+    msg['From'] = from_email
+    msg['To'] = to_email
+    msg['Subject'] = "Creación de cuenta exitosa"
+
+    # Add body to email
+    msg.attach(MIMEText(message, 'plain'))
+
+    # Create SMTP session for sending the mail
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()  # Enable security
+            server.login(from_email, password)  # Login with mail_id and password
+            text = msg.as_string()
+            server.sendmail(from_email, to_email, text)
+        return json.dumps({'success': 'usuario_incorrecto'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+@app.route('/correos/compra', methods=['POST']) 
+def enviar_correo_compra():   
+    from_email = "prometienda.fc@gmail.com"
+    password = "uictyyyzilngdczu"
+    data = request.get_json()
+    if all(key in data for key in ('correo', 'idCompra', 'products')):
+        to_email = data['correo']
+        idCompra = data['idCompra']
+        products = data['products']
+        nombre = data['nombre']      
+        productos_detalle = ""
+        total_compra = 0
+        for product in products:
+            producto = model_productos.read_product(product['idProducto'])
+            if producto:
+                total_compra += product['importe']
+                productos_detalle += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']} pesos\n"
+        message = f"Hola, {nombre}.\nEstos son los detalles de tu compra más reciente:\nID compra: {idCompra}\n\nProductos:\n{productos_detalle}\n\nTotal de compra: {total_compra} pesos.\n\nGracias por tu compra, vuelve pronto."
+        # Procesar la compra con los datos recibidos
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = to_email
+        msg['Subject'] = f"Compra con ID: {idCompra} fue exitosa"
+
+        # Add body to email
+        msg.attach(MIMEText(message, 'plain'))
+
+        # Create SMTP session for sending the mail
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()  # Enable security
+                server.login(from_email, password)  # Login with mail_id and password
+                text = msg.as_string()
+                server.sendmail(from_email, to_email, text)
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+        resultado = {
+            'correo': to_email,
+            'idCompra': idCompra,
+            'productos': productos_detalle
+        }
+        
+       
+        
+        return jsonify({'success': True, 'resultado': resultado}), 200
+    else:
+        return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
 
 
 

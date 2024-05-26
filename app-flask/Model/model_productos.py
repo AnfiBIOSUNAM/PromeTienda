@@ -87,13 +87,31 @@ def products_by_name(string):
         print("Ocurrió un error al intentar obtener los productos por nombre: ", e)
         return -1
 
-def products_by_price(min_price, max_price):
+def products_by_check(nombre, categoria, min_price, max_price):
+    print("Nombre: ", nombre)
+    print("Categoria: ", categoria)
     try:
-        productos = Producto.query.filter(Producto.precio >= min_price, Producto.precio <= max_price).all()
+        query = Producto.query
+        
+        # Aplicar filtro de precio
+        query = query.filter(Producto.precio >= min_price, Producto.precio <= max_price)
+        
+        # Aplicar filtro de nombre si no está vacío
+        if nombre:
+           query = query.filter(Producto.nombreProducto.ilike(f"%{nombre}%"))
+        
+        
+        # Aplicar filtro de categoría si no está vacío
+        if categoria:
+           query = query.join(Categoria, Producto.idProducto == Categoria.idProducto).filter(Categoria.categoria == categoria.strip())
+        
+        # Ejecutar la consulta y obtener los resultados
+        productos = query.all()
         return productos
     except Exception as e:
-        print("Ocurrió un error al intentar obtener los productos por precio: ", e)
+        print("Ocurrió un error al intentar obtener los productos: ", e)
         return -1
+
 
 
 
