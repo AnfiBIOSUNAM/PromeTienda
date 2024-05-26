@@ -1,4 +1,5 @@
 from alchemyClasses.Almacenar import Almacenar
+from alchemyClasses.Producto import Producto
 from alchemyClasses import db
 from flask import jsonify
 from sqlalchemy import text
@@ -12,10 +13,15 @@ from sqlalchemy import text
         return -1"""
     
 def agregar_al_carrito(idProducto, idCarrito, numero):
-    
+    p = Producto.query.filter(Producto.idProducto == idProducto).first()
+    cantidad = int(p.cantidad)
+    por_agregar = int(numero)
+    if cantidad < por_agregar:
+        por_agregar = cantidad
+                
     producto = Almacenar.query.filter(Almacenar.idProducto == idProducto, Almacenar.idCarrito == idCarrito).first()
     if producto is None:
-        new_producto = Almacenar(idCarrito, idProducto, numero)
+        new_producto = Almacenar(idCarrito, idProducto, por_agregar)
         try:
             db.session.add(new_producto)
             db.session.commit()
@@ -23,7 +29,12 @@ def agregar_al_carrito(idProducto, idCarrito, numero):
         except:
             return -1
     else:
-        producto.cantidad = producto.cantidad + int(numero)
+        
+        if producto.cantidad + por_agregar > cantidad:
+            producto.cantidad = cantidad
+        else:
+            producto.cantidad = producto.cantidad + int(por_agregar)
+            
         try:
             db.session.commit()
             return producto
