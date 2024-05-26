@@ -131,14 +131,19 @@ def enviar_correo_compra():
         idCompra = data['idCompra']
         products = data['products']
         nombre = data['nombre']      
-        # Crear la cadena de productos con nombre y cantidad separados por saltos de línea
-        productos_detalle = "\n".join([f"{product['idProducto']} - Cantidad: {product['cantidad']}" for product in products])
-        message = f"Hola, {nombre}.\nEstos son los detalles de tu compra más reciente:\nID compra: {idCompra}\n\nProductos:\n{productos_detalle}"
+        productos_detalle = ""
+        total_compra = 0
+        for product in products:
+            producto = model_productos.read_product(product['idProducto'])
+            if producto:
+                total_compra += product['importe']
+                productos_detalle += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']} pesos\n"
+        message = f"Hola, {nombre}.\nEstos son los detalles de tu compra más reciente:\nID compra: {idCompra}\n\nProductos:\n{productos_detalle}\n\nTotal de compra: {total_compra} pesos.\n\nGracias por tu compra, vuelve pronto."
         # Procesar la compra con los datos recibidos
         msg = MIMEMultipart()
         msg['From'] = from_email
         msg['To'] = to_email
-        msg['Subject'] = "Compra exitosa"
+        msg['Subject'] = f"Compra con ID: {idCompra} fue exitosa"
 
         # Add body to email
         msg.attach(MIMEText(message, 'plain'))
@@ -158,9 +163,7 @@ def enviar_correo_compra():
             'productos': productos_detalle
         }
         
-        print("Correo del usuario:", to_email)
-        print("ID de Compra:", idCompra)
-        print("Detalles de productos:\n", productos_detalle)
+       
         
         return jsonify({'success': True, 'resultado': resultado}), 200
     else:

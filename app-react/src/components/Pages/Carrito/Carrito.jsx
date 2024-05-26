@@ -202,6 +202,7 @@ export default function Carrito() {
                 idProducto: product.idProducto,
                 nombre: product.nombre,
                 cantidad: product.cantidad_carrito,
+                importe: product.precio * product.cantidad_carrito
             }))
         };
     
