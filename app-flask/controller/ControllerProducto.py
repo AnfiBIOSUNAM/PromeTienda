@@ -116,6 +116,17 @@ def search_products_by_price(precio):
     return json.dumps([product.to_dict() for product in products])
 
 
+@producto_blueprint.route('/read/checks/<dataValues>', methods=['GET'])
+def search_products_by_checks(dataValues):
+    nombre,categoria, min, max = dataValues.split(',')
+    min_price = float(min)
+    max_price = float(max)
+    
+    products = mp.products_by_check(nombre, categoria, min_price, max_price)
+    if products == -1:
+        return json.dumps({'error': 'No se pudieron obtener los productos con esas condiciones'})
+    return json.dumps([product.to_dict() for product in products])
+
     
 
 @producto_blueprint.route('/nombreImagen', methods=['POST'])
