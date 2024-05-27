@@ -66,7 +66,7 @@ export default function Detalle() {
         axios.get(`http://localhost:5000/producto/reactivar/${jsonDataObject.idProducto}`)
             .then(response => {
                 setProductoReactivado(true);
-                window.location.reload();
+                navigate('/');
             })
             .catch(error => {
                 console.error('Error al reactivar el producto:', error);
@@ -127,6 +127,8 @@ export default function Detalle() {
                                 </div>
                             }
 
+                            <p>Existencias: {jsonDataObject.cantidad}</p>
+
                             {cantidadProducto === 0 && !productoReactivado && (
                                 <button className="btn btn-outline-dark flex-shrink-0 m-3" onClick={reactivarProducto}>
                                     Reactivar
@@ -138,13 +140,6 @@ export default function Detalle() {
                             )}
 
                             {vendedor && cantidadProducto > 0 && !productoReactivado && (
-                                <div>
-                                    <NavLink to={`/productos/actualizar/${jsonDataObject.idProducto}`} className={'editar m-2'}><i className="bi bi-pencil-square" /> Editar</NavLink>
-                                    <NavLink to={`/productos/eliminar/${jsonDataObject.idProducto}`} className={'eliminar'}><i className="bi bi-trash3" /> Desactivar</NavLink>
-                                </div>
-                            )}
-
-                            {vendedor && cantidadProducto > 0 && productoReactivado && (
                                 <div>
                                     <NavLink to={`/productos/actualizar/${jsonDataObject.idProducto}`} className={'editar m-2'}><i className="bi bi-pencil-square" /> Editar</NavLink>
                                     <NavLink to={`/productos/eliminar/${jsonDataObject.idProducto}`} className={'eliminar'}><i className="bi bi-trash3" /> Desactivar</NavLink>
