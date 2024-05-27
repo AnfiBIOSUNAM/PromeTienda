@@ -146,3 +146,10 @@ def get_verification():
     if check == -1:
         return json.dumps({'error': 'No hay productos'})
     return json.dumps(check)
+
+@producto_blueprint.route('/reactivar/<idProducto>', methods=['GET'])
+def reactivate_product(idProducto):
+    product = mp.reactivate_product(idProducto)
+    if product == -1:
+        return json.dumps({'error': 'No se pudo reactivar el producto'})
+    return json.dumps(product.to_dict())
