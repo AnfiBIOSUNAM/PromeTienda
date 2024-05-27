@@ -43,7 +43,7 @@ function EliminarProducto() {
                     }
                 } else {
                     Success('Producto eliminado correctamente');
-                    navigate('/productos');
+                    navigate('/home');
                 }
             });
         } catch (error) {
