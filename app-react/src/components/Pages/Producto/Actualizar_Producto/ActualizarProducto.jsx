@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { useParams } from 'react-router-dom';
@@ -20,7 +20,28 @@ function ActualizarProducto() {
     const [cantidad, setCantidad] = useState('');
     const [antiguaImagen, setAntiguaImagen] = useState('');
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
+    const [productoComprado, setProductoComprado] = useState(null);
     const idUsuario = cookies.user.idUsuario;
+
+    useEffect(() => {
+        const verificarProducto = async () => {
+            const formdata = new FormData();
+            formdata.append('idProducto', idProducto);
+            try {
+                const response = await fetch(`http://localhost:5000/contener/revisar`, {
+                    method: 'POST',
+                    body: formdata
+                });
+                const data = await response.json();
+                setProductoComprado(!data); // Actualiza el estado basado en la respuesta
+            } catch (error) {
+                console.error('Error al verificar el producto:', error);
+                Error('Ocurrió un error al verificar el producto');
+            }
+        };
+
+        verificarProducto();
+    }, [idProducto]);
 
     const handleCategoriaChange = (e) => {
         const categoriaSeleccionada = e.target.value;
@@ -323,7 +344,7 @@ function ActualizarProducto() {
                             //limpiar_imagenes(antiguaFoto);
 
                         }
-                        navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
+                        navigate(-1); 
                     }
                 } catch (error) {
                     console.log(error);
@@ -352,19 +373,41 @@ function ActualizarProducto() {
                 <form className='m-5' onSubmit={handleSubmit}>
                     <fieldset>
                         
-                        <div>
-                            <label htmlFor="nombreProducto" className="form-label mt-4">Nombre del Producto</label>
-                            <input type="text" className="form-control" id="nombreProducto" placeholder="Ingrese el nombre del producto" value={nombreProducto} onChange={(e) => setNombreProducto(e.target.value)} />
-                        </div>
+                    <div >
+                                    {productoComprado && (
+                                        <>
+                                            <label htmlFor="nombreProducto" className="form-label">Nombre del producto</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="nombreProducto"
+                                                name="nombreProducto"
+                                                placeholder='Ingresa el nombre del producto'
+                                                value={nombreProducto}
+                                                onChange={(e) => setNombreProducto(e.target.value)}
+                                            />
+                                        </>
+                                    )}
+                                </div>
                         <div>
                             <label htmlFor="descripcion" className="form-label mt-4">Descripción</label>
                             <textarea className="form-control" id="descripcion" placeholder="Ingrese la descripción del producto" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
                         </div>
-                        <div className="mb-3">
-                            <label htmlFor="imagen" className="form-label">Imagen</label>
-                            <input type="file" className="form-control" id="imagen" aria-describedby="imagenHelp" onChange={handleImagenChange} multiple />
-                            <div id="imagenHelp" className="form-text">Selecciona una o varias imagenes del producto</div>
-                        </div>
+                         <div className="mb-3">
+                                    {productoComprado && (
+                                        <>
+                                            <label htmlFor="imagen" className="form-label">Imagen del producto</label>
+                                            <input
+                                                type="file"
+                                                className="form-control"
+                                                id="imagen"
+                                                name="imagen"
+                                                multiple
+                                                onChange={handleImagenChange}
+                                            />
+                                        </>
+                                    )}
+                                </div>
                         <div>
                             <label htmlFor="precio" className="form-label mt-4">Precio</label>
                             <input type="number" className="form-control" id="precio" placeholder="Ingrese el precio del producto" value={precio} onChange={(e) => setPrecio(e.target.value)} />
