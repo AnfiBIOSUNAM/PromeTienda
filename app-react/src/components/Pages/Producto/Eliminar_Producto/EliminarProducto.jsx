@@ -42,7 +42,7 @@ function EliminarProducto() {
                             break;
                     }
                 } else {
-                    Success('Producto eliminado correctamente');
+                    Success('Publicacion desactivada correctamente');
                     navigate('/home');
                 }
             });

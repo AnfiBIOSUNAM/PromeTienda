@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
+import { Success, Error } from '../../Swal/Swal';
 import axios from "axios";
 import './Detalle.css';
 
@@ -17,6 +18,7 @@ export default function Detalle() {
     const [cantidadProducto, setCantidadProducto] = useState(jsonDataObject.cantidad);
     const [errorReactivar, setErrorReactivar] = useState(false);
     const [productoReactivado, setProductoReactivado] = useState(false);
+    const [mensajeReactivacion, setMensajeReactivacion] = useState('');
 
     const vendedor = cookies.user && cookies.user['vendedor'] === 1;
 
@@ -66,6 +68,7 @@ export default function Detalle() {
         axios.get(`http://localhost:5000/producto/reactivar/${jsonDataObject.idProducto}`)
             .then(response => {
                 setProductoReactivado(true);
+                Success('El producto se ha reactivado exitosamente.');
                 navigate('/');
             })
             .catch(error => {
@@ -127,8 +130,6 @@ export default function Detalle() {
                                 </div>
                             }
 
-                            <p>Existencias: {jsonDataObject.cantidad}</p>
-
                             {cantidadProducto === 0 && !productoReactivado && (
                                 <button className="btn btn-outline-dark flex-shrink-0 m-3" onClick={reactivarProducto}>
                                     Reactivar
@@ -148,6 +149,10 @@ export default function Detalle() {
 
                             {!cookies.user && (
                                 <p><NavLink to="/login" className='link'>Inicia sesión </NavLink>para comprar este producto</p>
+                            )}
+
+                            {mensajeReactivacion && (
+                                <p className="text-success">{mensajeReactivacion}</p>
                             )}
 
                         </div>
