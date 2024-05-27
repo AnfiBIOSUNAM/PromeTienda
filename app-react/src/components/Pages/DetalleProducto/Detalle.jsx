@@ -130,6 +130,8 @@ export default function Detalle() {
                                 </div>
                             }
 
+                            <p>Existencias: {jsonDataObject.cantidad}</p>
+
                             {cantidadProducto === 0 && !productoReactivado && (
                                 <button className="btn btn-outline-dark flex-shrink-0 m-3" onClick={reactivarProducto}>
                                     Reactivar
