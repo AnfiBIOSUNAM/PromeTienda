@@ -121,7 +121,7 @@ export default function Detalle(){
                                 {vendedor &&(
                                     <div>
                                         <NavLink to={`/productos/actualizar/${jsonDataObject.idProducto}`} className={'editar m-2'}><i class="bi bi-pencil-square"/> Editar</NavLink>
-                                        <NavLink className={'eliminar'}><i class="bi bi-trash3"/> Eliminar</NavLink>
+                                        <NavLink to={`/productos/eliminar/${jsonDataObject.idProducto}`} className={'eliminar'}><i class="bi bi-trash3"/> Eliminar</NavLink>
                                     </div>
                                 )}
 
