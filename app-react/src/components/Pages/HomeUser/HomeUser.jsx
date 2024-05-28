@@ -40,6 +40,10 @@ export default function HomeUser() {
 
             if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
                 url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
+            }else{
+            	setRangeValues([0,1000000]);
+                setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
+                url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
             }
 
             const response = await axios.get(url);
