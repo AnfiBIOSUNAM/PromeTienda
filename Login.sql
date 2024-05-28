@@ -53,6 +53,22 @@ CREATE TABLE Producto (
   FOREIGN KEY (idUsuario) REFERENCES Usuario(idUsuario)
 );
 
+drop table if exists Tener;
+CREATE TABLE Tener (
+    idCarrito INT auto_increment,
+    idComprador INT,
+    nombre VARCHAR(50),
+    apPat VARCHAR(50),
+    apMat VARCHAR(50),
+    correo VARCHAR(100),
+    telefono VARCHAR(15),
+    contraseña VARCHAR(50),
+    imagen varchar(50),
+    vendedor tinyint not null,
+    primary key (idCarrito),
+    FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
+);
+
 
 drop table if exists Almacenar;
 CREATE TABLE Almacenar (
@@ -88,21 +104,7 @@ CREATE TABLE Contener (
     FOREIGN KEY (idProducto) REFERENCES Producto(idProducto)
 );
 
-drop table if exists Tener;
-CREATE TABLE Tener (
-    idCarrito INT auto_increment,
-    idComprador INT,
-    nombre VARCHAR(50),
-    apPat VARCHAR(50),
-    apMat VARCHAR(50),
-    correo VARCHAR(100),
-    telefono VARCHAR(15),
-    contraseña VARCHAR(50),
-    imagen varchar(50),
-    vendedor tinyint not null,
-    primary key (idCarrito),
-    FOREIGN KEY (idComprador) REFERENCES Usuario(idUsuario)
-);
+
 
 DELIMITER //
 CREATE TRIGGER after_insert_usuario

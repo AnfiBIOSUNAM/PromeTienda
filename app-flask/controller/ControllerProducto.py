@@ -119,8 +119,8 @@ def search_products_by_price(precio):
 @producto_blueprint.route('/read/checks/<dataValues>', methods=['GET'])
 def search_products_by_checks(dataValues):
     nombre,categoria, min, max = dataValues.split(',')
-    min_price = float(min)
-    max_price = float(max)
+    min_price = float(min) if min else 0.0
+    max_price = float(max) if max else 1000000.0
     
     products = mp.products_by_check(nombre, categoria, min_price, max_price)
     if products == -1:

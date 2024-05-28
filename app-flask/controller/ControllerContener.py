@@ -31,6 +31,19 @@ def calificar_producto():
     except:
         return json.dumps({'error': 'No se pudo calificar el producto por falta de datos'})
     
+@contener_blueprint.route('/revisar', methods=['POST'])
+def revisar_producto():
+    try:
+       
+        idProducto = request.form.get('idProducto')
+
+        contener = mc.revisar_existencia(idProducto)
+        if contener == -1:
+            return json.dumps({'error': 'No se pudo revisar el producto'})
+        return json.dumps(contener)
+    except:
+        return json.dumps({'error': 'No se pudo comentar el producto por falta de datos'})
+    
 @contener_blueprint.route('/comentar', methods=['POST'])
 def comentar_producto():
     try:
