@@ -133,3 +133,13 @@ def get_verification(idProducto, idUsuario):
         return -2
     else:
         return True
+    
+def reactivate_product(idProducto):
+    product = Producto.query.get(idProducto)
+    if product is None:
+        print('El producto con id: ' + str(idProducto) + ' no existe')
+        return -1
+    else:
+        product.cantidad = 1  # Esto establecerá el stock en 1 cuando se reactive el producto
+    db.session.commit()
+    return product

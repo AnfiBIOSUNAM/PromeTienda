@@ -344,7 +344,9 @@ function ActualizarProducto() {
                             //limpiar_imagenes(antiguaFoto);
 
                         }
-                        navigate('/'); 
+
+                        navigate('/'); // Navegar a la página de productos después de actualizar el producto
+
                     }
                 } catch (error) {
                     console.log(error);
@@ -458,7 +460,7 @@ function ActualizarProducto() {
                         </div>
                         <div className='text-center'>
                             <button type="submit" className="btn btn-azul mt-4">Actualizar</button>
-                            <NavLink to="/productos"><button type="button" className="btn btn-azul mt-4 ms-2">Regresar</button></NavLink>
+                            <NavLink to="/"><button type="button" className="btn btn-azul mt-4 ms-2">Regresar</button></NavLink>
                         </div>
                     </fieldset>
                 </form>

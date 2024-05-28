@@ -40,3 +40,14 @@ def agregar_comentario(idCompra, idProducto, comentario):
     contener.comentario = comentario
     db.session.commit()
     return contener
+
+# Función para actualizar comentario y calificación
+def actualizar_comentario_y_calificacion(idCompra, idProducto, comentario, calificacion):
+    contener = Contener.query.filter_by(idCompra=idCompra, idProducto=idProducto).first()
+    if contener:
+        contener.comentario = comentario
+        contener.calificacion = calificacion
+        db.session.commit()
+        return contener
+    else:
+        return -1
