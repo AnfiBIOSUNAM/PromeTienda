@@ -29,7 +29,7 @@ def revisar_existencia(idProducto):
     else:
        return False
 
-def agre_calificacion(idCompra, idProducto, calificacion):
+def agregar_calificacion(idCompra, idProducto, calificacion):
     contener = Contener.query.filter_by(idCompra=idCompra, idProducto=idProducto).first()
     contener.calificacion = calificacion
     db.session.commit()
