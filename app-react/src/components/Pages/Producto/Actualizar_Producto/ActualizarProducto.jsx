@@ -20,7 +20,7 @@ function ActualizarProducto() {
     const [cantidad, setCantidad] = useState('');
     const [antiguaImagen, setAntiguaImagen] = useState('');
     const [categoriasSeleccionadas, setCategoriasSeleccionadas] = useState([]);
-    const [productoComprado, setProductoComprado] = useState(null);
+    const [productoNoComprado, setProductoNoComprado] = useState(null);
     const idUsuario = cookies.user.idUsuario;
 
     useEffect(() => {
@@ -33,7 +33,7 @@ function ActualizarProducto() {
                     body: formdata
                 });
                 const data = await response.json();
-                setProductoComprado(!data); // Actualiza el estado basado en la respuesta
+                setProductoNoComprado(!data); // Actualiza el estado basado en la respuesta
             } catch (error) {
                 console.error('Error al verificar el producto:', error);
                 Error('Ocurrió un error al verificar el producto');
@@ -279,7 +279,7 @@ function ActualizarProducto() {
                         Error('No tienes autorización para actualizar dicho producto');
                     } else {
 
-                        navigate('/productos'); // Navegar a la página de productos después de actualizar el producto
+                        navigate('/'); // Navegar a la página de productos después de actualizar el producto
                     }
                 } catch (error) {
                     console.log(error);
@@ -344,7 +344,7 @@ function ActualizarProducto() {
                             //limpiar_imagenes(antiguaFoto);
 
                         }
-                        navigate(-1); 
+                        navigate('/'); 
                     }
                 } catch (error) {
                     console.log(error);
@@ -374,7 +374,7 @@ function ActualizarProducto() {
                     <fieldset>
                         
                     <div >
-                                    {productoComprado && (
+                                    {productoNoComprado && (
                                         <>
                                             <label htmlFor="nombreProducto" className="form-label">Nombre del producto</label>
                                             <input
@@ -394,7 +394,7 @@ function ActualizarProducto() {
                             <textarea className="form-control" id="descripcion" placeholder="Ingrese la descripción del producto" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
                         </div>
                          <div className="mb-3">
-                                    {productoComprado && (
+                                    {productoNoComprado && (
                                         <>
                                             <label htmlFor="imagen" className="form-label">Imagen del producto</label>
                                             <input

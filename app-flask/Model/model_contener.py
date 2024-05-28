@@ -22,7 +22,14 @@ def get_productos_de_usuario(idUsuario):
     contener = Contener.query.join(Compra).filter(Compra.idUsuario == idUsuario).all()
     return contener
 
-def agregar_calificacion(idCompra, idProducto, calificacion):
+def revisar_existencia(idProducto):
+    prod = Contener.query.filter(Contener.idProducto == idProducto).first()
+    if prod: 
+       return True
+    else:
+       return False
+
+def agre_calificacion(idCompra, idProducto, calificacion):
     contener = Contener.query.filter_by(idCompra=idCompra, idProducto=idProducto).first()
     contener.calificacion = calificacion
     db.session.commit()
