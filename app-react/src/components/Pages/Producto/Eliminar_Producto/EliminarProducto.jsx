@@ -17,15 +17,15 @@ function EliminarProducto() {
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
         formdata.append('idUsuario', idUsuario);
-        formdata.append('cantidad', 0);
-
+        formdata.append('cantidad', -1); // Cambiar a -1 para desactivar
+    
         try {
             const response = await fetch(`http://localhost:5000/producto/update`, {
                 method: 'POST',
                 body: formdata
             }).then((response) => response.json()).then((data) => {
                 console.log(data);
-
+    
                 if (data.error) {
                     switch (data.error) {
                         case "No se pudo actualizar el producto":
@@ -42,7 +42,7 @@ function EliminarProducto() {
                             break;
                     }
                 } else {
-                    Success('Publicacion desactivada correctamente');
+                    Success('Publicación eliminada correctamente');
                     navigate('/home');
                 }
             });
@@ -51,6 +51,7 @@ function EliminarProducto() {
             Error('Ocurrió un error inesperado, inténtalo más tarde');
         }
     };
+    
 
     return (
         <div className="text-center">

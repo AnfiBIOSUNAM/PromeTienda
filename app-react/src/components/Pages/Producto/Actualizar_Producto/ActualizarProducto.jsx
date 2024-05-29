@@ -296,6 +296,10 @@ function ActualizarProducto() {
 
 
     const actualizarProducto = async (idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad) => {
+        if (cantidad <= 0) {
+            Error('La cantidad debe ser mayor a 0');
+            return;
+        }
         // const antiguaFoto = await manejarImagen(idProducto);
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
@@ -420,7 +424,7 @@ function ActualizarProducto() {
                         </div>
                         <div>
                             <label htmlFor="cantidad" className="form-label mt-4">Cantidad</label>
-                            <input type="number" className="form-control" id="cantidad" placeholder="Ingrese la cantidad del producto" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
+                            <input type="number" className="form-control" id="cantidad" min="1" placeholder="Ingrese la cantidad del producto" value={cantidad} onChange={(e) => setCantidad(e.target.value)} />
                         </div>
                         <div className="mb-3">
                             <label htmlFor="categoria" className="form-label">Categoría</label>

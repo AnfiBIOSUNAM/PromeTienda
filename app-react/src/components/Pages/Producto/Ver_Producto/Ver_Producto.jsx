@@ -39,31 +39,27 @@ function VerProducto() {
 
   const fetchProducts = useCallback(async () => {
     try {
-      let url = 'http://localhost:5000/products';
+        let url = 'http://localhost:5000/products';
 
-      if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
-        url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
-      }else{
-          setRangeValues([0,1000000]);
-          setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
-          url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
-      }
+        if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
+            url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
+        } else {
+            setRangeValues([0, 1000000]);
+            setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
+            url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
+        }
 
-      const response = await axios.get(url);
-      var updatedProducts = response.data.map(product => ({
-        ...product,
-        fotourl: `http://localhost:5000/imagenes/${product.foto}`
-      }));
+        const response = await axios.get(url);
+        var updatedProducts = response.data.map(product => ({
+            ...product,
+            fotourl: `http://localhost:5000/imagenes/${product.foto}`
+        }));
 
-      if (cookies.user && cookies.user['vendedor'] == 1) {
-        filtrar(updatedProducts);
-      } else {
         quitarSinExistencias(updatedProducts);
-      }
     } catch (error) {
-      console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error);
     }
-  }, [dataValues, cookies]);
+}, [dataValues, cookies]);
 
   useEffect(() => {
     fetchProducts();

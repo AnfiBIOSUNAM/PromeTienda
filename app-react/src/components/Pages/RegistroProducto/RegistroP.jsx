@@ -35,22 +35,24 @@ export default function RegistroP(){
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if(categoriasSeleccionadas.length===0){
-            //alert('Se debe seleccionar al menos una categoría')
+        if(categoriasSeleccionadas.length === 0){
             Alert('Se debe seleccionar al menos una categoría');
-        }else{
-            const nombre = e.target.nombre.value;
-            const descripcion = e.target.descripcion.value;
-            const precio = e.target.precio.value;
-            const stock = e.target.stock.value;
-            // const categoria = e.target.categoria.value;
-            const contacto = e.target.contacto.value;
-            const idUsuario = cookies.user['idUsuario'];
-            const imagen = await guardar_imagenes(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario)
-            
-            //console.log(categoriasSeleccionadas);
-            //console.log(nombre, descripcion, precio, stock, contacto, idUsuario);
+            return;
         }
+
+        const nombre = e.target.nombre.value;
+        const descripcion = e.target.descripcion.value;
+        const precio = e.target.precio.value;
+        const stock = parseInt(e.target.stock.value); // Asegurarse de que el stock sea un número entero
+        const contacto = e.target.contacto.value;
+        const idUsuario = cookies.user['idUsuario'];
+
+        if (stock <= 0) {
+            Alert('El stock debe ser mayor a 0');
+            return;
+        }
+
+        const imagen = await guardar_imagenes(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario);
     }
 
     const registrar = async(nombre, descripcion, precio, stock, categoria, contacto, idUsuario, imagen) => {
@@ -65,7 +67,6 @@ export default function RegistroP(){
         formdata.append('imagen', imagen);
 
         registrar_producto(formdata, categoria);
-
     };
 
     const registrar_producto = async(formdata, categoria) => {
@@ -77,14 +78,11 @@ export default function RegistroP(){
                 console.log(data);
                 try{
                     if(data['error'] === "No se pudo crear el producto"){
-                        //alert("No se pudo crear el producto");
                         Error('No se pudo crear el producto');
                     }else if(data['error'] === 'Faltan datos'){
-                         // alert("Faltan datos");
                         Error('Faltan datos');
                     }else{
                         registrar_categorias(data['idProducto'], categoria);
-                        //alert('Producto creado correctamente')
                         Success('Producto creado correctamente');
                         console.log(data);
                         navigate('/home')
@@ -112,10 +110,8 @@ export default function RegistroP(){
                     console.log(data);
                     try{
                         if(data['error'] === "No se pudo crear la categoria"){
-                            //alert("No se pudo crear la categoria");
                             Error('No se pudo crear la categoria');
                         }else if(data['error'] === 'Faltan datos'){
-                            //alert("Faltan datos");
                             Error('Faltan datos al crear la categoria');
                         }else{
                             console.log(data);
@@ -135,7 +131,6 @@ export default function RegistroP(){
         Array.from(imagenes).forEach((imagen, index) => {
             formdata.append(`imagen${index}`, imagen);
         });
-        //console.log(formdata.get('imagen0'));
         try{
             const response = await fetch(`http://localhost:5000/imagenes/guardar`, {
                 method: 'POST',
@@ -146,8 +141,7 @@ export default function RegistroP(){
                 console.log("El resultado es: ",arr[0]);
                 registrar(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario, arr[0]);
 
-                return arr[0]
-               
+                return arr[0];
             });
         } catch(error){
             console.log('Error al subir las imagenes: ',error);
@@ -181,7 +175,7 @@ export default function RegistroP(){
                 </div>
                 <div className="mb-3">
                     <label htmlFor="stock" className="form-label">Stock</label>
-                    <input type="number" className="form-control" id="stock" aria-describedby="stockHelp" required/>
+                    <input type="number" className="form-control" id="stock" aria-describedby="stockHelp" min="1" required/>
                     <div id="stockHelp" className="form-text">Ingresa la cantidad de productos en stock</div>
                 </div>
                 <div className="mb-3">

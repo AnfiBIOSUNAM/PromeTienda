@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
@@ -15,22 +15,17 @@ export default function HomeUser() {
     const [rangeValues, setRangeValues] = useState([0, 1000000]);
     const [dataValues, setDataValues] = useState(['','','',''])
 
-  
-  
-  
-      const handleMinChange = (e) => {
+    const handleMinChange = (e) => {
         const newMin = parseFloat(e.target.value);
         setRangeValues([newMin, rangeValues[1]]);
-        
-      };
-    
-      const handleMaxChange = (e) => {
+    };
+
+    const handleMaxChange = (e) => {
         const newMax = parseFloat(e.target.value);
         setRangeValues([rangeValues[0], newMax]);
-        
-        
-      };
-      useEffect(() => {
+    };
+
+    useEffect(() => {
         setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
     }, [category, searchString, rangeValues]);
 
@@ -40,8 +35,8 @@ export default function HomeUser() {
 
             if (rangeValues[0] >= 0 && rangeValues[1] >= 0) {
                 url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
-            }else{
-            	setRangeValues([0,1000000]);
+            } else {
+                setRangeValues([0, 1000000]);
                 setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
                 url = `http://localhost:5000/producto/read/checks/${dataValues.join(',')}`;
             }
@@ -52,11 +47,7 @@ export default function HomeUser() {
                 fotourl: `http://localhost:5000/imagenes/${product.foto}`
             }));
 
-            if (cookies.user && cookies.user['vendedor'] == 1) {
-                filtrar(updatedProducts);
-            } else {
-                quitarSinExistencias(updatedProducts);
-            }
+            quitarSinExistencias(updatedProducts);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -65,7 +56,6 @@ export default function HomeUser() {
     useEffect(() => {
         fetchProducts();
     }, [fetchProducts]);
-
 
     const agregar = (idProducto) => {
         agregarAlCarrito(idProducto, cookies.user['idCarrito'], 1)
@@ -90,19 +80,13 @@ export default function HomeUser() {
     }
 
     const quitarSinExistencias = (productos) => {
-        let productosFiltrados = productos.filter(producto => producto.cantidad > 0)
-        setProducts(productosFiltrados)
+        let productosFiltrados = productos.filter(producto => producto.cantidad > 0);
+        setProducts(productosFiltrados);
     }
 
     const handleSearch = () => {
-        // Realizar la acción deseada aquí, por ejemplo, enviar la cadena de búsqueda a una función
         console.log("Cadena de búsqueda:", searchString);
-      };
-
-     
-
-     
-    
+    };
 
     return (
         <>
@@ -116,39 +100,34 @@ export default function HomeUser() {
                 </div>
             </header>
             <div className="topnav">
-  <div className="search-container">
-      <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
-      
-
-  </div>
-  <div className="app-container">
-      
-      <label className="text-white">Rango de precio:</label>
-      <div className="range-inputs">
-        <input
-          type="number"
-          min="0"
-          max="5000"
-          step="1"
-          value={rangeValues[0]}
-          onChange={handleMinChange}
-          className="range-input"
-        />
-        <input
-          type="number"
-          min="0"
-          max="5000"
-          step="1"
-          value={rangeValues[1]}
-          onChange={handleMaxChange}
-          className="range-input"
-        />
-      </div>
-      <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
-    </div>
-
-
-</div>
+                <div className="search-container">
+                    <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)} />
+                </div>
+                <div className="app-container">
+                    <label className="text-white">Rango de precio:</label>
+                    <div className="range-inputs">
+                        <input
+                            type="number"
+                            min="0"
+                            max="5000"
+                            step="1"
+                            value={rangeValues[0]}
+                            onChange={handleMinChange}
+                            className="range-input"
+                        />
+                        <input
+                            type="number"
+                            min="0"
+                            max="5000"
+                            step="1"
+                            value={rangeValues[1]}
+                            onChange={handleMaxChange}
+                            className="range-input"
+                        />
+                    </div>
+                    <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
+                </div>
+            </div>
             <div className="products-container">
                 <label className='text-white'>Selecciona una categoría:</label>
                 <select className="btn-azul" value={category} onChange={e => setCategory(e.target.value)}>
@@ -212,7 +191,6 @@ export default function HomeUser() {
                     </>
                 )}
             </div>
-
         </>
     )
 }
