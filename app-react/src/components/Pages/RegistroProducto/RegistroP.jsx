@@ -46,6 +46,11 @@ export default function RegistroP(){
         const stock = parseInt(e.target.stock.value); // Asegurarse de que el stock sea un número entero
         const contacto = e.target.contacto.value;
         const idUsuario = cookies.user['idUsuario'];
+        
+         if (precio <= 0) {
+            Alert('El stock debe ser mayor a 0');
+            return;
+        }
 
         if (stock <= 0) {
             Alert('El stock debe ser mayor a 0');
