@@ -71,7 +71,7 @@ def get_productos_de_usuario(idUsuario):
         return json.dumps({'error': 'No se pudieron obtener los productos del usuario'})
     return json.dumps([cont.to_dict() for cont in contener])
 
-@contener_blueprint.route('/actualizar', methods=['POST'])
+@contener_blueprint.route('/reseniar', methods=['POST'])
 def actualizar_comentario_y_calificacion():
     try:
         idCompra = request.form.get('idCompra')

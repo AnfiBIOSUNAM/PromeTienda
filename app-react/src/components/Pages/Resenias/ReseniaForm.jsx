@@ -39,8 +39,38 @@ const Resenia = () => {
     setComentario(event.target.value);
   };
 
-  const handleRatingChange = (rating) => {
-    console.log(`Rating given: ${rating}`);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formdata = new FormData();
+    formdata.append('idCompra', idCompra);
+    formdata.append('idProducto', idProducto);
+    formdata.append('comentario', comentario);
+    formdata.append('calificacion', rating);
+
+    try {
+        const response = await fetch(`http://localhost:5000/contener/reseniar`, {
+            method: 'POST',
+            body: formdata
+        }).then((response) => response.json()).then((data) => {
+            console.log(data);
+            try {
+                if (data['error'] === "No se pudo actualizar el comentario y la calificación") {
+                 
+                    Error('No se pudo actualizar el comentario y la calificación');
+                } else {
+                    console.log(data);
+                    // Navegar a la ruta /miscompras después de enviar la reseña con éxito
+                    navigate("/misCompras");
+                }
+            } catch (error) {
+                Error('No se pudo actualizar el comentario y la calificación por falta de datos');
+            }
+        });
+
+    } catch (error) {
+        console.log(error);
+    }
+   
   };
 
   return (
@@ -68,7 +98,7 @@ const Resenia = () => {
                     onChange={handleCommentChange}
                   />
                 </div>
-                <button className={'btn btn-azul'} type="submit">Enviar Reseña</button>
+                <button className={'btn btn-azul'} type="submit" onClick={handleSubmit}>Enviar Reseña</button>
               </div>
               
             </div>
