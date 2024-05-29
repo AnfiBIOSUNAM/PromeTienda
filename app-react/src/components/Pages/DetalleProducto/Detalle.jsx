@@ -170,11 +170,14 @@ export default function Detalle(){
                             </div>
                         </div>
                         <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                            <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">Ver más</a></div>
+                           
                         </div>
                     </div>
                 </div>
             ))}
+        </div>
+        <div className={'text-center'} >
+        <NavLink to={`/resenias/ver/${jsonDataObject.idProducto}`} className={'btn btn-outline-light mt-auto'}> Ver más</NavLink>
         </div>
     </div>
 </section>
