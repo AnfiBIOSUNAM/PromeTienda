@@ -57,7 +57,9 @@ const Resenia = () => {
                 if (data['error'] === "No se pudo actualizar el comentario y la calificación") {
                  
                     Error('No se pudo actualizar el comentario y la calificación');
-                } else {
+                } else if(data['error'] ){
+                  Error('No se pudo actualizar el comentario y la calificación');
+                 } else{
                     console.log(data);
                     // Navegar a la ruta /miscompras después de enviar la reseña con éxito
                     navigate("/misCompras");

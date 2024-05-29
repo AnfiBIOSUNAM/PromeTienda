@@ -152,15 +152,15 @@ export default function Detalle(){
                 
                 <section className="py-5 bg-gris">
     <div className="container px-4 px-lg-5 mt-5">
-        <h2 className="fw-bolder mb-4 text-white">Comentarios</h2>
+        <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
         <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {opiniones && opiniones.slice(0, 1).map((opinion, index) => (
+            {opiniones && opiniones.slice(0, 3).map((opinion, index) => (
                 <div className="col mb-5" key={index}>
                     <div className="card h-100">
                         <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
                         <div className="card-body p-4">
                             <div className="text-center">
-                                <h5 className="fw-bolder">Opinión {index + 1}</h5>
+                                <h5 className="fw-bolder">Reseña: {index + 1}</h5>
                                 <p>{opinion.comentario}</p>
                                 <div>
                                     {Array.from({ length: opinion.calificacion }, (_, i) => (
