@@ -17,6 +17,7 @@ import Detalle from '../components/Pages/DetalleProducto/Detalle.jsx';
 import GaleriaVendedor from '../components/Pages/GaleriaVendedor/GaleriaVendedor.jsx';
 import Perfil from '../components/Pages/Perfil/Perfil.jsx';
 import Compras from '../components/Pages/Compras/Compras.jsx';
+import Resenia from '../components/Pages/Resenias/ReseniaForm.jsx';
 
 function NoPermissions({mensaje}){
   return(
@@ -81,6 +82,7 @@ const router = createBrowserRouter(
         {path: '/productos/eliminar/:idProducto', element: <ProtectedRoute element={<EliminarProducto/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
         {path: '/productos/registrar', element: <ProtectedRoute element={<RegistroP/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
         {path: '/productos/ver', element:<VerProducto/>},
+        {path: '/resenia/:idCompra/:idProducto', element:<Resenia/>},
         {path: '/carrito', element:<ProtectedRoute element={<Carrito/>} mensaje="Inicia sesión para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===0}/>},
         {path: '/detalle/:product/:carrito', element:<Detalle/>},
         {path: '/galeria/:idVendedor', element: <GaleriaVendedor/>},

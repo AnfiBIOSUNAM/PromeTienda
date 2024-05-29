@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import axios from 'axios';
 import "./Compras.css";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function Compras() {
     const [compras, setCompras] = useState([]);
@@ -42,7 +42,7 @@ export default function Compras() {
     }
 
     function dejar_comen_calif(idCompra, idProducto) {
-        alert(`Hola Mundo. ID de Compra: ${idCompra}, ID de Producto: ${idProducto}`);
+        navigation(`/resenia/${idCompra}/${idProducto}`);
     }
 
     return (
