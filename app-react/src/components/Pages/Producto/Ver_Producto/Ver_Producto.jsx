@@ -60,6 +60,8 @@ function VerProducto() {
           // Si el usuario es vendedor, filtra los productos para que solo muestre los que ha agregado
          let filteredProducts = updatedProducts.filter(product => product.idUsuario === cookies.user['idUsuario']);
          setProducts(filteredProducts);
+         let productosFiltradosEliminados = filteredProducts.filter(producto => producto.cantidad >= 0);
+         setProducts(productosFiltradosEliminados);
       } else {
           // Si el usuario no es vendedor, filtra los productos para que solo muestre los que tienen una cantidad mayor a cero
          let filteredProducts = updatedProducts.filter(product => product.cantidad > 0);
