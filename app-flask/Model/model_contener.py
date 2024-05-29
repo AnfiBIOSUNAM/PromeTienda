@@ -51,3 +51,10 @@ def actualizar_comentario_y_calificacion(idCompra, idProducto, comentario, calif
         return contener
     else:
         return -1
+    
+def obtener_opiniones(idProducto):
+    contener = Contener.query.filter_by(idProducto=idProducto).all()
+    return contener
+    
+    
+    

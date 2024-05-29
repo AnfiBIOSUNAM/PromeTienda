@@ -84,3 +84,13 @@ def actualizar_comentario_y_calificacion():
         return json.dumps(contener.to_dict())
     except:
         return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación por falta de datos'})
+    
+@contener_blueprint.route('/opiniones/<idProducto>', methods=['GET'])
+def revisar_opiniones(idProducto):
+    try:
+        contener = mc.obtener_opiniones(idProducto)
+        if contener == -1:
+            return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación'})
+        return json.dumps([cont.to_dict() for cont in contener])
+    except:
+        return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación por falta de datos'})
