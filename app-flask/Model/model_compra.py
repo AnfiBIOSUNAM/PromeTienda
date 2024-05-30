@@ -20,41 +20,6 @@ def get_compras(idUsuario):
     compras = Compra.query.filter_by(idUsuario=idUsuario).all()
     return compras
 
-"""def get_compras_con_productos(idUsuario):
-    try:
-        # Realizar un join entre las tablas Compra, Contener y Producto
-        compras_con_detalles = db.session.query(Compra, Contener, Producto)\
-            .join(Contener, Compra.idCompra == Contener.idCompra)\
-            .join(Producto, Contener.idProducto == Producto.idProducto)\
-            .filter(Compra.idUsuario == idUsuario)\
-            .all()
-            
-        print(compras_con_detalles)
-
-        # Procesar los resultados y devolver en el formato deseado
-        compras_con_detalles_json = []
-        for compra, contener, producto in compras_con_detalles:
-            compra_detalle = {
-                'idCompra': compra.idCompra,
-                'idUsuario': compra.idUsuario,
-                'total': compra.total,
-                'fecha': compra.fecha,
-                'idProducto': producto.idProducto,
-                'nombreProducto': producto.nombreProducto,
-                'descripcion': producto.descripcion,
-                'foto': producto.foto,
-                'idVendedor': producto.idUsuario,
-                'cantidad': contener.cantidad,
-                'importe': contener.importe,
-                'calificacion': contener.calificacion,
-                'comentario': contener.comentario
-            }
-            compras_con_detalles_json.append(compra_detalle)
-
-        return jsonify(compras_con_detalles_json)
-    except Exception as e:
-        print(e)
-        return -1"""
 
 def get_compras_con_productos(idUsuario):
     try:

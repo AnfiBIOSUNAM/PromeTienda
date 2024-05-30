@@ -3,14 +3,6 @@ from alchemyClasses.Producto import Producto
 from alchemyClasses import db
 from flask import jsonify
 from sqlalchemy import text
-
-"""def agregar_al_carrito(idProducto, idCarrito):
-    try:
-        db.session.execute('INSERT INTO Almacenar (idCarrito, idProducto, cantidad) VALUES (' + str(idCarrito) + ', ' + str(idProducto) + ', 1)')
-        db.session.commit()
-        return 1
-    except:
-        return -1"""
     
 def agregar_al_carrito(idProducto, idCarrito, numero):
     p = Producto.query.filter(Producto.idProducto == idProducto).first()
@@ -103,12 +95,3 @@ def obtener_productos_de_carrito(idCarrito):
         return -1
     return productos.fetchall()
     
-
-    
-"""def quitar_del_carrito(idProducto, idCarrito):
-    try:
-        db.session.execute('DELETE FROM Almacenar WHERE idCarrito = ' + str(idCarrito) + ' AND idProducto = ' + str(idProducto))
-        db.session.commit()
-        return 1
-    except:
-        return -1"""
