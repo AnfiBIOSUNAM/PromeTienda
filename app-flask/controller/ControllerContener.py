@@ -71,7 +71,7 @@ def get_productos_de_usuario(idUsuario):
         return json.dumps({'error': 'No se pudieron obtener los productos del usuario'})
     return json.dumps([cont.to_dict() for cont in contener])
 
-@contener_blueprint.route('/actualizar', methods=['POST'])
+@contener_blueprint.route('/reseniar', methods=['POST'])
 def actualizar_comentario_y_calificacion():
     try:
         idCompra = request.form.get('idCompra')
@@ -82,5 +82,15 @@ def actualizar_comentario_y_calificacion():
         if contener == -1:
             return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación'})
         return json.dumps(contener.to_dict())
+    except:
+        return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación por falta de datos'})
+    
+@contener_blueprint.route('/opiniones/<idProducto>', methods=['GET'])
+def revisar_opiniones(idProducto):
+    try:
+        contener = mc.obtener_opiniones(idProducto)
+        if contener == -1:
+            return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación'})
+        return json.dumps([cont.to_dict() for cont in contener])
     except:
         return json.dumps({'error': 'No se pudo actualizar el comentario y la calificación por falta de datos'})

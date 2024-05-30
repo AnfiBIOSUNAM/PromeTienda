@@ -3,6 +3,7 @@ import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import StarRating from "../Resenias/StarRating.jsx";
 import './Detalle.css'
 
 export default function Detalle(){
@@ -17,6 +18,7 @@ export default function Detalle(){
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [contacto, setContacto] = useState("");
     const [numero, setNumero]= useState(1);
+    const [opiniones, setOpiniones] = useState(null);
     const [cant, setCant]=useState(jsonDataObject.cantidad_carrito?jsonDataObject.cantidad_carrito:1)
     
     const vendedor = cookies.user && cookies.user['vendedor']===1;
@@ -28,7 +30,18 @@ export default function Detalle(){
             var cont = d['nombre'] + " " + d['apPat'] + " " + d['apMat']
             setContacto(cont)
         })
-    },[])
+
+        axios.get(`http://localhost:5000/contener/opiniones/${jsonDataObject.idProducto}`).then(response => {
+            const opiniones = response.data;
+            const opinionesFiltradas = opiniones.map(opinion => ({
+                calificacion: opinion.calificacion,
+                comentario: opinion.comentario
+            }));
+            setOpiniones(opinionesFiltradas);
+        }).catch(error => {
+            console.error('Error fetching opinions:', error);
+        });
+    }, [jsonDataObject.idProducto]);
 
 
     function aumentar(limite){
@@ -138,32 +151,37 @@ export default function Detalle(){
                 </section>
                 
                 <section className="py-5 bg-gris">
-                    <div className="container px-4 px-lg-5 mt-5">
-                        <h2 className="fw-bolder mb-4 text-white">Comentarios</h2>
-                        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-                            <div className="col mb-5">
-                                <div className="card h-100">
-                                    
-                                    <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                                    
-                                    <div className="card-body p-4">
-                                        <div className="text-center">
-                                            
-                                            <h5 className="fw-bolder">Fancy Product</h5>
-                                            
-                                            $40.00 - $80.00
-                                        </div>
-                                    </div>
-                                    
-                                    <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                        <div className="text-center"><a className="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                                    </div>
+    <div className="container px-4 px-lg-5 mt-5">
+        <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
+        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            {opiniones && opiniones.slice(0, 3).map((opinion, index) => (
+                <div className="col mb-5" key={index}>
+                    <div className="card h-100">
+                        <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                        <div className="card-body p-4">
+                            <div className="text-center">
+                                <h5 className="fw-bolder">Reseña: {index + 1}</h5>
+                                <p>{opinion.comentario}</p>
+                                <div>
+                                    {Array.from({ length: opinion.calificacion }, (_, i) => (
+                                        <span key={i}>&#9733;</span> // Imprime el símbolo de estrella
+                                    ))}
                                 </div>
                             </div>
-                            
+                        </div>
+                        <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                           
                         </div>
                     </div>
-                </section>
+                </div>
+            ))}
+        </div>
+        <div className={'text-center'} >
+        <NavLink to={`/resenias/ver/${jsonDataObject.idProducto}`} className={'btn btn-outline-light mt-auto'}> Ver más</NavLink>
+        </div>
+    </div>
+</section>
+
             </>
                 
     )
