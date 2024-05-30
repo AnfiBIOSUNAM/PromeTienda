@@ -16,13 +16,23 @@ export default function HomeUser() {
     const [dataValues, setDataValues] = useState(['','','',''])
 
     const handleMinChange = (e) => {
-        const newMin = parseFloat(e.target.value);
-        setRangeValues([newMin, rangeValues[1]]);
+        const newValue = e.target.value;
+        if (newValue === "") {
+            setRangeValues([0, rangeValues[1]]); 
+        } else {
+            const newMin = parseFloat(newValue);
+            setRangeValues([newMin, rangeValues[1]]);
+        }
     };
 
     const handleMaxChange = (e) => {
-        const newMax = parseFloat(e.target.value);
-        setRangeValues([rangeValues[0], newMax]);
+        const newValue = e.target.value;
+        if (newValue === "") {
+            setRangeValues([rangeValues[0], 0]); 
+        } else {
+            const newMax = parseFloat(newValue);
+            setRangeValues([rangeValues[0], newMax]);
+        }
     };
 
     useEffect(() => {
@@ -115,10 +125,10 @@ export default function HomeUser() {
                 </div>
             </header>
             <div className="topnav">
-                <div className="search-container">
+                <div className="search-container buscar">
                     <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)} />
                 </div>
-                <div className="app-container">
+                <div className="app-container precios">
                     <label className="text-white">Rango de precio:</label>
                     <div className="range-inputs">
                         <input
@@ -126,7 +136,7 @@ export default function HomeUser() {
                             min="0"
                             max="5000"
                             step="1"
-                            value={rangeValues[0]}
+                            value={rangeValues[0] === 0? '' : rangeValues[0]}
                             onChange={handleMinChange}
                             className="range-input"
                         />
@@ -135,7 +145,7 @@ export default function HomeUser() {
                             min="0"
                             max="5000"
                             step="1"
-                            value={rangeValues[1]}
+                            value={rangeValues[1] === 0 ? '' : rangeValues[1]}
                             onChange={handleMaxChange}
                             className="range-input"
                         />
@@ -180,13 +190,7 @@ export default function HomeUser() {
                                                 </button>
                                             </div>
                                         )}
-                                        {cookies.user['vendedor'] === 1 && (
-                                            <div className="text-center">
-                                                <button className="btn btn-outline-light mt-auto">
-                                                    <i className="bi bi-gear" /> Opciones
-                                                </button>
-                                            </div>
-                                        )}
+                                        
                                     </div>
                                 </div>
                             </div>
