@@ -3,6 +3,7 @@ import { NavLink, useLocation, useParams, useNavigate } from "react-router-dom";
 import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import Swal from "sweetalert2";
 import StarRating from "../Resenias/StarRating.jsx";
 import './Detalle.css'
 
@@ -82,6 +83,30 @@ export default function Detalle(){
         navigate(-1)
     }
 
+    const eliminar = (idProducto) =>{
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true,
+            confirmButtonColor: '#8a73c2',
+            iconColor: '#8a73c2'
+          });
+          swalWithBootstrapButtons.fire({
+            title: "Estás seguro de eliminar este producto?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí!",
+            cancelButtonText: "No!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                navigate(`/productos/eliminar/${idProducto}`)
+            } 
+          });
+    }
+
     return(
        
             <>
@@ -134,7 +159,7 @@ export default function Detalle(){
                                 {vendedor &&(
                                     <div>
                                         <NavLink to={`/productos/actualizar/${jsonDataObject.idProducto}`} className={'editar m-2'}><i class="bi bi-pencil-square"/> Editar</NavLink>
-                                        <NavLink to={`/productos/eliminar/${jsonDataObject.idProducto}`} className={'eliminar'}><i class="bi bi-trash3"/> Eliminar</NavLink>
+                                        <button onClick={()=>eliminar(jsonDataObject.idProducto)} className="eliminar"><i class="bi bi-trash3"/>Eliminar </button>
                                     </div>
                                 )}
 
@@ -151,36 +176,36 @@ export default function Detalle(){
                 </section>
                 
                 <section className="py-5 bg-gris">
-    <div className="container px-4 px-lg-5 mt-5">
-        <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
-        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
-            {opiniones && opiniones.slice(0, 3).map((opinion, index) => (
-                <div className="col mb-5" key={index}>
-                    <div className="card h-100">
-                        <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                        <div className="card-body p-4">
-                            <div className="text-center">
-                                <h5 className="fw-bolder">Reseña: {index + 1}</h5>
-                                <p>{opinion.comentario}</p>
-                                <div>
-                                    {Array.from({ length: opinion.calificacion }, (_, i) => (
-                                        <span key={i}>&#9733;</span> // Imprime el símbolo de estrella
-                                    ))}
+                    <div className="container px-4 px-lg-5 mt-5">
+                        <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
+                        <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                            {opiniones && opiniones.slice(0, 3).map((opinion, index) => (
+                                <div className="col mb-5" key={index}>
+                                    <div className="card h-100">
+                                        <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                        <div className="card-body p-4">
+                                            <div className="text-center">
+                                                <h5 className="fw-bolder">Reseña: {index + 1}</h5>
+                                                <p>{opinion.comentario}</p>
+                                                <div>
+                                                    {Array.from({ length: opinion.calificacion }, (_, i) => (
+                                                        <span key={i}>&#9733;</span> // Imprime el símbolo de estrella
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                        
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-                        <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                           
+                        <div className={'text-center'} >
+                        <NavLink to={`/resenias/ver/${jsonDataObject.idProducto}`} className={'btn btn-outline-light mt-auto'}> Ver más</NavLink>
                         </div>
                     </div>
-                </div>
-            ))}
-        </div>
-        <div className={'text-center'} >
-        <NavLink to={`/resenias/ver/${jsonDataObject.idProducto}`} className={'btn btn-outline-light mt-auto'}> Ver más</NavLink>
-        </div>
-    </div>
-</section>
+                </section>
 
             </>
                 

@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { useCookies } from 'react-cookie';
 import './Carrito.css'
 import { Success, Error } from '../../Swal/Swal';
@@ -80,27 +81,47 @@ export default function Carrito() {
       
 
     const eliminarProducto = (idProducto) => {
-        const formdata = new FormData();
-        formdata.append('idCarrito', cookies.user['idCarrito'])
-        formdata.append('idProducto', idProducto);
-        try{
-            const res = fetch('http://localhost:5000/carrito/eliminarProducto',{
-                method: 'POST',
-                body: formdata
-            }).then((response) => response.json()).then((data) => {
-                console.log(data);
-                if(data['success']){
-                    const updatedProducts = products.filter(product => product.idProducto !== idProducto);
-                    setProducts(updatedProducts);
-                    Success('Producto eliminado del carrito')
-                }else{
-                    Error('No se pudo eliminar del carrito');
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+              confirmButton: "btn btn-success",
+              cancelButton: "btn btn-danger"
+            },
+            buttonsStyling: true,
+            confirmButtonColor: '#8a73c2',
+            iconColor: '#8a73c2'
+          });
+          swalWithBootstrapButtons.fire({
+            title: "Estás seguro de eliminar este producto de tu carrito?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Sí!",
+            cancelButtonText: "No!",
+            reverseButtons: true
+          }).then((result) => {
+            if (result.isConfirmed) {
+                const formdata = new FormData();
+                formdata.append('idCarrito', cookies.user['idCarrito'])
+                formdata.append('idProducto', idProducto);
+                try{
+                    const res = fetch('http://localhost:5000/carrito/eliminarProducto',{
+                        method: 'POST',
+                        body: formdata
+                    }).then((response) => response.json()).then((data) => {
+                        console.log(data);
+                        if(data['success']){
+                            const updatedProducts = products.filter(product => product.idProducto !== idProducto);
+                            setProducts(updatedProducts);
+                            Success('Producto eliminado del carrito')
+                        }else{
+                            Error('No se pudo eliminar del carrito');
+                        }
+                    })
+                }catch(error){
+                    console.log(error)
+                    return error;
                 }
-            })
-        }catch(error){
-            console.log(error)
-            return error;
-        }
+            } 
+          });
     }
 
     const irADetalle = (product) => {
