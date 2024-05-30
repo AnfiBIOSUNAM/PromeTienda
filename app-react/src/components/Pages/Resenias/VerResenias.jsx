@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect} from 'react';
+import { useParams, useNavigate  } from 'react-router-dom';
 import axios from 'axios';
 import logo from '../../../Images/logo.png';
+import './VerResenias.css';
 
 const Opiniones = () => {
     const { idProducto } = useParams();
     const [opiniones, setOpiniones] = useState([]);
+    const navigate = useNavigate();
     const [calificacionPromedio, setCalificacionPromedio] = useState(0);
     
 
@@ -30,11 +32,26 @@ const Opiniones = () => {
         });
     }, [idProducto]);
 
+    const goBack = () => {
+        navigate(-1)
+    }
+
     return (
         <section className="py-5 bg-gris">
+             
             <div className="container px-4 px-lg-5 mt-5">
-                <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
-                <h3 className="fw-bolder mb-4 text-white">Calificación promedio: {calificacionPromedio}/5</h3>
+              <div className="d-flex align-items-center mb-4">
+              <button type="button" className="btn-regresar left-aligned" onClick={goBack}>
+    <i className="bi bi-arrow-left" />
+</button>
+                    
+                </div>
+                <h2 className="fw-bolder text-white mb-0">Reseñas</h2>
+                {opiniones.length > 0 ? (
+                    <h3 className="fw-bolder mb-4 text-white">Calificación promedio: {calificacionPromedio}/5</h3>
+                ) : (
+                    <h3 className="fw-bolder mb-4 text-white">Sin calificaciones</h3>
+                )}
                 <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {opiniones.map((opinion, index) => (
                         <div className="col mb-5" key={index}>
@@ -52,10 +69,12 @@ const Opiniones = () => {
                                     </div>
                                 </div>
                                 <div className="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    
                                 </div>
                             </div>
                         </div>
                     ))}
+                    
                 </div>
             </div>
         </section>
