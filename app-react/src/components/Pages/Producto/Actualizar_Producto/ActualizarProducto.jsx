@@ -242,6 +242,8 @@ function ActualizarProducto() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        
+
         console.log(idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad);
 
         if(imagenCambiada===true){
@@ -296,10 +298,7 @@ function ActualizarProducto() {
 
 
     const actualizarProducto = async (idProducto, idUsuario, nombreProducto, descripcion, imagen, precio, contacto, cantidad) => {
-        if (cantidad <= 0) {
-            Error('La cantidad debe ser mayor a 0');
-            return;
-        }
+       
         // const antiguaFoto = await manejarImagen(idProducto);
         const formdata = new FormData();
         formdata.append('idProducto', idProducto);
@@ -416,7 +415,7 @@ function ActualizarProducto() {
                                 </div>
                         <div>
                             <label htmlFor="precio" className="form-label mt-4">Precio</label>
-                            <input type="number" className="form-control" id="precio" placeholder="Ingrese el precio del producto" value={precio} onChange={(e) => setPrecio(e.target.value)} />
+                            <input type="number" className="form-control" id="precio" min="0" placeholder="Ingrese el precio del producto" value={precio} onChange={(e) => setPrecio(e.target.value)} />
                         </div>
                         <div>
                             <label htmlFor="contacto" className="form-label mt-4">Contacto</label>
