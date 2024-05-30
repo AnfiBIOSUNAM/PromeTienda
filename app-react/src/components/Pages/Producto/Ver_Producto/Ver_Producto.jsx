@@ -22,17 +22,25 @@ function VerProducto() {
   const navigate = useNavigate();
 
   const handleMinChange = (e) => {
-    const newMin = parseFloat(e.target.value);
-    setRangeValues([newMin, rangeValues[1]]);
-
+    const newValue = e.target.value;
+    if (newValue === "") {
+        setRangeValues([0, rangeValues[1]]);
+    } else {
+        const newMin = parseFloat(newValue);
+        setRangeValues([newMin, rangeValues[1]]);
+    }
   };
 
   const handleMaxChange = (e) => {
-    const newMax = parseFloat(e.target.value);
-    setRangeValues([rangeValues[0], newMax]);
-
-
+    const newValue = e.target.value;
+    if (newValue === "") {
+        setRangeValues([rangeValues[0], 0]); 
+    } else {
+        const newMax = parseFloat(newValue);
+        setRangeValues([rangeValues[0], newMax]);
+    }
   };
+
   useEffect(() => {
     setDataValues([searchString, category, rangeValues[0], rangeValues[1]]);
   }, [category, searchString, rangeValues]);
@@ -116,38 +124,37 @@ function VerProducto() {
       <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left" /></button>
       <h1 className='text-white'>Productos</h1>
       <div class="topnav">
-  <div class="search-container">
-      <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
-      
+        <div class="search-container buscar">
+          <input type="text" placeholder="Search.." name="search" value={searchString} onChange={(e) => setSearchString(e.target.value)}></input>
 
-  </div>
-  </div>
+        </div>
+        <div className="app-container precios">
       
-      <div className="app-container">
-      
-      <label className="text-white">Rango de precio:</label>
-      <div className="range-inputs">
-        <input
-          type="number"
-          min="0"
-          max="5000"
-          step="1"
-          value={rangeValues[0]}
-          onChange={handleMinChange}
-          className="range-input"
-        />
-        <input
-          type="number"
-          min="0"
-          max="5000"
-          step="1"
-          value={rangeValues[1]}
-          onChange={handleMaxChange}
-          className="range-input"
-        />
+          <label className="text-white">Rango de precio:</label>
+          <div className="range-inputs">
+            <input
+              type="number"
+              min="0"
+              max="5000"
+              step="1"
+              value={rangeValues[0] === 0 ? '' : rangeValues[0]}
+              onChange={handleMinChange}
+              className="range-input"
+            />
+            <input
+              type="number"
+              min="0"
+              max="5000"
+              step="1"
+              value={rangeValues[1] === 0 ? '' : rangeValues[1]}
+              onChange={handleMaxChange}
+              className="range-input"
+            />
+          </div>
+          <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
+        </div>
       </div>
-      <p>Valores actuales: {rangeValues[0]} - {rangeValues[1]}</p>
-    </div>
+      
       <div className="products-container">
 
         <label className='text-white'>Selecciona una categoría:</label>
@@ -199,11 +206,7 @@ function VerProducto() {
                       </button>
                     </div>
                   )}
-                  {vendedor && (
-                    <div className="text-center">
-                      <ButtonGroup />
-                    </div>
-                  )}
+                
                 </div>
               </div>
             ))}
