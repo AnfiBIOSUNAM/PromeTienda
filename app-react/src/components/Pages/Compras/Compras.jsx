@@ -51,6 +51,9 @@ export default function Compras() {
             <button type="button" className="btn-regresar" onClick={goBack}><i className="bi bi-arrow-left" /></button>
 
             <h1 className="text-white">Mis compras</h1>
+            <div className="text-center">
+            <h3 className="text-gray">¡No olvides dar click a los productos para reseñarlos!</h3>
+            </div>
             <div className="container">
                 <div className="row">
                     <table className="tabla">

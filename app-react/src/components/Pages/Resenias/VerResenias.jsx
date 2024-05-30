@@ -6,6 +6,7 @@ import logo from '../../../Images/logo.png';
 const Opiniones = () => {
     const { idProducto } = useParams();
     const [opiniones, setOpiniones] = useState([]);
+    const [calificacionPromedio, setCalificacionPromedio] = useState(0);
     
 
     useEffect(() => {
@@ -16,6 +17,14 @@ const Opiniones = () => {
                 comentario: opinion.comentario
             }));
             setOpiniones(opinionesFiltradas);
+            if (opinionesFiltradas.length > 0) {
+                let calif = 0;
+                for (let opinion of opinionesFiltradas) {
+                    calif += opinion.calificacion;
+                }
+                calif = calif / opinionesFiltradas.length;
+                setCalificacionPromedio(calif);
+            }
         }).catch(error => {
             console.error('Error fetching opinions:', error);
         });
@@ -25,6 +34,7 @@ const Opiniones = () => {
         <section className="py-5 bg-gris">
             <div className="container px-4 px-lg-5 mt-5">
                 <h2 className="fw-bolder mb-4 text-white">Reseñas</h2>
+                <h3 className="fw-bolder mb-4 text-white">Calificación promedio: {calificacionPromedio}/5</h3>
                 <div className="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
                     {opiniones.map((opinion, index) => (
                         <div className="col mb-5" key={index}>
