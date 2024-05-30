@@ -67,6 +67,20 @@
   overflow: hidden;
 }
 
+.precios{
+  margin-left: 3%;
+}
+
+.buscar{
+  margin-right: 3%;
+  margin-top: 47px;
+}
+
+.buscar input{
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
 .topnav a {
   float: left;
   display: block;

@@ -55,6 +55,8 @@ function EliminarProducto() {
 
     return (
         <div className="text-center">
+          <div className="fullscreen-shape"></div>
+
             <h1 className='text-white'>Eliminando Producto</h1>
         </div>
     );
