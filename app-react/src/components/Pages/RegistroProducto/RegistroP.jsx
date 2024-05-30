@@ -47,15 +47,7 @@ export default function RegistroP(){
         const contacto = e.target.contacto.value;
         const idUsuario = cookies.user['idUsuario'];
         
-         if (precio <= 0) {
-            Alert('El stock debe ser mayor a 0');
-            return;
-        }
-
-        if (stock <= 0) {
-            Alert('El stock debe ser mayor a 0');
-            return;
-        }
+         
 
         const imagen = await guardar_imagenes(nombre, descripcion, precio, stock, categoriasSeleccionadas, contacto, idUsuario);
     }
@@ -175,7 +167,7 @@ export default function RegistroP(){
                 </div>
                 <div className="mb-3">
                     <label htmlFor="precio" className="form-label">Precio</label>
-                    <input type="number" className="form-control" id="precio" aria-describedby="precioHelp" required/>
+                    <input type="number" className="form-control" id="precio" min="0" aria-describedby="precioHelp" required/>
                     <div id="precioHelp" className="form-text">Ingresa el precio del producto</div>
                 </div>
                 <div className="mb-3">
