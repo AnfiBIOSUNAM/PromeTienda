@@ -35,10 +35,6 @@ export default function Navigation(){
                   <NavLink to="/home" className="nav-link">Home</NavLink>
                 </li>
                 )}
-
-                <li className="nav-item">
-                    <NavLink to="/productos" className="nav-link">Productos</NavLink>
-                </li>
                 
                 {!cookies.user && (
                   <div className='d-flex registro'>

@@ -6,7 +6,6 @@ import Login from '../components/Pages/Login/Login.jsx';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Error from '../components/Error.jsx';
 import Registro from '../components/Pages/Registro/Registro.jsx';
-import HomeProducto from '../components/Pages/Producto/HomeProducto.jsx';
 import ActualizarProducto from '../components/Pages/Producto/Actualizar_Producto/ActualizarProducto.jsx';
 import EliminarProducto from '../components/Pages/Producto/Eliminar_Producto/EliminarProducto.jsx';
 import { useCookies } from 'react-cookie';
@@ -79,7 +78,6 @@ const router = createBrowserRouter(
         {path: '/registro', element: <NoAuthentication element={<Registro/>} mensaje="Cierra sesión para acceder a esta página"/>},
         {path: '/login', element: <NoAuthentication element={<Login/>} mensaje="Cierra sesión para acceder a esta página"/>},
         {path: '/home', element: <ProtectedRoute element={<HomeUser/>} mensaje="Inicia sesión para acceder a esta página" condicion={true}/>},
-        {path: '/productos', element:<HomeProducto/>},
         {path: '/productos/actualizar/:idProducto', element: <ProtectedRoute element={<ActualizarProducto/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
         {path: '/productos/eliminar/:idProducto', element: <ProtectedRoute element={<EliminarProducto/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
         {path: '/productos/registrar', element: <ProtectedRoute element={<RegistroP/>} mensaje="Inicia sesión como vendedor para acceder a esta página" condicion={isLogged() && cookies.user['vendedor']===1}/>},
