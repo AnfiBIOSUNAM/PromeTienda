@@ -122,7 +122,10 @@ export default function Perfil(){
             
         axios.post(`http://localhost:5000/usuario/updateCorreo/${idUsuario}/${editingValue}`).then(
             response => {
-                if(response['error']){
+              if(response['error']==="Ese correo ya esta registrado"){
+                Error('Ese correo ya está registrado')
+
+              }else if(response['error']){
                     Error('Error al actualizar el correo')
                 } else{
                     setProfile({...profile, correo: editingValue})

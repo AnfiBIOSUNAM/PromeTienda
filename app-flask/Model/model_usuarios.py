@@ -5,6 +5,9 @@ from flask import jsonify
 #CRUD
 
 def create_user(nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor):
+    user = Usuario.query.filter_by(correo=correo).first()
+    if user:
+        return -2
     new_user = Usuario(nombre=nombre, apPat=apPat, apMat=apMat, correo=correo, telefono=telefono, contraseña=contraseña, imagen=imagen, vendedor=vendedor)
     try:
         db.session.add(new_user)
@@ -77,6 +80,10 @@ def update_apMat(idUsuario, apellido):
     return user
 
 def update_correo(idUsuario, correo):
+    check_user = Usuario.query.filter_by(correo=correo).first()
+    if check_user:
+        print("se halla duplicado")
+        return -2
     user = Usuario.query.filter_by(idUsuario=idUsuario).first()
     if user is None:
         print('El usuario con id: '+str(idUsuario)+' no existe')
