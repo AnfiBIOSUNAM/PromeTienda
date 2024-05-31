@@ -120,8 +120,6 @@ def products_by_name(string):
         return -1
 
 def products_by_check(nombre, categoria, min_price, max_price):
-    print("Nombre: ", nombre)
-    print("Categoria: ", categoria)
     try:
         query = Producto.query
         
