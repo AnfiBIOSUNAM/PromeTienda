@@ -197,20 +197,20 @@ def enviar_correo_notificacion():
                     total_venta += product['importe']
 
             message = f"¡Hola!, han comprado algunos de tus productos en venta.\n\nProductos:\n{detalles_noti}\n\nTotal de venta: {total_venta} pesos.\n\nGracias por tu confianza, te seguiremos informando."
-            # Procesar la compra con los datos recibidos
+           
             msg = MIMEMultipart()
             msg['From'] = from_email
             msg['To'] = correo
             msg['Subject'] = "Prometienda: notificación de venta"
 
-            # Add body to email
+            
             msg.attach(MIMEText(message, 'plain'))
 
-            # Create SMTP session for sending the mail
+            
             try:
                 with smtplib.SMTP('smtp.gmail.com', 587) as server:
-                    server.starttls()  # Enable security
-                    server.login(from_email, password)  # Login with mail_id and password
+                    server.starttls
+                    server.login(from_email, password)  
                     text = msg.as_string()
                     server.sendmail(from_email, correo, text)
             except Exception as e:
