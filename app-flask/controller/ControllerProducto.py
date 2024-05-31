@@ -108,8 +108,6 @@ def search_products_by_name(palabra):
 @producto_blueprint.route('/read/buscador/precio/<precio>', methods=['GET'])
 def search_products_by_price(precio):
     min, max = map(int, precio.split(','))
-    print(min)
-    print(max)
     products = mp.products_by_price(min,max)
     if products == -1:
         return json.dumps({'error': 'No se pudieron obtener los productos con ese nombre'})
