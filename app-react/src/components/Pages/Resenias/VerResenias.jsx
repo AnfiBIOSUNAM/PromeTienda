@@ -38,7 +38,8 @@ const Opiniones = () => {
 
     return (
         <section className="py-5 bg-gris">
-             
+                   <div className="fullscreen-shape"></div>
+
             <div className="container px-4 px-lg-5 mt-5">
               <div className="d-flex align-items-center mb-4">
               <button type="button" className="btn-regresar left-aligned" onClick={goBack}>
