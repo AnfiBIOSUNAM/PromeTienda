@@ -171,59 +171,65 @@ def enviar_correo_compra():
 
 
 @app.route('/correos/notificar', methods=['POST'])
-def enviar_correo_notificacion():   
+def enviar_correo_notificacion():
     from_email = "prometienda.fc@gmail.com"
     password = "uictyyyzilngdczu"
     data = request.get_json()
-    lista_correos = []
-    if 'products' in data and isinstance(data['products'], list):
-        products = data['products']    
-       
-        for product in products:
-            correo = model_productos.get_email_seller(product['idProducto'])
-            if correo:
-                lista_correos.append(correo)
-        lista_correos_limpia = list(set(lista_correos)) 
 
-        for correo in lista_correos_limpia:
-            detalles_noti = ""
-            total_venta = 0
-            for product in products:
-                check = model_productos.check_contact(correo, product['idProducto'])    
-                
-                if check:
-                    producto = model_productos.read_product(product['idProducto'])
-                    detalles_noti += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']}\n"
-                    total_venta += product['importe']
-
-            message = f"¡Hola!, han comprado algunos de tus productos en venta.\n\nProductos:\n{detalles_noti}\n\nTotal de venta: {total_venta} pesos.\n\nGracias por tu confianza, te seguiremos informando."
-           
-            msg = MIMEMultipart()
-            msg['From'] = from_email
-            msg['To'] = correo
-            msg['Subject'] = "Prometienda: notificación de venta"
-
-            
-            msg.attach(MIMEText(message, 'plain'))
-
-            
-            try:
-                with smtplib.SMTP('smtp.gmail.com', 587) as server:
-                    server.starttls
-                    server.login(from_email, password)  
-                    text = msg.as_string()
-                    server.sendmail(from_email, correo, text)
-            except Exception as e:
-                return jsonify({'error': str(e)}), 500
-
-        resultado = {
-            'correos': lista_correos_limpia,
-            'productos': detalles_noti
-        }
-        
-        return jsonify({'success': True, 'resultado': resultado}), 200
-    else:
+    # Validación de datos
+    if 'idCompra' not in data or 'products' not in data or not isinstance(data['products'], list):
         return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
+
+    idCompra = data['idCompra']
+    products = data['products']
+    lista_correos = set()
+
+    # Obtener correos de los vendedores
+    for product in products:
+        correo = model_productos.get_email_seller(product['idProducto'])
+        if correo:
+            lista_correos.add(correo)
+
+    lista_correos_limpia = list(lista_correos)
+    resultado = {
+        'correos': lista_correos_limpia,
+        'productos': []
+    }
+
+    for correo in lista_correos_limpia:
+        detalles_noti = ""
+        total_venta = 0
+
+        for product in products:
+            check = model_productos.check_contact(correo, product['idProducto'])
+            if check:
+                producto = model_productos.read_product(product['idProducto'])
+                detalles_noti += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']} pesos\n"
+                total_venta += product['importe']
+
+        message = f"¡Hola!, han comprado algunos de tus productos en venta.\n\nProductos:\n{detalles_noti}\n\nTotal de venta: {total_venta} pesos.\n\nGracias por tu confianza, te seguiremos informando."
+        msg = MIMEMultipart()
+        msg['From'] = from_email
+        msg['To'] = correo
+        msg['Subject'] = f"Prometienda: notificación de venta. [ID: {idCompra}]"
+        msg.attach(MIMEText(message, 'plain'))
+
+        try:
+            with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                server.starttls()
+                server.login(from_email, password)
+                server.sendmail(from_email, correo, msg.as_string())
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+
+        resultado['productos'].append({
+            'correo': correo,
+            'detalles': detalles_noti,
+            'total_venta': total_venta
+        })
+
+    return jsonify({'success': True, 'resultado': resultado}), 200
+
 
 
 

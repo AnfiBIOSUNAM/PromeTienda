@@ -187,7 +187,7 @@ export default function Carrito() {
                         })
                     })
                     enviarCompra(id, products);
-                    notificarCompra(products);
+                    notificarCompra(id, products);
                     Success('Compra realizada correctamente')
 
                     Promise.all(promises).then(() => {
@@ -255,9 +255,10 @@ export default function Carrito() {
 
 
 
-    const notificarCompra = (products) => {
+    const notificarCompra = (idCompra, products) => {
         // Crear un objeto con el correo, idCompra y productos
         const payload = {
+            idCompra: idCompra,
             products: products.map(product => ({
                 idProducto: product.idProducto,
                 cantidad: product.cantidad_carrito,
