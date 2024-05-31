@@ -187,6 +187,7 @@ export default function Carrito() {
                         })
                     })
                     enviarCompra(id, products);
+                    notificarCompra(products);
                     Success('Compra realizada correctamente')
 
                     Promise.all(promises).then(() => {
@@ -245,6 +246,43 @@ export default function Carrito() {
                     console.log('Compra enviada correctamente');
                 } else {
                     console.error('Error al enviar la compra:', data.error);
+                }
+            });
+        } catch (error) {
+            console.error('Error en la petición:', error);
+        }
+    }
+
+
+
+    const notificarCompra = (products) => {
+        // Crear un objeto con el correo, idCompra y productos
+        const payload = {
+            products: products.map(product => ({
+                idProducto: product.idProducto,
+                cantidad: product.cantidad_carrito,
+                importe: product.precio * product.cantidad_carrito
+            }))
+        };
+    
+        // Convertir el objeto a JSON
+        const jsonPayload = JSON.stringify(payload);
+    
+        try {
+            fetch('http://localhost:5000/correos/notificar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: jsonPayload
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Respuesta del servidor:', data);
+                if (data.success) {
+                    console.log('Compra notificada correctamente');
+                } else {
+                    console.error('Error al notificar la compra:', data.error);
                 }
             });
         } catch (error) {

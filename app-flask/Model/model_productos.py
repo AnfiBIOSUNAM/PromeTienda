@@ -22,6 +22,20 @@ def read_product(idProducto):
         return -1
     return producto
 
+def read_product_email(idProducto):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    return producto.contacto
+
+def check_contact(contacto,idProducto):
+    producto = Producto.query.filter(Producto.idProducto==idProducto, Producto.contacto==contacto).first()
+    if producto is None:
+        
+        return False
+    return True
+
 def read_products():
     return Producto.query.all()
 
