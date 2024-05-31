@@ -90,7 +90,5 @@ def productos_info(idCarrito):
                          'cantidad': fila[7],
                         'cantidad_carrito': fila[8]}
                         )
-    """if productos == -1:
-        return json.dumps({'error': 'No se encontraron productos en el carrito'})
-    print(productos)"""
+
     return json.dumps(dict)

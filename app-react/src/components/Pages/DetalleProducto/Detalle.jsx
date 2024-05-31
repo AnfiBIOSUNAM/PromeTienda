@@ -7,25 +7,25 @@ import Swal from "sweetalert2";
 import StarRating from "../Resenias/StarRating.jsx";
 import './Detalle.css'
 
-export default function Detalle(){
+export default function Detalle() {
 
     const navigate = useNavigate()
 
-    const{carrito} = useParams();
-    const {product} = useParams();
+    const { carrito } = useParams();
+    const { product } = useParams();
     const producto = decodeURIComponent(product)
     const jsonDataObject = JSON.parse(producto)
 
     const [cookies, setCookie, removeCookie] = useCookies(['userToken']);
     const [contacto, setContacto] = useState("");
-    const [numero, setNumero]= useState(1);
+    const [numero, setNumero] = useState(1);
     const [opiniones, setOpiniones] = useState(null);
-    const [cant, setCant]=useState(jsonDataObject.cantidad_carrito?jsonDataObject.cantidad_carrito:1)
-    
-    const vendedor = cookies.user && cookies.user['vendedor']===1;
+    const [cant, setCant] = useState(jsonDataObject.cantidad_carrito ? jsonDataObject.cantidad_carrito : 1)
 
-    useEffect(()=>{
-        axios.get(`http://localhost:5000/usuario/read/${jsonDataObject.idUsuario}`).then(response =>{
+    const vendedor = cookies.user && cookies.user['vendedor'] === 1;
+
+    useEffect(() => {
+        axios.get(`http://localhost:5000/usuario/read/${jsonDataObject.idUsuario}`).then(response => {
             //console.log(response.data)
             var d = response.data;
             var cont = d['nombre'] + " " + d['apPat'] + " " + d['apMat']
@@ -45,37 +45,37 @@ export default function Detalle(){
     }, [jsonDataObject.idProducto]);
 
 
-    function aumentar(limite){
-        if(numero+1 <= limite){
-            setNumero(numero+1)
+    function aumentar(limite) {
+        if (numero + 1 <= limite) {
+            setNumero(numero + 1)
         }
     }
 
-    function disminuir(){
-        if(numero-1 > 0){
-            setNumero(numero-1)
+    function disminuir() {
+        if (numero - 1 > 0) {
+            setNumero(numero - 1)
         }
     }
 
-    function agregar(){
+    function agregar() {
         let res = agregarAlCarrito(jsonDataObject.idProducto, cookies.user['idCarrito'], numero).then(response => {
             console.log(res)
         })
     }
 
-    function poner(){
-        if (cant < jsonDataObject.cantidad){
-            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant+1)
+    function poner() {
+        if (cant < jsonDataObject.cantidad) {
+            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant + 1)
             console.log(res)
-            setCant(cant+1)
+            setCant(cant + 1)
         }
     }
 
-    function quitar(){
-        if(cant-1>0){
-            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant-1)
+    function quitar() {
+        if (cant - 1 > 0) {
+            let res = cambiarCantidad(jsonDataObject.idProducto, cookies.user['idCarrito'], cant - 1)
             console.log(res)
-            setCant(cant-1)
+            setCant(cant - 1)
         }
     }
 
@@ -131,30 +131,30 @@ export default function Detalle(){
                                     
                                     {carrito==="true" &&
                                         <>
-                                      <button className="btn btn-azul" onClick={()=>quitar()}>-</button>
-                                      <p className="m-3">{cant}</p>
-                                      <button className="btn btn-azul" onClick={()=>poner()}>+</button>
-                                      </>
-                                    }
-                                    {carrito==="false"&&
-                                        <>
-                                        <button className="btn btn-azul" onClick={() => disminuir()}>-</button>
-                                        <p className="m-4">{numero}</p>
-                                        <button className="btn btn-azul" onClick={() => aumentar(jsonDataObject.cantidad)}>+</button>
+                                            <button className="btn btn-azul" onClick={() => quitar()}>-</button>
+                                            <p className="m-3">{cant}</p>
+                                            <button className="btn btn-azul" onClick={() => poner()}>+</button>
                                         </>
                                     }
-                                    
-                                    {carrito==="false" && 
-                                        <button className="btn btn-outline-dark flex-shrink-0 m-3" type="button" onClick={()=>agregar()}>
-                                        <i className="bi-cart-fill me-1"></i>
-                                        Agregar al carrito
+                                    {carrito === "false" &&
+                                        <>
+                                            <button className="btn btn-azul" onClick={() => disminuir()}>-</button>
+                                            <p className="m-4">{numero}</p>
+                                            <button className="btn btn-azul" onClick={() => aumentar(jsonDataObject.cantidad)}>+</button>
+                                        </>
+                                    }
+
+                                    {carrito === "false" &&
+                                        <button className="btn btn-outline-dark flex-shrink-0 m-3" type="button" onClick={() => agregar()}>
+                                            <i className="bi-cart-fill me-1"></i>
+                                            Agregar al carrito
                                         </button>
-                                    
+
                                     }
                                 </div>
-                                }
-                                
-                                <p>Existencias: {jsonDataObject.cantidad}</p>
+                            }
+
+                            <p>Existencias: {jsonDataObject.cantidad}</p>
 
                                 {vendedor &&(
                                     <div>
@@ -207,7 +207,7 @@ export default function Detalle(){
                     </div>
                 </section>
 
-            </>
-                
+        </>
+
     )
 }
