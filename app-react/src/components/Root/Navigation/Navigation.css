@@ -38,6 +38,10 @@ img{
     font-size: 1.5em;
 }
 
+.opc-reg{
+    top:25px;
+}
+
 .registro{
     position:absolute;
     right: 5%;

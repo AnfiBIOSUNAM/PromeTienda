@@ -4,6 +4,7 @@ import { agregarAlCarrito, cambiarCantidad } from "../Carrito/Carrito";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import Swal from "sweetalert2";
+import logo from '../../../Images/logo.png'
 import StarRating from "../Resenias/StarRating.jsx";
 import './Detalle.css'
 
@@ -182,7 +183,7 @@ export default function Detalle() {
                             {opiniones && opiniones.slice(0, 3).map((opinion, index) => (
                                 <div className="col mb-5" key={index}>
                                     <div className="card h-100">
-                                        <img className="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                        <img className="card-img-top" src={logo} alt="..." />
                                         <div className="card-body p-4">
                                             <div className="text-center">
                                                 <h5 className="fw-bolder">Reseña: {index + 1}</h5>

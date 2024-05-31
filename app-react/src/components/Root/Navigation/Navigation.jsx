@@ -36,8 +36,12 @@ export default function Navigation(){
                 </li>
                 )}
                 
+                <li className="nav-item">
+                  <NavLink to="/productos/ver" className="nav-link">Productos</NavLink>
+                </li>
+
                 {!cookies.user && (
-                  <div className='d-flex registro'>
+                  <div className='d-flex registro opc-reg'>
                     <li className="nav-item">
                       <NavLink to="/registro" className="nav-link">Registrarse</NavLink>
                     </li>
