@@ -122,21 +122,20 @@ export default function Perfil(){
             
         axios.post(`http://localhost:5000/usuario/updateCorreo/${idUsuario}/${editingValue}`).then(
             response => {
-              if(response['error']==="Ese correo ya esta registrado"){
-                Error('Ese correo ya está registrado')
-
-              }else if(response['error']){
-                    Error('Error al actualizar el correo')
-                } else{
-                    setProfile({...profile, correo: editingValue})
-                    const updated = {...cookies.user, correo: editingValue}
-                    setCookie('user', updated, {path: '/'})
-                    Success('Correo actualizado correctamente')
+                if (response.data.error === "Ese correo ya esta registrado") {
+                    Error('Ese correo ya está registrado');
+                } else if (response.data.error) {
+                    Error('Error al actualizar el correo');
+                } else {
+                    setProfile({ ...profile, correo: editingValue });
+                    const updated = { ...cookies.user, correo: editingValue };
+                    setCookie('user', updated, { path: '/' });
+                    Success('Correo actualizado correctamente');
                 }
-                init_edit()
+                init_edit();
             }
-        ).catch(error => console.error('Error al actualizar el correo', error))
-    }
+        ).catch(error => console.error('Error al actualizar el correo', error));
+    };
 
     const edit_telefono = () => {
         if(profile.telefono === editingValue){
