@@ -186,8 +186,10 @@ export default function Carrito() {
                             console.log(data);
                         })
                     })
+                    if(products.length>0){
                     enviarCompra(id, products);
                     notificarCompra(id, products);
+                    }
                     Success('Compra realizada correctamente')
 
                     Promise.all(promises).then(() => {
