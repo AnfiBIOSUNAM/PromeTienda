@@ -193,7 +193,7 @@ def enviar_correo_notificacion():
                 
                 if check:
                     producto = model_productos.read_product(product['idProducto'])
-                    detalles_noti += f"ID: {producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']}\n"
+                    detalles_noti += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']}\n"
                     total_venta += product['importe']
 
             message = f"¡Hola!, han comprado algunos de tus productos en venta.\n\nProductos:\n{detalles_noti}\n\nTotal de venta: {total_venta} pesos.\n\nGracias por tu confianza, te seguiremos informando."

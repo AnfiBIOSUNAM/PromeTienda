@@ -127,3 +127,6 @@ def delete_user(idUsuario):
     db.session.delete(user)
     db.session.commit()
     return user
+
+
+
