@@ -180,7 +180,7 @@ def enviar_correo_notificacion():
         products = data['products']    
        
         for product in products:
-            correo = model_productos.read_product_email(product['idProducto'])
+            correo = model_productos.get_email_seller(product['idProducto'])
             if correo:
                 lista_correos.append(correo)
         lista_correos_limpia = list(set(lista_correos)) 
