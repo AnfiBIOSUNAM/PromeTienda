@@ -72,7 +72,10 @@ export default function Registro() {
                     if(data['error'] === "No se pudo crear el usuario"){
                         //alert("No se pudo crear el usuario");
                         Error('No se pudo crear el usuario')
-                    }else if(data['error'] === 'Faltan datos'){
+                    } else if(data['error']==="Ese correo ya esta registrado"){
+                        Error('Ese correo ya está registrado')
+        
+                      }else if(data['error'] === 'Faltan datos'){
                         Error('Faltan datos')
                         //alert("Faltan datos");
                     }else{

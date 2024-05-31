@@ -1,4 +1,5 @@
 from alchemyClasses.Producto import Producto
+from alchemyClasses.Usuario import Usuario
 from alchemyClasses import db
 from flask import jsonify
 from alchemyClasses.Categoria import Categoria
@@ -21,6 +22,37 @@ def read_product(idProducto):
         print('El producto con id: '+str(idProducto)+' no existe')
         return -1
     return producto
+
+def read_product_email(idProducto):
+    producto = Producto.query.get(idProducto)
+    if producto is None:
+        print('El producto con id: '+str(idProducto)+' no existe')
+        return -1
+    return producto.contacto
+
+def get_email_seller(idProducto):
+  
+    producto = Producto.query.filter_by(idProducto=idProducto).first()
+    
+    if not producto:
+        return None  #
+    
+    
+    usuario = Usuario.query.filter_by(idUsuario=producto.idUsuario).first()
+    
+    if not usuario:
+        return None  
+    
+    return usuario.correo
+
+def check_contact(correo,idProducto):
+    producto = read_product(idProducto)
+    usuario = Usuario.query.filter_by(correo=correo).first()
+    if(usuario.idUsuario==producto.idUsuario):
+        return True
+    return False
+    
+
 
 def read_products():
     return Producto.query.all()

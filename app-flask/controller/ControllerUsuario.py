@@ -66,6 +66,8 @@ def create_user():
         new_user = mu.create_user(nombre, apPat, apMat, correo, telefono, contraseña, imagen, vendedor)
         if new_user == -1:
             return json.dumps({'error': 'No se pudo crear el usuario'})
+        if new_user == -2:
+            return json.dumps({'error': 'Ese correo ya esta registrado'})
         return json.dumps(new_user.to_dict())
     except:
         return json.dumps({'error': 'Faltan datos'})
@@ -124,9 +126,13 @@ def update_apMat(idUsuario, apellido):
 
 @usuario_blueprint.route('/updateCorreo/<idUsuario>/<correo>', methods=['POST'])
 def update_correo(idUsuario, correo):
+    print(correo)
     user = mu.update_correo(idUsuario, correo)
     if user == -1:
         return json.dumps({'error': 'No se pudo actualizar el correo'})
+    if user == -2:
+        print("se halla duplicado en controller")
+        return json.dumps({'error': 'Ese correo ya esta registrado'})
     return json.dumps(user.to_dict())
 
 @usuario_blueprint.route('/updateTelefono/<idUsuario>/<telefono>', methods=['POST'])

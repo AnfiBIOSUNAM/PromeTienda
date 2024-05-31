@@ -170,6 +170,62 @@ def enviar_correo_compra():
         return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
 
 
+@app.route('/correos/notificar', methods=['POST'])
+def enviar_correo_notificacion():   
+    from_email = "prometienda.fc@gmail.com"
+    password = "uictyyyzilngdczu"
+    data = request.get_json()
+    lista_correos = []
+    if 'products' in data and isinstance(data['products'], list):
+        products = data['products']    
+       
+        for product in products:
+            correo = model_productos.get_email_seller(product['idProducto'])
+            if correo:
+                lista_correos.append(correo)
+        lista_correos_limpia = list(set(lista_correos)) 
+
+        for correo in lista_correos_limpia:
+            detalles_noti = ""
+            total_venta = 0
+            for product in products:
+                check = model_productos.check_contact(correo, product['idProducto'])    
+                
+                if check:
+                    producto = model_productos.read_product(product['idProducto'])
+                    detalles_noti += f"{producto.nombreProducto} - Cantidad: {product['cantidad']} - Importe: {product['importe']}\n"
+                    total_venta += product['importe']
+
+            message = f"¡Hola!, han comprado algunos de tus productos en venta.\n\nProductos:\n{detalles_noti}\n\nTotal de venta: {total_venta} pesos.\n\nGracias por tu confianza, te seguiremos informando."
+            # Procesar la compra con los datos recibidos
+            msg = MIMEMultipart()
+            msg['From'] = from_email
+            msg['To'] = correo
+            msg['Subject'] = "Prometienda: notificación de venta"
+
+            # Add body to email
+            msg.attach(MIMEText(message, 'plain'))
+
+            # Create SMTP session for sending the mail
+            try:
+                with smtplib.SMTP('smtp.gmail.com', 587) as server:
+                    server.starttls()  # Enable security
+                    server.login(from_email, password)  # Login with mail_id and password
+                    text = msg.as_string()
+                    server.sendmail(from_email, correo, text)
+            except Exception as e:
+                return jsonify({'error': str(e)}), 500
+
+        resultado = {
+            'correos': lista_correos_limpia,
+            'productos': detalles_noti
+        }
+        
+        return jsonify({'success': True, 'resultado': resultado}), 200
+    else:
+        return jsonify({'success': False, 'error': 'Datos incompletos'}), 400
+
+
 
 if __name__ == '__main__':
     app.run()
